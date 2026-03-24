@@ -1,0 +1,22 @@
+# General module information
+Name: "noop"        # Name of the module
+description: "NOOP is used for ..."
+Date: "2024-10-01"                    # Creation or last update date
+Originator: "Your Name"                # Creator or author of the module
+License: "Your License"                        # License type for this module
+
+# Task type and categorization
+AMF_Tag: noop          # This acts as the task type for the module
+
+# Additional metadata
+Domain: "Momolog and Dialog" # Domain this module operates in
+Training Data: "None"   # Reference to the training data used
+Citation: "None"  # Reference or citation for this module
+
+# Variants of the module
+Variants:                             # List of variants available for this task
+  - default                          # Example variant (e.g., a lightweight version)
+
+# Input and output definitions
+Requires: xAIF                        # Input required by this module
+Outputs: xAIF                     # Output produced by this module

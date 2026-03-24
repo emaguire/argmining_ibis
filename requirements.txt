@@ -1,0 +1,5 @@
+Flask
+requests
+markdown2
+pandas
+xaif==0.3.2

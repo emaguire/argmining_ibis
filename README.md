@@ -1,0 +1,115 @@
+
+# NOOP Service
+
+This service, part of [Write the relevant framework details here], performs [Briefly describe what the service does]. It utilizes [Mention the technology or model used] to achieve [Explain the purpose of the service]. It provides [Summarize the key benefits]. It can be integrated into [Specify where or how it can be used] for further analysis and processing.
+
+## Table of Contents
+- [Brief Overview of the Architecture/Method](#brief-overview-of-the-architecturemethod)
+- [Endpoints](#endpoints)
+  - [/noop](#noop)
+- [Input and Output Formats](#input-and-output-formats)
+  - [Input Format](#input-format)
+  - [Output Format](#output-format)
+- [Installation](#installation)
+  - [Requirements for Installation](#requirements-for-installation)
+  - [Installation Setup](#installation-setup)
+    - [Using Docker Container](#using-docker-container)
+- [Usage](#usage)
+  - [Using Programming Interface](#using-programming-interface)
+  - [Using cURL](#using-curl)
+  - [Using n8n  Interface](#using-web-interface)
+
+## Brief Overview of the Architecture/Method
+This application leverages [Mention the core architecture] to perform [Describe its function]. By [Explain optimizations or methodologies], we achieve [Mention efficiency gains]. The system maps [Explain key mappings or transformations] to ensure [Describe the primary goal].
+
+- **Dataset**: [Link to datasets (if applicable)]
+- **Model ID**: [Provide model details]
+- **Repository**: [Link to the repository]
+- **Paper**: [Link to relevant paper]
+
+### Endpoints
+
+#### /noop
+
+**Details**
+- **URL**: `[Provide the service URL]`
+- **Methods**: `GET`, `POST`
+
+**GET Method**
+- **Input**: No parameters
+- **Output**: Returns information about the service and its usage.
+
+**POST Method**
+- **Input**: [Explain input requirements]
+- **Output**: [Describe the expected output]
+
+## Input and Output Formats
+### Input Format
+- **JSON File**: The input must be in [Specify the required format]. The structure follows [Explain input structure].
+- Example:
+
+
+### Output Format
+The output follows the same structure as input, with additional processing results.
+- Example:
+
+
+## Installation
+### Requirements for Installation
+- [List dependencies, e.g., Python, frameworks, libraries]
+
+### Installation Setup
+#### Using Docker Container
+
+1. **Clone the Repository:**
+   ```sh
+   git clone [Repository URL]
+   ```
+
+2. **Navigate to the Project Root Directory:**
+   ```sh
+   cd [Project Name]
+   ```
+
+3. **Edit Configuration Files**:  
+   - Modify `Dockerfile` and `docker-compose.yml` as needed.
+
+4. **Build and Run the Docker Container:**
+
+   docker-compose up
+   
+
+
+## Usage
+
+### Using Programming Interface
+#### Example Python Code Snippet
+
+
+import requests
+import json
+
+url = 'http://your-server-url/noop'
+input_data = {}
+
+response = requests.post(url, json=input_data)
+
+if response.status_code == 200:
+    print(response.json())
+else:
+    print(f"Request failed: {response.status_code}")
+
+
+### Using cURL
+
+
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{}' \
+  http://your-server-url/noop
+
+
+### Using Web Interface
+
+Details on how you can integrate this service into  n8n pipeline.
+

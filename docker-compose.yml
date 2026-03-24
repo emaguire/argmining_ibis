@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  noop:  # Service definition
+    container_name: noop
+    build: .
+    ports:
+      - "8000:5000"  # Mapping external port 8000 to internal container port 5000
