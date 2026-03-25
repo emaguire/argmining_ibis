@@ -1,0 +1,8 @@
+version: '1'
+
+services:
+  argmine-ibis:  # Service definition
+   volumes: 
+      - ./app:/home/argmining_ibis/app
+   entrypoint: gunicorn -b :5000 app.routes:app --reload
+

@@ -1,9 +1,9 @@
 # Use the official Python 3 image as the base image
-FROM python:3  
+FROM python:3.14  
 
 # Create and set the working directory inside the container
-RUN mkdir -p /home/amf_noop  
-WORKDIR /home/amf_noop  
+RUN mkdir -p /home/argmining_ibis
+WORKDIR /home/argmining_ibis
 
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip  
@@ -18,7 +18,7 @@ RUN pip install gunicorn
 # Copy application files into the container
 ADD app app  
 # Copy the README.md file into the container
-ADD README.md /home/amf_noop/README.md
+ADD README.md /home/argmining_ibis/README.md
 
 # Add boot script and ensure it has execution permissions
 ADD boot.sh ./  

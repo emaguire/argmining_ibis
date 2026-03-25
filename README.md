@@ -1,5 +1,9 @@
 
-# NOOP Service
+# Argument Mining for IBIS
+
+Accepts PDFs and returns an XAIF JSON with an IBIS analysis of their content.
+
+Additional access points are available to apply later stages to existing XAIF files: merge into a single file (or do so minimally, without connecting/merging any nodes), or create links across a file.
 
 This service, part of [Write the relevant framework details here], performs [Briefly describe what the service does]. It utilizes [Mention the technology or model used] to achieve [Explain the purpose of the service]. It provides [Summarize the key benefits]. It can be integrated into [Specify where or how it can be used] for further analysis and processing.
 

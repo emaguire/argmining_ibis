@@ -1,8 +1,8 @@
-version: '2'
+version: '1'
 
 services:
-  noop:  # Service definition
-    container_name: noop
+  argmine-ibis:  # Service definition
+    container_name: argmine-ibis
     build: .
     ports:
-      - "8000:5000"  # Mapping external port 8000 to internal container port 5000
+      - "8060:5000"  # Mapping external port 8060 to internal container port 5000
