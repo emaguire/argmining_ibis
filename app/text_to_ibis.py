@@ -1,33 +1,42 @@
-from google import genai
+# from google import genai
 
 import json
 import os
 import datetime
 
+from utils import new_ibis_aif
 from _ibis import ibis
 
-client = genai.Client()
+# client = genai.Client()
 
 
 # !! Take IBIS type, orig out of the nodes themselves.
 def output_2_xaif(in_dict):
-    xaif_dict = {
-        "AIF": {
-            "nodes": [],
-            "edges": []
-        }
-    }
+    xaif_dict = new_ibis_aif()
     
     edge_counter = 0
     relnode_counter = 0
 
     for n in in_dict['ibis']:
+        # Store IBIS and source information
+        if n['type'] == 'issue':
+            xaif_dict['IBIS']["issues"].append(n['id'])
+        elif n['type'] == 'position':
+            xaif_dict['IBIS']['positions'].append(n['id'])
+        elif n['type'] == 'argument':
+            xaif_dict['IBIS']['arguments'].append(n['id'])
+
+        for orig in n['orig']:
+            xaif_dict['source_info'].append({
+                "nodeID": n['id'],
+                "orig": orig,
+                "source": ''
+            })
+
         node = {
             "nodeID": n['id'],
             "type": 'I',
-            "text": n['text'],
-            "orig": n['orig'],
-            "ibisType": n['type']
+            "text": n['text']
         }
 
         # Add node
@@ -178,12 +187,10 @@ def text_to_ibis(input_text, origin_name='', save_to_dir=''):
 
 
     # Add sourcing and save to dir if wanted
-
     # If this had an source provided, add it as info.
-    # !! Take source info out of the nodes
     if origin_name:
-        for n in xaif_output['AIF']['nodes']:
-            n['source'] = [origin_name]
+        for s in xaif_output['source_info']:
+            s['source'] = origin_name
 
     if save_to_dir:
         if origin_name:

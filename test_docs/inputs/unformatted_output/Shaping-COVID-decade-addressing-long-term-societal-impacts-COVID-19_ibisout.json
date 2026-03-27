@@ -1,0 +1,218 @@
+{
+    "ibis": [
+        {
+            "id": "iss1",
+            "text": "What are the long-term societal impacts of COVID-19?",
+            "orig": [
+                "What are the long-term societal impacts of COVID-19?"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos1",
+            "text": "Policymakers should build multi-level governance structures based on empowering participation, engagement and cooperation to strengthen the capacity to identify and respond to local needs.",
+            "orig": [
+                "Build multi-level governance structures based on empowering participation, engagement and cooperation to strengthen the capacity to identify and respond to local needs."
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg1",
+            "text": "Tensions and inconsistencies between different levels of governance have affected the coordination and effectiveness of the policy response to COVID-19.",
+            "orig": [
+                "There is strong evidence that tensions and inconsistencies between different levels of governance have affected the coordination and effectiveness of the policy response to COVID-19."
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos1"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos2",
+            "text": "Government should improve the way knowledge, data and information are developed, shared and communicated to enable all decision-makers to work from a shared understanding of the facts.",
+            "orig": [
+                "Improve the way we develop, share and communicate knowledge, data and information to enable all decision-makers to work from shared understanding of the facts."
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg2",
+            "text": "Coordinated and shared view of the facts is in the public interest to mitigate more effectively the social impacts of this crisis and be better prepared for future crises.",
+            "orig": [
+                "a coordinated and shared view of the facts is in the public interest",
+                "to mitigate more effectively the social impacts of this crisis and be better prepared for future crises"
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos2"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos3",
+            "text": "Investment in digital infrastructure should be prioritised as a critical public service to eliminate the digital divide and create a more equitable basis for education and employment.",
+            "orig": [
+                "Prioritise investment in digital infrastructure as a critical public service to eliminate the digital divide, improve communication and joint problem solving, and create a more equitable basis for education and employment."
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg3",
+            "text": "Geographical and socioeconomic inequalities in digital access across the country remain a primary barrier to levelling up.",
+            "orig": [
+                "The existing geographical and socioeconomic inequalities in digital access across the country should be tackled as they remain a primary barrier to levelling up."
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos3"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos4",
+            "text": "Urban spaces should be reimagined to support sustainable and adaptable local businesses, amenities, and lifestyles.",
+            "orig": [
+                "Reimagine urban spaces to support sustainable and adaptable local businesses, amenities and lifestyles."
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg4",
+            "text": "Urban regeneration will protect society and the environment against unsustainable urban-to-rural migration and suburban sprawl.",
+            "orig": [
+                "It will also protect society and the environment against unsustainable urban-to-rural migration and suburban sprawl"
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos4"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos5",
+            "text": "A more agile, responsive education and training system should be created to meet the needs of a new social and economic environment.",
+            "orig": [
+                "Create a more agile, responsive education and training system capable of meeting the needs of a new social and economic environment"
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg5",
+            "text": "The pandemic has exacerbated existing employment trends and disproportionately impacted the vulnerable, requiring a rethinking of the types of knowledge and skills needed.",
+            "orig": [
+                "exacerbate existing employment trends across sectors and geographic communities and disproportionately impact the vulnerable.",
+                "These changes will require a rethinking of the types of knowledge and skills needed in a new social and economic environment"
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos5"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos6",
+            "text": "Government should strengthen and expand community-led social infrastructure that underpins vital services needed to enhance local resilience.",
+            "orig": [
+                "Strengthen and expand community-led social infrastructure that underpins the vital services and support structures needed to enhance local resilience"
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg6",
+            "text": "Community-led social infrastructure has been an essential but precarious lifeline in the crisis, and its importance will grow as we respond to long-term societal effects.",
+            "orig": [
+                "Community-led social infrastructure has been an essential but precarious lifeline in the crisis, and its importance will only grow as we look to respond to and mitigate the long-term societal effects."
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos6"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos7",
+            "text": "Policymakers should empower a range of actors, including business and civil society, to work together with a sense of social purpose to drive a solid strategy for recovery.",
+            "orig": [
+                "Empower a range of actors, including business and civil society, to work together with a sense of social purpose to help drive a solid strategy for recovery across the economy and society."
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg7",
+            "text": "Achievements in innovation during the crisis were driven by different actors working together towards a common goal because of a shared sense of urgency and necessity.",
+            "orig": [
+                "different actors worked together towards a common goal because of a shared sense of urgency and necessity."
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos7"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss2",
+            "text": "What kind of policy framework and wider landscape is required to underpin progress towards shaping a positive post-pandemic future?",
+            "orig": [
+                "What does this tell us about the policy framework and wider policy landscape that might underpin progress towards shaping a positive post-pandemic future?"
+            ],
+            "type": "issue",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "pos8",
+            "text": "A resilient and effective state should follow five principles: Communicative, Learning, Engaging, Adaptive and Relational.",
+            "orig": [
+                "In addition to the seven strategic policy goals, we conclude that a more resilient and effective state should follow five principles which we label CLEAR: Communicative, Learning, Engaging, Adaptive and Relational."
+            ],
+            "type": "position",
+            "parent": [
+                "iss2"
+            ]
+        },
+        {
+            "id": "arg8",
+            "text": "The CLEAR principles support the delivery of strategic policy goals and provide a framework for a successful recovery by 2030.",
+            "orig": [
+                "These principles can work collectively to support the delivery of the strategic policy goals and be used as a framework for a successful recovery by 2030."
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos8"
+            ],
+            "con": []
+        }
+    ]
+}

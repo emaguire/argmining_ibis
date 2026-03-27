@@ -1,2 +1,4 @@
 .secrets
 **/__pycache__/**
+dev_temp
+**.ipynb

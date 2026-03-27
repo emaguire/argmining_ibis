@@ -1,0 +1,114 @@
+{
+    "ibis": [
+        {
+            "id": "iss1",
+            "text": "How is long covid diagnosed and managed?",
+            "orig": [
+                "Long covid: diagnosis and treatment"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos1",
+            "text": "NICE defines long covid as symptoms that develop during or after a Covid-19 infection, continue for more than 12 weeks, and are not explained by an alternative diagnosis.",
+            "orig": [
+                "Post-Covid-19 syndrome: signs and symptoms that develop during or after an infection consistent with Covid-19, that continue for more than 12 weeks, and are not explained by an alternative diagnosis."
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "iss2",
+            "text": "What are the biological causes of long covid?",
+            "orig": [
+                "Causes of long covid"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos2",
+            "text": "The causes of long covid may include persistent infection, immune system problems, and issues with blood clotting.",
+            "orig": [
+                "Persistent infection with the SARS-CoV-2 virus, which causes Covid-19",
+                "Immune system problems",
+                "Problems with blood clotting and changes to endothelial cells"
+            ],
+            "type": "position",
+            "parent": [
+                "iss2"
+            ]
+        },
+        {
+            "id": "iss3",
+            "text": "Is long covid classified as a disability under the Equality Act 2010?",
+            "orig": [
+                "Whether long covid is a disability"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos3",
+            "text": "Long covid is considered a disability if it has a substantial and long-term adverse effect on an individual's ability to carry out normal day-to-day activities.",
+            "orig": [
+                "In cases where long covid has a substantial effect on someone\u2019s ability to carry out day-to-day activities and where it lasts or seems likely to last at least 12 months, it will be considered a disability in law."
+            ],
+            "type": "position",
+            "parent": [
+                "iss3"
+            ]
+        },
+        {
+            "id": "arg1",
+            "text": "Some employment tribunals have ruled that cases of long covid meet the legal test for a disability and are protected under the Equality Act.",
+            "orig": [
+                "There have been some cases where employment tribunals have ruled that cases of long covid do meet the legal test for a disability and so should have been protected under the Equality Act."
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "pos3"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss4",
+            "text": "Should long covid be recognised as a prescribed occupational disease for Industrial Injuries Disablement Benefit?",
+            "orig": [
+                "Debate about including long covid as a prescribed disease"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "arg2",
+            "text": "The Industrial Injuries Advisory Council found that there was not sufficient evidence to recommend general prescription for long covid at this time.",
+            "orig": [
+                "IIAC therefore considered there was not sufficient evidence at that time to recommend general prescription for long covid/post-Covid syndrome."
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [],
+            "con": [
+                "iss4"
+            ]
+        },
+        {
+            "id": "arg3",
+            "text": "There is convincing and consistent evidence of five serious pathological complications in health and social workers that supports prescription for those specific conditions.",
+            "orig": [
+                "IIAC found \"convincing and consistent evidence\" of five serious pathological complications for health and social workers with long covid."
+            ],
+            "type": "argument",
+            "parent": [],
+            "pro": [
+                "iss4"
+            ],
+            "con": []
+        }
+    ]
+}

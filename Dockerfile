@@ -3,14 +3,23 @@ FROM python:3.14
 
 # Create and set the working directory inside the container
 RUN mkdir -p /home/argmining_ibis
+RUN mkdir -p /home/argmining_ibis/temp
 WORKDIR /home/argmining_ibis
 
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip  
 
 # Add and install dependencies from requirements.txt
-ADD requirements.txt .  
-RUN pip install -r requirements.txt  
+# ADD requirements.txt .  
+# RUN pip install -r requirements.txt  
+
+# ADD conda_reqs.txt .
+# ADD container_reqs.txt .
+# RUN pip install -r conda_reqs.txt
+# RUN pip install -r container_reqs.txt
+
+ADD manual_reqs.txt .
+RUN pip install -r manual_reqs.txt
 
 # Install Gunicorn, a WSGI HTTP server for running Python applications
 RUN pip install gunicorn  

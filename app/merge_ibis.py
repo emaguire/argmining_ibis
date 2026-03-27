@@ -1,12 +1,13 @@
-from google import genai
+# from google import genai
 
 import datetime
 import json
 import os
 
-from utils import node_merge_output, get_orphans, get_children
+from copy import deepcopy
+from utils import new_ibis_aif, get_ibis_type, node_merge_output, get_orphans, get_children
 
-client = genai.Client()
+# client = genai.Client()
 
 
 
@@ -14,20 +15,15 @@ client = genai.Client()
 # File merging #
 ################
 
-# Combine multiple XAIF dicts into one.
-# !! Current version only merges AIF fields, not XAIF. Generalise this later.
+# Combine multiple IBIS XAIF dicts into one.
 def merge_xaif_list(xaif_list, file_name='', save_to_dir=''):
-    merged_xaif_dict = {
-        "AIF": {
-            "nodes": [],
-            "edges": []
-        }
-    }
+    merged_xaif_dict = new_ibis_aif()
 
     for i, current_xaif in enumerate(xaif_list):
         # with open(input_path) as f:
             # current_aif = json.loads(f.read())
 
+        # Core
         for n in current_xaif['AIF']['nodes']:
             old_id = n['nodeID']
             n['nodeID'] = f"{old_id}_{i}"
@@ -44,9 +40,25 @@ def merge_xaif_list(xaif_list, file_name='', save_to_dir=''):
         merged_xaif_dict['AIF']['nodes'] += current_xaif['AIF']['nodes']
         merged_xaif_dict['AIF']['edges'] += current_xaif['AIF']['edges']
 
-        for i, e in enumerate(merged_xaif_dict['AIF']['edges']):
-            e['edgeID'] = i
-    
+        # Doing this 
+        for t in ['issues', 'positions', 'arguments']:
+            current_xaif['IBIS'][t] = [f"{old_id}_{i}" for old_id in current_xaif['IBIS'][t]]
+        for entry in current_xaif['source_info']:
+            old_id = entry['nodeID']
+            entry['nodeID'] = f"{old_id}_{i}"
+
+        merged_xaif_dict['IBIS']['issues'] += current_xaif['IBIS']['issues']
+        merged_xaif_dict['IBIS']['positions'] += current_xaif['IBIS']['positions']
+        merged_xaif_dict['IBIS']['arguments'] += current_xaif['IBIS']['arguments']
+        try:
+            merged_xaif_dict['source_info'] += current_xaif['source_info']
+        except KeyError:
+            print("No source field.")
+
+    for j, e in enumerate(merged_xaif_dict['AIF']['edges']):
+        e['edgeID'] = j
+
+
     if save_to_dir:
         if file_name:
             with open(os.path.join(save_to_dir, file_name), 'w') as f:
@@ -70,43 +82,51 @@ def merge_nodesets(node_merge_results, ibis_xaif, verbose=False):
     if verbose:
         print(f"Merging nodesets:", node_merge_results)
 
-    for nodeset in node_merge_results['merges']:
+    for merger in node_merge_results['merges']:
         if verbose:
-            print(f"Currently merging nodeset:", nodeset)
+            print(f"Currently merging nodeset:", merger)
 
-        original_nodes = [n for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in nodeset['ids']]
+        nodes_to_merge = [n for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in merger['ids']]
         
         if verbose:
-            print(f"\tOriginal nodes:", original_nodes)
+            print(f"\tOriginal nodes:", nodes_to_merge)
 
-        new_id = "merge_" + '_'.join(nodeset['ids'])
+        new_id = "merge_" + '_'.join(merger['ids'])
         new_id_list += [new_id]
         
         # Use an original node as foundation
-        new_node = original_nodes[0]
+        new_node = deepcopy(nodes_to_merge[0])
+        ibis_type = get_ibis_type(new_node['nodeID'], ibis_xaif)
 
         # Initialise the new values
         new_node['nodeID'] = new_id
-        new_node['text'] = nodeset['text']
+        new_node['text'] = merger['text']
         
-        # Combine fields
-        for n in original_nodes[1:]:
-            new_node['orig'] += n['orig']
-            new_node['source'] += n['source']
+        # Replace ID in sources
+        source_info = [s for s in ibis_xaif['source_info'] if s['nodeID'] in merger['ids']]
+        for s in source_info:
+            s['nodeID'] = new_id
+        if verbose:
+            print("Checked against original nodes: ", merger['ids'])
+            print("New addition to source info: ", source_info)
+        # ibis_xaif['source_info'] += source_info
         
-        # Remove old nodes
+        # Remove old nodes, add new ones
         ibis_xaif['AIF']['nodes'] = [n for n in ibis_xaif['AIF']['nodes'] 
-                                     if n['nodeID'] not in nodeset['ids']]
+                                     if n['nodeID'] not in merger['ids']] + [new_node]
+        ibis_xaif['IBIS'][f"{ibis_type}s"] = [n for n in ibis_xaif['IBIS'][f"{ibis_type}s"]
+                                              if n not in merger['ids']] + [new_node['nodeID']]
+        ibis_xaif['source_info'] = [s for s in ibis_xaif['source_info'] 
+                                    if s['nodeID'] not in merger['ids']]
+
 
         # Replace references in edges
         for e in ibis_xaif['AIF']['edges']:
-            if e['toID'] in nodeset['ids']:
+            if e['toID'] in merger['ids']:
                 e['toID'] = new_id
-            if e['fromID'] in nodeset['ids']:
+            if e['fromID'] in merger['ids']:
                 e['fromID'] = new_id
         
-        # Add the new node
-        ibis_xaif['AIF']['nodes'] += [new_node]
     
     return new_id_list
 
@@ -209,22 +229,23 @@ def merge_siblings(sibling_ids, ibis_xaif):
     # Identify nodes of each IBIS type to merge among the siblings
 
     # Issues
+
     issue_siblings = [n for n in ibis_xaif['AIF']['nodes'] 
                       if n['nodeID'] in sibling_ids 
-                      and n['ibisType'] == 'issue']
+                      and n['nodeID'] in ibis_xaif['IBIS']['issues']]
     issues_to_merge = get_issues_to_merge(issue_siblings, ibis_xaif)
     
     # Positions
     position_siblings = [n for n in ibis_xaif['AIF']['nodes'] 
                 if n['nodeID'] in sibling_ids 
-                and n['ibisType'] == 'position']
+                and n['nodeID'] in ibis_xaif['IBIS']['positions']]
     positions_to_merge = get_propositions_to_merge(position_siblings, ibis_xaif)
     
 
     # Arguments
     argument_siblings = [n for n in ibis_xaif['AIF']['nodes'] 
             if n['nodeID'] in sibling_ids 
-            and n['ibisType'] == 'argument']
+            and n['nodeID'] in ibis_xaif['IBIS']['arguments']]
     arguments_to_merge = get_propositions_to_merge(argument_siblings, ibis_xaif)
     
     
@@ -247,12 +268,11 @@ def graft_issues(ibis_xaif, verbose=False):
     
     # Only issues should ever be orphans anyway, but check.
     orphan_issues = [n['nodeID'] for n in ibis_xaif['AIF']['nodes'] 
-                     if n['nodeID'] in orphans and n['ibisType'] == 'issue']
+                     if n['nodeID'] in orphans and n['nodeID'] in ibis_xaif['IBIS']['issues']]
     
     other_issues = [n['nodeID'] for n in ibis_xaif['AIF']['nodes']
-                    if 'ibisType' in n.keys() 
-                    and n['nodeID'] not in orphan_issues
-                    and n['ibisType'] == 'issue']
+                    if n['nodeID'] in ibis_xaif['IBIS']['issues']
+                    and n['nodeID'] not in orphan_issues]
     
     list_orphans = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in orphan_issues]
     list_other = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in other_issues]

@@ -12,7 +12,27 @@ class node_merge(BaseModel):
 class node_merge_output(BaseModel):
     merges: List[node_merge]
 
+def new_ibis_aif():
+    return {
+        "AIF": {
+            "nodes": [],
+            "edges": []
+        },
+        "IBIS": {
+            "issues": [],
+            "positions": [],
+            "arguments": []
+        },
+        "source_info": []
+    }
 
+def get_ibis_type(node_id, ibis_xaif):
+    if node_id in ibis_xaif['IBIS']['issues']:
+        return 'issue'
+    elif node_id in ibis_xaif['IBIS']['positions']:
+        return 'position'
+    elif node_id in ibis_xaif['IBIS']['arguments']:
+        return 'argument'
 
 ######################
 # Structure checking #
@@ -120,8 +140,7 @@ def add_crosslink(node_id_1, node_id_2, ibis_xaif):
     rel_node = {
         'nodeID': f"crosslink_{node_id_1}_{node_id_2}",
         'type': 'MA',
-        'text': 'Cross Link',
-        'source': node1['source'] + node2['source']
+        'text': 'Cross Link'
     }
 
     ibis_xaif['AIF']['nodes'] += [rel_node]

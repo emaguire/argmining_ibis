@@ -1,4 +1,4 @@
-from google import genai
+# from google import genai
 
 import os
 import datetime
@@ -6,7 +6,7 @@ import json
 
 from utils import node_merge_output, siblings, line_of_ancestry, add_crosslink
 
-client = genai.Client()
+# client = genai.Client()
 
 
 def get_issues_to_link(issue_list, ibis_xaif, verbose=False):

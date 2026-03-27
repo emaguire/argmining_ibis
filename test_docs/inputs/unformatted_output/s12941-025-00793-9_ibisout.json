@@ -1,0 +1,163 @@
+{
+    "ibis": [
+        {
+            "id": "iss1",
+            "text": "How should Long COVID be defined?",
+            "orig": [
+                "Defining... Long COVID"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos1",
+            "text": "The definition of Long COVID should include a criterion for significant functional impairment from a patient's baseline.",
+            "orig": [
+                "The Long COVID definition should also include a criterion for significant functional impairment from baseline"
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "pos2",
+            "text": "Long COVID should be recognised as an umbrella term that encompasses several different disorders.",
+            "orig": [
+                "recognizing that Long COVID is an umbrella term encompassing several different disorders"
+            ],
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "iss2",
+            "text": "How should Long COVID be clinically evaluated and diagnosed?",
+            "orig": [
+                "clinical evaluation and management of patients with Long COVID"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos3",
+            "text": "Diagnostic investigations for Long COVID should be tailored to the specific symptoms of each individual patient.",
+            "orig": [
+                "Diagnostic investigations should be tailored to the symptoms of each patient"
+            ],
+            "type": "position",
+            "parent": [
+                "iss2"
+            ]
+        },
+        {
+            "id": "arg1",
+            "text": "Because most standard screening tests return normal results for Long COVID patients, specific tests are necessary for a proper diagnosis.",
+            "orig": [
+                "most standard screening tests will come back normal and specific tests are needed for diagnosis"
+            ],
+            "type": "argument",
+            "parent": null,
+            "pro": [
+                "pos3"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss3",
+            "text": "What are the recommended models for Long COVID treatment and care?",
+            "orig": [
+                "treatment and evaluation of treatment"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos4",
+            "text": "Multidisciplinary teams are a useful model for the care and treatment of Long COVID patients.",
+            "orig": [
+                "Multidisciplinary teams (MDTs) are a useful model for care of Long COVID"
+            ],
+            "type": "position",
+            "parent": [
+                "iss3"
+            ]
+        },
+        {
+            "id": "pos5",
+            "text": "Treatment for Long COVID must be individualised and tailored to the patient history and physical examination.",
+            "orig": [
+                "it requires an individual and tailored approach to each patient accounting for patient history and physical examination"
+            ],
+            "type": "position",
+            "parent": [
+                "iss3"
+            ]
+        },
+        {
+            "id": "iss4",
+            "text": "What should be the primary focus areas for Long COVID research?",
+            "orig": [
+                "Establishing pathogenesis... research priorities"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos6",
+            "text": "The impacts of COVID-19 infection on children should be established as a major research priority.",
+            "orig": [
+                "the impacts of COVID-19 infection on children should be a research priority"
+            ],
+            "type": "position",
+            "parent": [
+                "iss4"
+            ]
+        },
+        {
+            "id": "arg2",
+            "text": "Reducing the transmission of SARS-CoV-2 will help lower the overall incidence of Long COVID.",
+            "orig": [
+                "Reducing transmission of SARS-CoV-2 will lower the incidence of Long COVID"
+            ],
+            "type": "argument",
+            "parent": null,
+            "pro": [
+                "iss4"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss5",
+            "text": "How should the economic and societal impacts of Long COVID be addressed?",
+            "orig": [
+                "Long COVID funding, economic impact and societal issues"
+            ],
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos7",
+            "text": "Funding should be specifically allocated to research both Long COVID itself and its wider impact on society.",
+            "orig": [
+                "Funding should be allocated to research Long COVID AND its impact on society"
+            ],
+            "type": "position",
+            "parent": [
+                "iss5"
+            ]
+        },
+        {
+            "id": "pos8",
+            "text": "All funding for Long COVID research must be provided and managed in a transparent manner.",
+            "orig": [
+                "All funding towards Long COVID research should be funded in a transparent manner"
+            ],
+            "type": "position",
+            "parent": [
+                "iss5"
+            ]
+        }
+    ]
+}

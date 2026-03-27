@@ -1,4 +1,0 @@
-Flask
-requests
-markdown2
-pandas
