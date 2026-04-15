@@ -1,14 +1,10 @@
-# from google import genai
-
 import datetime
 import json
 import os
-
 from copy import deepcopy
-from utils import new_ibis_aif, get_ibis_type, node_merge_output, get_orphans, get_children
 
-# client = genai.Client()
-
+from app import llm_caller
+from app.utils import new_ibis_aif, get_ibis_type, node_merge_output, get_orphans, get_children
 
 
 ################
@@ -139,35 +135,8 @@ def get_issues_to_merge(issue_ids, ibis_xaif):
     
     if len(input_list) < 2:
         return {'merges':[]}
-
-    prompt = f'''
-For the given input list of questions with ID codes, identify which subsets of questions, if any, can be merged.
-Questions can be merged if they have the same or almost identical meaning.
-The subsets must be exclusive, with no question appearing in more than one subset.
-It is possible that there are no questions which can be merged.
-For each subset, return a tuple with a list of the ID codes of questions in the set, and text paraphrasing the combined questions.
-
-
-Example input:
-[('id1', "What should we do about the park?"), ('id2', "What should happen with the park?"), ('id3', "Should a new playground be added to the park?")]
-
-Example output:
-[(['id1', 'id2'], "What should be done about the park?")]
-
-Input list:
-{input_list}
-
-Output list:
-'''
     
-    response = client.models.generate_content(
-    model='gemini-3-flash-preview',
-    contents=prompt,
-    config={'response_mime_type': "application/json",
-        'response_json_schema': node_merge_output.model_json_schema()}
-    )
-
-    return json.loads(response.text)
+    return llm_caller.issues_to_merge(input_list)
 
 
 def get_propositions_to_merge(proposition_ids, ibis_xaif):
@@ -177,42 +146,7 @@ def get_propositions_to_merge(proposition_ids, ibis_xaif):
     if len(input_list) < 2:
         return {'merges':[]}
 
-    prompt = f'''
-For the given input list of statements with ID codes, identify which subsets of statements, if any, can be merged.
-Statements can be merged if they have the same or almost identical meaning.
-The subsets must be exclusive, with no statement appearing in more than one subset.
-It is possible that there are no statements which can be merged.
-For each subset, return a tuple with a list of the ID codes of statements in the set, and text paraphrasing the combined statements.
-
-
-Example input:
-[('id1', "It would be good to have more benches."), ('id2', "There should be a playground."), ('id3', "There need to be more places to sit.")]
-
-Example output:
-[(['id1', 'id3'], "There should be more seating.")]
-
-
-Example input:
-[('id4', "People love crocodiles."), ('id5', "Crocodiles are so cool."), ('id6', "Crocodiles could attack people.")]
-
-Example output:
-[(['id4', 'id5'], "People love crocodiles.")]
-
-
-Input list:
-{input_list}
-
-Output list:
-'''
-    
-    response = client.models.generate_content(
-    model='gemini-3-flash-preview',
-    contents=prompt,
-    config={'response_mime_type': "application/json",
-        'response_json_schema': node_merge_output.model_json_schema()}
-    )
-
-    return json.loads(response.text)
+    return llm_caller.propositions_to_merge(input_list)
 
 
 
@@ -277,57 +211,7 @@ def graft_issues(ibis_xaif, verbose=False):
     list_orphans = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in orphan_issues]
     list_other = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in other_issues]
 
-    prompt = f'''
-You will be given two lists of questions with ID codes, List A and List B.
-For the given lists, identify which pairs of questions, one from List A and one from List B, can be merged, if any.
-Questions can be merged if they have the same or almost identical meaning.
-The pairs must be exclusive, with no question being used in more than one pair.
-It is possible that there are no question pairs which can be merged.
-For each pair, return a tuple with a list of the ID codes of the questions in the pair (the ID from List A and then the ID from List B), and text paraphrasing the combined questions.
-
-
-Example input 1:
-LIST A:
-[('id1', "What should we do about the park?"), 
-('id2', "What should happen with the park?")]
-
-LIST B:
-[('id3', "Should a new playground be added to the park?")]
-
-Example output 1:
-[]
-
-
-Example input 2:
-LIST A:
-[('id4', "What should we do about the park?")]
-
-LIST B:
-[('id5', "What should happen with the park?"),
-('id6', "Should a new playground be added to the park?")]
-
-Example output 1:
-[(['id4', 'id5'], "What should be done about the park?")]
-
-
-Input lists:
-LIST A:
-{list_orphans}
-
-LIST B:
-{list_other}
-
-Output list:
-'''
-    
-    response = client.models.generate_content(
-    model='gemini-3-flash-preview',
-    contents=prompt,
-    config={'response_mime_type': "application/json",
-        'response_json_schema': node_merge_output.model_json_schema()}
-    )
-
-    node_merge_results = json.loads(response.text)
+    node_merge_results = llm_caller.issues_to_merge_across_lists(list_orphans, list_other)
 
     # Can be handled the same way as other merging: merging replaces edge mentions, 
     # which will create parent relations for the orphan being merged in.

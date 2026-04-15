@@ -1,8 +1,18 @@
-version: '1'
-
 services:
-  argmine-ibis:  # Service definition
+  argmine-ibis:
     container_name: argmine-ibis
     build: .
     ports:
-      - "8060:5000"  # Mapping external port 8060 to internal container port 5000
+      - "8060:5000"
+    restart: unless-stopped
+    environment:
+      - LLM_URL=http://host.docker.internal:7060
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    secrets:
+      - source: api_key_secret
+        target: /run/secrets/LLM_API_KEY.txt
+
+secrets:
+  api_key_secret:
+    file: .secrets/LLM_API_KEY.txt

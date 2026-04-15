@@ -1,17 +1,23 @@
-# from google import genai
-
 import json
 import os
 import datetime
 
-from utils import new_ibis_aif
-from _ibis import ibis
+from app import llm_caller
+from app.utils import new_ibis_aif
 
-# client = genai.Client()
+import sys
+import logging 
 
+# Add logs to the docker logs
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('[%(asctime)s][%(levelname)s]: %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
-# !! Take IBIS type, orig out of the nodes themselves.
-def output_2_xaif(in_dict):
+def ibis_output_to_xaif(in_dict):
     xaif_dict = new_ibis_aif()
     
     edge_counter = 0
@@ -147,60 +153,39 @@ def output_2_xaif(in_dict):
 # Given a text, return an IBIS graph in AIF
 # If given a directory to use, will save the original model output and the AIF as JSON files
 def text_to_ibis(input_text, origin_name='', save_to_dir=''):
-    prompt = f'''
-    For the given input text, return a list of JSON objects of three types (issue, position, argument) based on original text spans from the text.
-    Valid fields for all three types are: id, orig, text, type. The orig field contains the original text span. The text field contains the original text span rephrased as a single grammatically correct question if it was a question, or rephrased as a complete sentence otherwise.
-    An example of orig and text fields is:
-    {{
-    "orig": "As we do not know how long the condition lasts",
-    "text": "We do not know how long the condition lasts."
-    }}
-    Additional valid fields for objects of type 'issue' and 'position' are: parent.
-    Additional valid fields for objects of type 'argument' are: pro, con.
-
-    The types are described here:
-    1. Issues. Text spans which contain the main issue or question being addressed by the text. The 'parent' field is a list with the ID of any other issue, position or argument which this issue is a question about, if any. The 'parent' field should otherwise be an empty list. Give each issue an ID in the form 'issNUMBER'.
-
-    2. Positions. Text spans which provide answers to or ideas about the issues. The 'parent' field is a list with the ID of the issue each position is connected to. Give each position an ID in the form 'posNUMBER'. 
-
-    3. Arguments. Text spans which give reasons for or against the positions, or for or against other arguments. The 'pro' field is a list with the ID of every position or other argument it is a pro for. The 'con' field is a list with the ID of every position or other argument it is a con for. Give each argument an ID in the form 'argNUMBER'. 
-
-    Use UK spelling.
-
-    Input text:
-    {input_text}
-
-    Output JSON:
-    '''
-
-
-    response = client.models.generate_content(
-        model='gemini-3-flash-preview',
-        contents=prompt,
-        config={'response_mime_type': "application/json",
-            'response_json_schema': ibis.model_json_schema()}
-        )
+    if save_to_dir:
+        if origin_name:
+            file_base = origin_name.rsplit('.',1)[0]
+        else: 
+            file_base = f"unknown_{datetime.datetime.now().strftime("%y%m%d%m%H%M%S")}"
     
-    result_json = json.loads(response.text)
+    result_json = llm_caller.text_to_informal_ibis(input_text)
     
-    xaif_output = output_2_xaif(result_json)
+    logger.debug("Result of text_to_informal_ibis is type %s", type(result_json))
+    if type(result_json) is str:
+        logger.debug("!! Start: %s", result_json[:50])
+        logger.debug("!! End: %s", result_json[-50:])
 
+
+    
+    if save_to_dir:
+        if type(result_json) is dict:
+            with open(os.path.join(save_to_dir,f"{file_base}_ibisout.json"), 'w') as f:
+                json.dump(result_json, f, indent=4)
+        else:
+            with open(os.path.join(save_to_dir,f"{file_base}_failed_ibisout.json"), 'w') as f:
+                f.write(result_json)
+        
+
+    xaif_output = ibis_output_to_xaif(result_json)
 
     # Add sourcing and save to dir if wanted
     # If this had an source provided, add it as info.
     if origin_name:
         for s in xaif_output['source_info']:
             s['source'] = origin_name
-
+    
     if save_to_dir:
-        if origin_name:
-            file_base = origin_name.rsplit('.',1)[0]
-        else: 
-            file_base = f"unknown_{datetime.datetime.now().strftime("%y%m%d%m%H%M%S")}"
-
-        with open(os.path.join(save_to_dir,f"{file_base}_ibisout.json"), 'w') as f:
-            json.dump(result_json, f, indent=4)
-        
         with open(os.path.join(save_to_dir, f"{file_base}_aif.json"), 'w') as f:
             json.dump(xaif_output, f, indent=4)
 

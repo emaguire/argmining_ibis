@@ -1,9 +1,9 @@
-version: '1'
-
 services:
   argmine-ibis:  # Service definition
    volumes: 
       - ./app:/home/argmining_ibis/app
       - ./dev_temp:/home/argmining_ibis/temp
-   entrypoint: gunicorn -b :5000 app.routes:app --reload
+   entrypoint: gunicorn -b :5000 app.routes:app --reload --graceful-timeout 1200 --timeout 1200
+   environment:
+      - DEV_MODE=true
 

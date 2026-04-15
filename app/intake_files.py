@@ -3,21 +3,28 @@ import os
 import pymupdf4llm
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+# CHUNK_SIZE=45000
+CHUNK_SIZE=1500
+
 text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-    encoding_name="cl100k_base", chunk_size=45000, chunk_overlap=0
+    encoding_name="cl100k_base", chunk_size=CHUNK_SIZE, chunk_overlap=0
 )
 
-# Return a dict so chunks are asssociated with the name of their file
-def pdf_2_txt(input_path):
-    doc_md_text = pymupdf4llm.to_markdown(input_path)
-    chunks = text_splitter.split_text(doc_md_text)
-    
+def chunk_text(input_txt):
+    chunks = text_splitter.split_text(input_txt)
     return chunks
 
-def url_2_txt(input_path):
-    # Do some stuff with Beautiful Soup
-    # return a string
-    pass
+# Return a dict so chunks are asssociated with the name of their file
+def pdf_2_chunks(input_path):
+    doc_md_text = pymupdf4llm.to_markdown(input_path)
+    chunks = chunk_text(doc_md_text)
+    return chunks
+
+def txt_2_chunks(input_path):
+    with open(input_path) as f:
+        orig_text = f.read()
+    chunks = chunk_text(orig_text)
+    return chunks
 
 def input_2_txt(input_path):
     # Check if it's a URL
@@ -36,11 +43,15 @@ def input_2_txt(input_path):
 # - 'origin': the original filename of the pdf
 # - 'text_chunks': a list of strings with the extracted text
 # ('text_chunks' will only be len>1 in case where original file is too long)
-def create_texts(list_of_paths, save_to_dir=''):
+def create_texts(list_of_paths, type='txt', save_to_dir=''):
     text_list = []
-    for f in list_of_paths:
-        orig_name = os.path.basename(f)
-        text_chunks = pdf_2_txt(f)
+    for fpath in list_of_paths:
+        orig_name = os.path.basename(fpath)
+        
+        if type == 'pdf':
+            text_chunks = pdf_2_chunks(fpath)
+        else:
+            text_chunks = txt_2_chunks(fpath)
 
         text_list.append({
             'origin': orig_name,

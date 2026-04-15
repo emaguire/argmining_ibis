@@ -147,7 +147,7 @@ def add_crosslink(node_id_1, node_id_2, ibis_xaif):
 
 
     # Create and add the connecting edges
-    edge_number = max([e['edgeID'] for e in ibis_xaif['AIF']['edges']]) + 1
+    edge_number = max([e['edgeID'] for e in ibis_xaif['AIF']['edges']]) + 1 if len(ibis_xaif['AIF']['edges']) > 0 else 1
     ibis_xaif['AIF']['edges'] +=[
         {
             "edgeID": edge_number,

@@ -30,6 +30,7 @@ httplib2==0.31.2
 httptools==0.7.1
 httpx==0.28.1
 idna==3.11
+instructor==1.15.1
 itsdangerous==2.2.0
 jedi==0.19.2
 Jinja2==3.1.6

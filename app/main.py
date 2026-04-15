@@ -1,10 +1,10 @@
 # This is not a main file for a final implementation!
 # It's just to test that all the functions work and pass between each other as expected.
 
-import intake_files
-import text_to_ibis
-import merge_ibis
-import crosslink_ibis
+from app import intake_files
+from app import text_to_ibis
+from app import merge_ibis
+from app import crosslink_ibis
 
 import datetime
 import os
