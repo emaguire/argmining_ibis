@@ -23,7 +23,6 @@ def merge_xaif_list(xaif_list, file_name='', save_to_dir=''):
         for n in current_xaif['AIF']['nodes']:
             old_id = n['nodeID']
             n['nodeID'] = f"{old_id}_{i}"
-            # n['source'] = [os.path.basename(input_path)]
 
         # Seems silly to go through the edges separately, but it might actually
         # be more sensible than searching for all relevant edges every time you update a node.
@@ -46,10 +45,6 @@ def merge_xaif_list(xaif_list, file_name='', save_to_dir=''):
         merged_xaif_dict['IBIS']['issues'] += current_xaif['IBIS']['issues']
         merged_xaif_dict['IBIS']['positions'] += current_xaif['IBIS']['positions']
         merged_xaif_dict['IBIS']['arguments'] += current_xaif['IBIS']['arguments']
-        try:
-            merged_xaif_dict['source_info'] += current_xaif['source_info']
-        except KeyError:
-            print("No source field.")
 
     for j, e in enumerate(merged_xaif_dict['AIF']['edges']):
         e['edgeID'] = j
@@ -98,22 +93,14 @@ def merge_nodesets(node_merge_results, ibis_xaif, verbose=False):
         new_node['nodeID'] = new_id
         new_node['text'] = merger['text']
         
-        # Replace ID in sources
-        source_info = [s for s in ibis_xaif['source_info'] if s['nodeID'] in merger['ids']]
-        for s in source_info:
-            s['nodeID'] = new_id
         if verbose:
             print("Checked against original nodes: ", merger['ids'])
-            print("New addition to source info: ", source_info)
-        # ibis_xaif['source_info'] += source_info
         
         # Remove old nodes, add new ones
         ibis_xaif['AIF']['nodes'] = [n for n in ibis_xaif['AIF']['nodes'] 
                                      if n['nodeID'] not in merger['ids']] + [new_node]
         ibis_xaif['IBIS'][f"{ibis_type}s"] = [n for n in ibis_xaif['IBIS'][f"{ibis_type}s"]
                                               if n not in merger['ids']] + [new_node['nodeID']]
-        ibis_xaif['source_info'] = [s for s in ibis_xaif['source_info'] 
-                                    if s['nodeID'] not in merger['ids']]
 
 
         # Replace references in edges
