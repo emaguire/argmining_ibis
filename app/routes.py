@@ -114,6 +114,7 @@ def test_instructor_call():
 @app.route('/', methods=['POST'])
 def argmine_ibis():
     if request.method == 'POST':
+        chunk_size=1500
 
         #########################################################
         # 0. Make a temporary directory for intermediary files. #
@@ -152,7 +153,7 @@ def argmine_ibis():
         local_input_files = glob(os.path.join(orig_dir, "*"))
         logger.info('Creating texts for %s', str(local_input_files))
         try:
-            text_list = intake_files.create_texts(local_input_files, type='pdf', save_to_dir=text_dir)
+            text_list = intake_files.create_texts(local_input_files, chunk_size=chunk_size, type='pdf', save_to_dir=text_dir)
         except Exception as e:
             logger.error("Text-creation failed", exc_info=True)
         

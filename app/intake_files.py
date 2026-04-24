@@ -3,27 +3,22 @@ import os
 import pymupdf4llm
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-# CHUNK_SIZE=45000
-CHUNK_SIZE=1500
 
-text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-    encoding_name="cl100k_base", chunk_size=CHUNK_SIZE, chunk_overlap=0
-)
 
-def chunk_text(input_txt):
+def chunk_text(input_txt, text_splitter):
     chunks = text_splitter.split_text(input_txt)
     return chunks
 
 # Return a dict so chunks are asssociated with the name of their file
-def pdf_2_chunks(input_path):
+def pdf_2_chunks(input_path, text_splitter):
     doc_md_text = pymupdf4llm.to_markdown(input_path)
-    chunks = chunk_text(doc_md_text)
+    chunks = chunk_text(doc_md_text, text_splitter)
     return chunks
 
-def txt_2_chunks(input_path):
+def txt_2_chunks(input_path, text_splitter):
     with open(input_path) as f:
         orig_text = f.read()
-    chunks = chunk_text(orig_text)
+    chunks = chunk_text(orig_text, text_splitter)
     return chunks
 
 def input_2_txt(input_path):
@@ -43,15 +38,20 @@ def input_2_txt(input_path):
 # - 'origin': the original filename of the pdf
 # - 'text_chunks': a list of strings with the extracted text
 # ('text_chunks' will only be len>1 in case where original file is too long)
-def create_texts(list_of_paths, type='txt', save_to_dir=''):
+def create_texts(list_of_paths, chunk_size=1500, type='txt', save_to_dir=''):
+
+    text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+        encoding_name="cl100k_base", chunk_size=chunk_size, chunk_overlap=0
+    )
+
     text_list = []
     for fpath in list_of_paths:
         orig_name = os.path.basename(fpath)
         
         if type == 'pdf':
-            text_chunks = pdf_2_chunks(fpath)
+            text_chunks = pdf_2_chunks(fpath, text_splitter)
         else:
-            text_chunks = txt_2_chunks(fpath)
+            text_chunks = txt_2_chunks(fpath, text_splitter)
 
         text_list.append({
             'origin': orig_name,

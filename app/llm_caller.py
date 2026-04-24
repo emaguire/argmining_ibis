@@ -12,6 +12,7 @@ from app.ibis import ibis
 
 
 from openai import AsyncOpenAI, OpenAI, BadRequestError
+import tiktoken
 import asyncio
 
 import logging
@@ -264,6 +265,17 @@ def call_llm(messages, output_format=None, model_name=MODEL_NAME):
     return response_content
 
 
+
+############
+# BATCHING #
+############
+
+# Return a list of lists: each list can be used as the input for a request.
+def split_list(input_list):
+    pass
+    
+
+
 #########
 # CALLS #
 #########
@@ -300,7 +312,7 @@ def text_to_informal_ibis(input_text):
 
     messages = [{'role': 'user', 'content': prompt}]
     result = call_llm(messages, ibis)
-    
+
     return result
 
 
@@ -331,8 +343,8 @@ Example input 2:
 ('arg12', "72% of primary schools participating in a breakfast club programme in south Ayrshire saw increased attendance levels.")]
 
 Example output 2:
-[(['arg10', 'arg3'], ''),
-(['arg3', 'arg12'], '')]
+[(['arg10', 'arg3'], ""),
+(['arg3', 'arg12'], "")]
 
 
 Input list:
