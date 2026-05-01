@@ -1,0 +1,128 @@
+{
+    "ibis": [
+        {
+            "id": "iss1",
+            "orig": "the impact of long covid on healthcare services",
+            "text": "What is the impact of long covid on healthcare services?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos1",
+            "orig": "Concerns about the impact of long covid on healthcare services centre on the cost of providing services for long covid patients and the impact of long covid on the NHS workforce",
+            "text": "The impact of long covid on healthcare services centres on the cost of providing services for patients and the effect on the NHS workforce.",
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg1",
+            "orig": "The British Medical Association, the trade union for doctors, has called for a range of measures, including financial support and improved services for doctors and healthcare staff affected by long covid",
+            "text": "The British Medical Association has called for financial support and improved services for healthcare staff affected by long covid to address the impact on the workforce.",
+            "type": "argument",
+            "pro": [
+                "pos1"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss2",
+            "orig": "Whether long covid is a disability",
+            "text": "Is long covid a disability?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos2",
+            "orig": "the widespread impact that long covid has had on the workforce",
+            "text": "Long covid has had a widespread impact on the workforce.",
+            "type": "position",
+            "parent": [
+                "iss2"
+            ]
+        },
+        {
+            "id": "arg2",
+            "orig": "The Society of Occupational Medicine... called for organisations to review their absence management and flexible working practices to help support employees",
+            "text": "The Society of Occupational Medicine suggests that organisations should review absence management and flexible working practices to support employees affected by long covid.",
+            "type": "argument",
+            "pro": [
+                "pos2"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss3",
+            "orig": "long covid can affect children\u2019s school attendance",
+            "text": "Does long covid affect children's school attendance?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos3",
+            "orig": "affected children may need additional support to access full-time education",
+            "text": "Children affected by long covid may require additional support to access full-time education.",
+            "type": "position",
+            "parent": [
+                "iss3"
+            ]
+        },
+        {
+            "id": "arg3",
+            "orig": "there have been concerns about increased absence from school",
+            "text": "There are concerns regarding increased absence from school since the relaxation of pandemic restrictions.",
+            "type": "argument",
+            "pro": [
+                "pos3"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss4",
+            "orig": "How is long covid diagnosed?",
+            "text": "How is long covid diagnosed?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos4",
+            "orig": "The NICE guidance includes the following case definitions to help clinicians to identify and diagnose longer-term effects of Covid-19",
+            "text": "NICE provides specific case definitions to help clinicians identify and diagnose the longer-term effects of Covid-19.",
+            "type": "position",
+            "parent": [
+                "iss4"
+            ]
+        },
+        {
+            "id": "arg4",
+            "orig": "Post-Covid-19 syndrome: signs and symptoms that develop during or after an infection consistent with Covid-19, that continue for more than 12 weeks, and are not explained by an alternative diagnosis",
+            "text": "Post-Covid-19 syndrome is diagnosed when symptoms continue for more than 12 weeks and cannot be explained by another diagnosis.",
+            "type": "argument",
+            "pro": [
+                "pos4"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos5",
+            "orig": "the World Health Organization (WHO) published a clinical case definition of post-Covid-19 condition",
+            "text": "The World Health Organization has published its own clinical case definition for post-Covid-19 condition.",
+            "type": "position",
+            "parent": [
+                "iss4"
+            ]
+        },
+        {
+            "id": "arg5",
+            "orig": "The definition proposed by WHO is similar to the definition adopted by NICE for post-Covid-19 syndrome",
+            "text": "The WHO definition is similar to the definition adopted by NICE for post-Covid-19 syndrome.",
+            "type": "argument",
+            "pro": [
+                "pos5",
+                "pos4"
+            ],
+            "con": []
+        }
+    ]
+}

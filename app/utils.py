@@ -10,7 +10,7 @@ class node_merge(BaseModel):
     text: str
 
 class node_merge_output(BaseModel):
-    merges: List[node_merge]
+    merges: List[node_merge] = []
 
 def new_ibis_aif():
     return {

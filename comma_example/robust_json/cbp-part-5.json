@@ -1,0 +1,50 @@
+{
+    "ibis": [
+        {
+            "id": "iss1",
+            "orig": "How is long covid diagnosed?",
+            "text": "How is long covid diagnosed?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "iss2",
+            "orig": "How many people are affected by long covid?",
+            "text": "How many people are affected by long covid?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos1",
+            "orig": "In March 2023, an estimated 1.9 million people in the UK reported that they were experiencing long covid, representing 2.9% of the population.",
+            "text": "In March 2023, an estimated 1.9 million people in the UK reported that they were experiencing long covid, representing 2.9% of the population.",
+            "type": "position",
+            "parent": [
+                "iss2"
+            ]
+        },
+        {
+            "id": "iss3",
+            "orig": "How has long covid affected healthcare services?",
+            "text": "How has long covid affected healthcare services?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "iss4",
+            "orig": "Causes of long covid",
+            "text": "What are the causes of long covid?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos2",
+            "orig": "Research exploring the causes of the condition and potential treatment options is ongoing.",
+            "text": "Research exploring the causes of the condition and potential treatment options is ongoing.",
+            "type": "position",
+            "parent": [
+                "iss4"
+            ]
+        }
+    ]
+}

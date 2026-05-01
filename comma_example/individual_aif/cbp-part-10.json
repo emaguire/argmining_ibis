@@ -1,0 +1,861 @@
+{
+    "AIF": {
+        "nodes": [
+            {
+                "nodeID": "iss1",
+                "type": "I",
+                "text": "What are the causes of long covid?"
+            },
+            {
+                "nodeID": "l_0_iss1",
+                "type": "L",
+                "text": "Causes of long covid"
+            },
+            {
+                "nodeID": "ya_0_iss1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos1",
+                "type": "I",
+                "text": "There are likely multiple, potentially overlapping causes of long covid."
+            },
+            {
+                "nodeID": "l_0_pos1",
+                "type": "L",
+                "text": "there are likely multiple, potentially overlapping, causes of long covid"
+            },
+            {
+                "nodeID": "ya_0_pos1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos2",
+                "type": "I",
+                "text": "There may be multiple subtypes of long covid associated with different symptoms and underlying causes."
+            },
+            {
+                "nodeID": "l_0_pos2",
+                "type": "L",
+                "text": "there may be multiple subtypes of long covid associated with different symptoms and underlying causes"
+            },
+            {
+                "nodeID": "ya_0_pos2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg1",
+                "type": "I",
+                "text": "Persistent infection with the SARS-CoV-2 virus, which causes Covid-19, may be a cause."
+            },
+            {
+                "nodeID": "l_0_arg1",
+                "type": "L",
+                "text": "Persistent infection with the SARS-CoV-2 virus, which causes Covid-19"
+            },
+            {
+                "nodeID": "ya_0_arg1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg2",
+                "type": "I",
+                "text": "Immune system problems, including the reactivation of dormant viruses or the development of an autoimmune response, may be a cause."
+            },
+            {
+                "nodeID": "l_0_arg2",
+                "type": "L",
+                "text": "Immune system problems, including the reactivation of other viruses that may be dormant in the body, or the development of an autoimmune response, where the body attacks its own systems"
+            },
+            {
+                "nodeID": "ya_0_arg2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg3",
+                "type": "I",
+                "text": "Changes to the microbiota, the microorganisms that live on and in the human body, may be a cause."
+            },
+            {
+                "nodeID": "l_0_arg3",
+                "type": "L",
+                "text": "Changes to the microbiota, the microorganisms that live on and in the human body"
+            },
+            {
+                "nodeID": "ya_0_arg3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg4",
+                "type": "I",
+                "text": "Problems with blood clotting and changes to endothelial cells inside blood vessels may be a cause."
+            },
+            {
+                "nodeID": "l_0_arg4",
+                "type": "L",
+                "text": "Problems with blood clotting and changes to endothelial cells, which are found inside blood vessels"
+            },
+            {
+                "nodeID": "ya_0_arg4",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg5",
+                "type": "I",
+                "text": "Problems with the nervous system, including the brainstem or vagus nerve, may be a cause."
+            },
+            {
+                "nodeID": "l_0_arg5",
+                "type": "L",
+                "text": "Problems with the nervous system, including in the brainstem or vagus nerve, which carries signals between the brain, heart and digestive system"
+            },
+            {
+                "nodeID": "ya_0_arg5",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss2",
+                "type": "I",
+                "text": "How many people are affected by long covid?"
+            },
+            {
+                "nodeID": "l_0_iss2",
+                "type": "L",
+                "text": "How many people are affected by long covid?"
+            },
+            {
+                "nodeID": "ya_0_iss2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos3",
+                "type": "I",
+                "text": "In March 2023, an estimated 1.9 million people in the UK were experiencing self-reported long covid, representing 2.9% of the population."
+            },
+            {
+                "nodeID": "l_0_pos3",
+                "type": "L",
+                "text": "In March 2023, an estimated 1.9 million people in the UK were experiencing self-reported long covid, representing 2.9% of the population"
+            },
+            {
+                "nodeID": "ya_0_pos3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "rel0",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta0",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta0",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel1",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta1",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta1",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel2",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta2",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta2",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel3",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta3",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta3",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel4",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta4",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta4",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel5",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta5",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta5",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel6",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta6",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta6",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel7",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta7",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta7",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel8",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta8",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta8",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel9",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta9",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta9",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel10",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta10",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta10",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel11",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta11",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta11",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel12",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta12",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta12",
+                "type": "YA",
+                "text": "Default Illocution"
+            }
+        ],
+        "edges": [
+            {
+                "edgeID": 0,
+                "fromID": "l_0_iss1",
+                "toID": "ya_0_iss1"
+            },
+            {
+                "edgeID": 1,
+                "fromID": "ya_0_iss1",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 2,
+                "fromID": "l_0_pos1",
+                "toID": "ya_0_pos1"
+            },
+            {
+                "edgeID": 3,
+                "fromID": "ya_0_pos1",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 4,
+                "fromID": "l_0_pos2",
+                "toID": "ya_0_pos2"
+            },
+            {
+                "edgeID": 5,
+                "fromID": "ya_0_pos2",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 6,
+                "fromID": "l_0_arg1",
+                "toID": "ya_0_arg1"
+            },
+            {
+                "edgeID": 7,
+                "fromID": "ya_0_arg1",
+                "toID": "arg1"
+            },
+            {
+                "edgeID": 8,
+                "fromID": "l_0_arg2",
+                "toID": "ya_0_arg2"
+            },
+            {
+                "edgeID": 9,
+                "fromID": "ya_0_arg2",
+                "toID": "arg2"
+            },
+            {
+                "edgeID": 10,
+                "fromID": "l_0_arg3",
+                "toID": "ya_0_arg3"
+            },
+            {
+                "edgeID": 11,
+                "fromID": "ya_0_arg3",
+                "toID": "arg3"
+            },
+            {
+                "edgeID": 12,
+                "fromID": "l_0_arg4",
+                "toID": "ya_0_arg4"
+            },
+            {
+                "edgeID": 13,
+                "fromID": "ya_0_arg4",
+                "toID": "arg4"
+            },
+            {
+                "edgeID": 14,
+                "fromID": "l_0_arg5",
+                "toID": "ya_0_arg5"
+            },
+            {
+                "edgeID": 15,
+                "fromID": "ya_0_arg5",
+                "toID": "arg5"
+            },
+            {
+                "edgeID": 16,
+                "fromID": "l_0_iss2",
+                "toID": "ya_0_iss2"
+            },
+            {
+                "edgeID": 17,
+                "fromID": "ya_0_iss2",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 18,
+                "fromID": "l_0_pos3",
+                "toID": "ya_0_pos3"
+            },
+            {
+                "edgeID": 19,
+                "fromID": "ya_0_pos3",
+                "toID": "pos3"
+            },
+            {
+                "edgeID": 20,
+                "fromID": "pos1",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 21,
+                "fromID": "rel0",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 22,
+                "fromID": "ta0",
+                "toID": "ya_ta0"
+            },
+            {
+                "edgeID": 23,
+                "fromID": "ya_ta0",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 24,
+                "fromID": "ta0",
+                "toID": "l_0_pos1"
+            },
+            {
+                "edgeID": 25,
+                "fromID": "l_0_iss1",
+                "toID": "ta0"
+            },
+            {
+                "edgeID": 26,
+                "fromID": "pos2",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 27,
+                "fromID": "rel1",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 28,
+                "fromID": "ta1",
+                "toID": "ya_ta1"
+            },
+            {
+                "edgeID": 29,
+                "fromID": "ya_ta1",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 30,
+                "fromID": "ta1",
+                "toID": "l_0_pos2"
+            },
+            {
+                "edgeID": 31,
+                "fromID": "l_0_iss1",
+                "toID": "ta1"
+            },
+            {
+                "edgeID": 32,
+                "fromID": "arg1",
+                "toID": "rel2"
+            },
+            {
+                "edgeID": 33,
+                "fromID": "rel2",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 34,
+                "fromID": "ta2",
+                "toID": "ya_ta2"
+            },
+            {
+                "edgeID": 35,
+                "fromID": "ya_ta2",
+                "toID": "rel2"
+            },
+            {
+                "edgeID": 36,
+                "fromID": "ta2",
+                "toID": "l_0_arg1"
+            },
+            {
+                "edgeID": 37,
+                "fromID": "l_0_pos1",
+                "toID": "ta2"
+            },
+            {
+                "edgeID": 38,
+                "fromID": "arg1",
+                "toID": "rel3"
+            },
+            {
+                "edgeID": 39,
+                "fromID": "rel3",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 40,
+                "fromID": "ta3",
+                "toID": "ya_ta3"
+            },
+            {
+                "edgeID": 41,
+                "fromID": "ya_ta3",
+                "toID": "rel3"
+            },
+            {
+                "edgeID": 42,
+                "fromID": "ta3",
+                "toID": "l_0_arg1"
+            },
+            {
+                "edgeID": 43,
+                "fromID": "l_0_pos2",
+                "toID": "ta3"
+            },
+            {
+                "edgeID": 44,
+                "fromID": "arg2",
+                "toID": "rel4"
+            },
+            {
+                "edgeID": 45,
+                "fromID": "rel4",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 46,
+                "fromID": "ta4",
+                "toID": "ya_ta4"
+            },
+            {
+                "edgeID": 47,
+                "fromID": "ya_ta4",
+                "toID": "rel4"
+            },
+            {
+                "edgeID": 48,
+                "fromID": "ta4",
+                "toID": "l_0_arg2"
+            },
+            {
+                "edgeID": 49,
+                "fromID": "l_0_pos1",
+                "toID": "ta4"
+            },
+            {
+                "edgeID": 50,
+                "fromID": "arg2",
+                "toID": "rel5"
+            },
+            {
+                "edgeID": 51,
+                "fromID": "rel5",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 52,
+                "fromID": "ta5",
+                "toID": "ya_ta5"
+            },
+            {
+                "edgeID": 53,
+                "fromID": "ya_ta5",
+                "toID": "rel5"
+            },
+            {
+                "edgeID": 54,
+                "fromID": "ta5",
+                "toID": "l_0_arg2"
+            },
+            {
+                "edgeID": 55,
+                "fromID": "l_0_pos2",
+                "toID": "ta5"
+            },
+            {
+                "edgeID": 56,
+                "fromID": "arg3",
+                "toID": "rel6"
+            },
+            {
+                "edgeID": 57,
+                "fromID": "rel6",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 58,
+                "fromID": "ta6",
+                "toID": "ya_ta6"
+            },
+            {
+                "edgeID": 59,
+                "fromID": "ya_ta6",
+                "toID": "rel6"
+            },
+            {
+                "edgeID": 60,
+                "fromID": "ta6",
+                "toID": "l_0_arg3"
+            },
+            {
+                "edgeID": 61,
+                "fromID": "l_0_pos1",
+                "toID": "ta6"
+            },
+            {
+                "edgeID": 62,
+                "fromID": "arg3",
+                "toID": "rel7"
+            },
+            {
+                "edgeID": 63,
+                "fromID": "rel7",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 64,
+                "fromID": "ta7",
+                "toID": "ya_ta7"
+            },
+            {
+                "edgeID": 65,
+                "fromID": "ya_ta7",
+                "toID": "rel7"
+            },
+            {
+                "edgeID": 66,
+                "fromID": "ta7",
+                "toID": "l_0_arg3"
+            },
+            {
+                "edgeID": 67,
+                "fromID": "l_0_pos2",
+                "toID": "ta7"
+            },
+            {
+                "edgeID": 68,
+                "fromID": "arg4",
+                "toID": "rel8"
+            },
+            {
+                "edgeID": 69,
+                "fromID": "rel8",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 70,
+                "fromID": "ta8",
+                "toID": "ya_ta8"
+            },
+            {
+                "edgeID": 71,
+                "fromID": "ya_ta8",
+                "toID": "rel8"
+            },
+            {
+                "edgeID": 72,
+                "fromID": "ta8",
+                "toID": "l_0_arg4"
+            },
+            {
+                "edgeID": 73,
+                "fromID": "l_0_pos1",
+                "toID": "ta8"
+            },
+            {
+                "edgeID": 74,
+                "fromID": "arg4",
+                "toID": "rel9"
+            },
+            {
+                "edgeID": 75,
+                "fromID": "rel9",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 76,
+                "fromID": "ta9",
+                "toID": "ya_ta9"
+            },
+            {
+                "edgeID": 77,
+                "fromID": "ya_ta9",
+                "toID": "rel9"
+            },
+            {
+                "edgeID": 78,
+                "fromID": "ta9",
+                "toID": "l_0_arg4"
+            },
+            {
+                "edgeID": 79,
+                "fromID": "l_0_pos2",
+                "toID": "ta9"
+            },
+            {
+                "edgeID": 80,
+                "fromID": "arg5",
+                "toID": "rel10"
+            },
+            {
+                "edgeID": 81,
+                "fromID": "rel10",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 82,
+                "fromID": "ta10",
+                "toID": "ya_ta10"
+            },
+            {
+                "edgeID": 83,
+                "fromID": "ya_ta10",
+                "toID": "rel10"
+            },
+            {
+                "edgeID": 84,
+                "fromID": "ta10",
+                "toID": "l_0_arg5"
+            },
+            {
+                "edgeID": 85,
+                "fromID": "l_0_pos1",
+                "toID": "ta10"
+            },
+            {
+                "edgeID": 86,
+                "fromID": "arg5",
+                "toID": "rel11"
+            },
+            {
+                "edgeID": 87,
+                "fromID": "rel11",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 88,
+                "fromID": "ta11",
+                "toID": "ya_ta11"
+            },
+            {
+                "edgeID": 89,
+                "fromID": "ya_ta11",
+                "toID": "rel11"
+            },
+            {
+                "edgeID": 90,
+                "fromID": "ta11",
+                "toID": "l_0_arg5"
+            },
+            {
+                "edgeID": 91,
+                "fromID": "l_0_pos2",
+                "toID": "ta11"
+            },
+            {
+                "edgeID": 92,
+                "fromID": "pos3",
+                "toID": "rel12"
+            },
+            {
+                "edgeID": 93,
+                "fromID": "rel12",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 94,
+                "fromID": "ta12",
+                "toID": "ya_ta12"
+            },
+            {
+                "edgeID": 95,
+                "fromID": "ya_ta12",
+                "toID": "rel12"
+            },
+            {
+                "edgeID": 96,
+                "fromID": "ta12",
+                "toID": "l_0_pos3"
+            },
+            {
+                "edgeID": 97,
+                "fromID": "l_0_iss2",
+                "toID": "ta12"
+            }
+        ]
+    },
+    "IBIS": {
+        "issues": [
+            "iss1",
+            "iss2"
+        ],
+        "positions": [
+            "pos1",
+            "pos2",
+            "pos3"
+        ],
+        "arguments": [
+            "arg1",
+            "arg2",
+            "arg3",
+            "arg4",
+            "arg5"
+        ]
+    }
+}

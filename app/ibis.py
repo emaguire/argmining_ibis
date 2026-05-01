@@ -32,4 +32,4 @@ class ibisArgument(BaseModel):
 
 
 class ibis(BaseModel):
-    ibis: List[ibisIssue | ibisPosition | ibisArgument]
+    ibis: List[ibisIssue | ibisPosition | ibisArgument] = []

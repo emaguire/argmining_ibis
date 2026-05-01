@@ -1,0 +1,875 @@
+{
+    "AIF": {
+        "nodes": [
+            {
+                "nodeID": "iss1",
+                "type": "I",
+                "text": "What are the symptoms of long covid?"
+            },
+            {
+                "nodeID": "l_0_iss1",
+                "type": "L",
+                "text": "Symptoms"
+            },
+            {
+                "nodeID": "ya_0_iss1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos1",
+                "type": "I",
+                "text": "People with longer-term effects after a Covid-19 infection can experience a wide range of symptoms affecting different parts of the body."
+            },
+            {
+                "nodeID": "l_0_pos1",
+                "type": "L",
+                "text": "People with longer-term effects after a Covid-19 infection can experience a wide range of symptoms that can affect different parts of the body."
+            },
+            {
+                "nodeID": "ya_0_pos1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg1",
+                "type": "I",
+                "text": "Symptoms include respiratory, cardiovascular, generalised, neurological, gastrointestinal, musculoskeletal, ear, nose and throat, dermatological, and psychological or psychiatric symptoms."
+            },
+            {
+                "nodeID": "l_0_arg1",
+                "type": "L",
+                "text": "Respiratory symptoms, such as breathlessness or a cough\n- Cardiovascular symptoms, such as chest tightness or pain, or palpitations\n- Generalised symptoms, including fatigue, fever (a temperature over 38\u00b0C) or pain\n- Neurological symptoms, including cognitive impairment (sometimes termed \u2018brain fog\u2019), headaches, disrupted sleep, peripheral neuropathy (pins and needles or numbness in the hands or feet), dizziness, delirium, mobility impairment or visual disturbances\n- Gastrointestinal symptoms, including pain, nausea, vomiting, diarrhoea, weight loss and reduced appetite\n- Musculoskeletal symptoms, such as joint or muscle pain\n- Ear, nose and throat symptoms, such as tinnitus (hearing sounds that do not come from an outside source), earache, sore throat, the loss of taste and/or smell, nasal congestion (blocked nose)\n- Dermatological symptoms, such as skin rashes or hair loss\n- Psychological or psychiatric symptoms, such as depression, anxiety or symptoms of post-traumatic stress disorder (PTSD)."
+            },
+            {
+                "nodeID": "ya_0_arg1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos2",
+                "type": "I",
+                "text": "Some symptoms of long covid are less common in children and young people."
+            },
+            {
+                "nodeID": "l_0_pos2",
+                "type": "L",
+                "text": "some symptoms are less common in children and young people"
+            },
+            {
+                "nodeID": "ya_0_pos2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg2",
+                "type": "I",
+                "text": "Children may be less affected by respiratory symptoms, such as shortness of breath and cough, and cardiovascular symptoms, such as palpitations or pain."
+            },
+            {
+                "nodeID": "l_0_arg2",
+                "type": "L",
+                "text": "children may be less affected by respiratory symptoms (including shortness of breath and cough) and cardiovascular symptoms (including palpitations or pain)."
+            },
+            {
+                "nodeID": "ya_0_arg2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss2",
+                "type": "I",
+                "text": "How should long covid be assessed and investigated?"
+            },
+            {
+                "nodeID": "l_0_iss2",
+                "type": "L",
+                "text": "Assessment and investigations"
+            },
+            {
+                "nodeID": "ya_0_iss2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos3",
+                "type": "I",
+                "text": "NICE recommends that patients are assessed using a holistic, person-centred approach."
+            },
+            {
+                "nodeID": "l_0_pos3",
+                "type": "L",
+                "text": "NICE recommends that patients are assessed using a \u201cholistic, person-centred approach\u201d."
+            },
+            {
+                "nodeID": "ya_0_pos3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg3",
+                "type": "I",
+                "text": "Assessment should include a comprehensive clinical history and an examination of physical, cognitive, psychological, and psychiatric symptoms, as well as the ability to perform daily tasks."
+            },
+            {
+                "nodeID": "l_0_arg3",
+                "type": "L",
+                "text": "This assessment should include taking a comprehensive clinical history (including the history of known or suspected Covid-19 infections and other health conditions) and examining the patient to assess their physical, cognitive, psychological and psychiatric symptoms, as well as their ability to carry out day-to-day tasks."
+            },
+            {
+                "nodeID": "ya_0_arg3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos4",
+                "type": "I",
+                "text": "Tests and investigations should be offered based on symptoms to rule out serious complications of Covid-19 and alternative diagnoses."
+            },
+            {
+                "nodeID": "l_0_pos4",
+                "type": "L",
+                "text": "tests and investigations should be offered to patients based on their symptoms, with the aim of ruling out serious complications of Covid-19 infection and alternative diagnoses."
+            },
+            {
+                "nodeID": "ya_0_pos4",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg4",
+                "type": "I",
+                "text": "Investigations may include blood tests, exercise tolerance tests, chest x-rays, or patient self-monitoring of heart rate, blood pressure, and pulse oximetry."
+            },
+            {
+                "nodeID": "l_0_arg4",
+                "type": "L",
+                "text": "These might include blood tests, exercise tolerance tests or chest x-rays (for continuing respiratory symptoms), or patients\u2019 self-monitoring of heart rate, blood pressure, pulse oximetry, or ongoing symptoms."
+            },
+            {
+                "nodeID": "ya_0_arg4",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss3",
+                "type": "I",
+                "text": "When should patients be referred to other services?"
+            },
+            {
+                "nodeID": "l_0_iss3",
+                "type": "L",
+                "text": "Referral to other services"
+            },
+            {
+                "nodeID": "ya_0_iss3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos5",
+                "type": "I",
+                "text": "Clinicians should consider referring patients to an appropriate service, such as an integrated multidisciplinary assessment service."
+            },
+            {
+                "nodeID": "l_0_pos5",
+                "type": "L",
+                "text": "clinicians should consider referring people to \u201can appropriate service, such as an integrated multidisciplinary assessment service\u201d."
+            },
+            {
+                "nodeID": "ya_0_pos5",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg5",
+                "type": "I",
+                "text": "Referral should be considered when serious complications of Covid-19 and alternative diagnoses have been ruled out."
+            },
+            {
+                "nodeID": "l_0_arg5",
+                "type": "L",
+                "text": "When serious complications of Covid-19 and alternative diagnoses have been ruled out"
+            },
+            {
+                "nodeID": "ya_0_arg5",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg6",
+                "type": "I",
+                "text": "A clinician could refer a patient to an assessment service any time after four weeks have passed since the start of an acute Covid-19 infection."
+            },
+            {
+                "nodeID": "l_0_arg6",
+                "type": "L",
+                "text": "A clinician could refer a patient to an assessment service at any time after four weeks have passed since the start of an acute Covid-19 infection."
+            },
+            {
+                "nodeID": "ya_0_arg6",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "rel0",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta0",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta0",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel1",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta1",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta1",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel2",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta2",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta2",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel3",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta3",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta3",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel4",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta4",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta4",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel5",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta5",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta5",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel6",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta6",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta6",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel7",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta7",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta7",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel8",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta8",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta8",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel9",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta9",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta9",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel10",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta10",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta10",
+                "type": "YA",
+                "text": "Default Illocution"
+            }
+        ],
+        "edges": [
+            {
+                "edgeID": 0,
+                "fromID": "l_0_iss1",
+                "toID": "ya_0_iss1"
+            },
+            {
+                "edgeID": 1,
+                "fromID": "ya_0_iss1",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 2,
+                "fromID": "l_0_pos1",
+                "toID": "ya_0_pos1"
+            },
+            {
+                "edgeID": 3,
+                "fromID": "ya_0_pos1",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 4,
+                "fromID": "l_0_arg1",
+                "toID": "ya_0_arg1"
+            },
+            {
+                "edgeID": 5,
+                "fromID": "ya_0_arg1",
+                "toID": "arg1"
+            },
+            {
+                "edgeID": 6,
+                "fromID": "l_0_pos2",
+                "toID": "ya_0_pos2"
+            },
+            {
+                "edgeID": 7,
+                "fromID": "ya_0_pos2",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 8,
+                "fromID": "l_0_arg2",
+                "toID": "ya_0_arg2"
+            },
+            {
+                "edgeID": 9,
+                "fromID": "ya_0_arg2",
+                "toID": "arg2"
+            },
+            {
+                "edgeID": 10,
+                "fromID": "l_0_iss2",
+                "toID": "ya_0_iss2"
+            },
+            {
+                "edgeID": 11,
+                "fromID": "ya_0_iss2",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 12,
+                "fromID": "l_0_pos3",
+                "toID": "ya_0_pos3"
+            },
+            {
+                "edgeID": 13,
+                "fromID": "ya_0_pos3",
+                "toID": "pos3"
+            },
+            {
+                "edgeID": 14,
+                "fromID": "l_0_arg3",
+                "toID": "ya_0_arg3"
+            },
+            {
+                "edgeID": 15,
+                "fromID": "ya_0_arg3",
+                "toID": "arg3"
+            },
+            {
+                "edgeID": 16,
+                "fromID": "l_0_pos4",
+                "toID": "ya_0_pos4"
+            },
+            {
+                "edgeID": 17,
+                "fromID": "ya_0_pos4",
+                "toID": "pos4"
+            },
+            {
+                "edgeID": 18,
+                "fromID": "l_0_arg4",
+                "toID": "ya_0_arg4"
+            },
+            {
+                "edgeID": 19,
+                "fromID": "ya_0_arg4",
+                "toID": "arg4"
+            },
+            {
+                "edgeID": 20,
+                "fromID": "l_0_iss3",
+                "toID": "ya_0_iss3"
+            },
+            {
+                "edgeID": 21,
+                "fromID": "ya_0_iss3",
+                "toID": "iss3"
+            },
+            {
+                "edgeID": 22,
+                "fromID": "l_0_pos5",
+                "toID": "ya_0_pos5"
+            },
+            {
+                "edgeID": 23,
+                "fromID": "ya_0_pos5",
+                "toID": "pos5"
+            },
+            {
+                "edgeID": 24,
+                "fromID": "l_0_arg5",
+                "toID": "ya_0_arg5"
+            },
+            {
+                "edgeID": 25,
+                "fromID": "ya_0_arg5",
+                "toID": "arg5"
+            },
+            {
+                "edgeID": 26,
+                "fromID": "l_0_arg6",
+                "toID": "ya_0_arg6"
+            },
+            {
+                "edgeID": 27,
+                "fromID": "ya_0_arg6",
+                "toID": "arg6"
+            },
+            {
+                "edgeID": 28,
+                "fromID": "pos1",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 29,
+                "fromID": "rel0",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 30,
+                "fromID": "ta0",
+                "toID": "ya_ta0"
+            },
+            {
+                "edgeID": 31,
+                "fromID": "ya_ta0",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 32,
+                "fromID": "ta0",
+                "toID": "l_0_pos1"
+            },
+            {
+                "edgeID": 33,
+                "fromID": "l_0_iss1",
+                "toID": "ta0"
+            },
+            {
+                "edgeID": 34,
+                "fromID": "arg1",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 35,
+                "fromID": "rel1",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 36,
+                "fromID": "ta1",
+                "toID": "ya_ta1"
+            },
+            {
+                "edgeID": 37,
+                "fromID": "ya_ta1",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 38,
+                "fromID": "ta1",
+                "toID": "l_0_arg1"
+            },
+            {
+                "edgeID": 39,
+                "fromID": "l_0_pos1",
+                "toID": "ta1"
+            },
+            {
+                "edgeID": 40,
+                "fromID": "pos2",
+                "toID": "rel2"
+            },
+            {
+                "edgeID": 41,
+                "fromID": "rel2",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 42,
+                "fromID": "ta2",
+                "toID": "ya_ta2"
+            },
+            {
+                "edgeID": 43,
+                "fromID": "ya_ta2",
+                "toID": "rel2"
+            },
+            {
+                "edgeID": 44,
+                "fromID": "ta2",
+                "toID": "l_0_pos2"
+            },
+            {
+                "edgeID": 45,
+                "fromID": "l_0_iss1",
+                "toID": "ta2"
+            },
+            {
+                "edgeID": 46,
+                "fromID": "arg2",
+                "toID": "rel3"
+            },
+            {
+                "edgeID": 47,
+                "fromID": "rel3",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 48,
+                "fromID": "ta3",
+                "toID": "ya_ta3"
+            },
+            {
+                "edgeID": 49,
+                "fromID": "ya_ta3",
+                "toID": "rel3"
+            },
+            {
+                "edgeID": 50,
+                "fromID": "ta3",
+                "toID": "l_0_arg2"
+            },
+            {
+                "edgeID": 51,
+                "fromID": "l_0_pos2",
+                "toID": "ta3"
+            },
+            {
+                "edgeID": 52,
+                "fromID": "pos3",
+                "toID": "rel4"
+            },
+            {
+                "edgeID": 53,
+                "fromID": "rel4",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 54,
+                "fromID": "ta4",
+                "toID": "ya_ta4"
+            },
+            {
+                "edgeID": 55,
+                "fromID": "ya_ta4",
+                "toID": "rel4"
+            },
+            {
+                "edgeID": 56,
+                "fromID": "ta4",
+                "toID": "l_0_pos3"
+            },
+            {
+                "edgeID": 57,
+                "fromID": "l_0_iss2",
+                "toID": "ta4"
+            },
+            {
+                "edgeID": 58,
+                "fromID": "arg3",
+                "toID": "rel5"
+            },
+            {
+                "edgeID": 59,
+                "fromID": "rel5",
+                "toID": "pos3"
+            },
+            {
+                "edgeID": 60,
+                "fromID": "ta5",
+                "toID": "ya_ta5"
+            },
+            {
+                "edgeID": 61,
+                "fromID": "ya_ta5",
+                "toID": "rel5"
+            },
+            {
+                "edgeID": 62,
+                "fromID": "ta5",
+                "toID": "l_0_arg3"
+            },
+            {
+                "edgeID": 63,
+                "fromID": "l_0_pos3",
+                "toID": "ta5"
+            },
+            {
+                "edgeID": 64,
+                "fromID": "pos4",
+                "toID": "rel6"
+            },
+            {
+                "edgeID": 65,
+                "fromID": "rel6",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 66,
+                "fromID": "ta6",
+                "toID": "ya_ta6"
+            },
+            {
+                "edgeID": 67,
+                "fromID": "ya_ta6",
+                "toID": "rel6"
+            },
+            {
+                "edgeID": 68,
+                "fromID": "ta6",
+                "toID": "l_0_pos4"
+            },
+            {
+                "edgeID": 69,
+                "fromID": "l_0_iss2",
+                "toID": "ta6"
+            },
+            {
+                "edgeID": 70,
+                "fromID": "arg4",
+                "toID": "rel7"
+            },
+            {
+                "edgeID": 71,
+                "fromID": "rel7",
+                "toID": "pos4"
+            },
+            {
+                "edgeID": 72,
+                "fromID": "ta7",
+                "toID": "ya_ta7"
+            },
+            {
+                "edgeID": 73,
+                "fromID": "ya_ta7",
+                "toID": "rel7"
+            },
+            {
+                "edgeID": 74,
+                "fromID": "ta7",
+                "toID": "l_0_arg4"
+            },
+            {
+                "edgeID": 75,
+                "fromID": "l_0_pos4",
+                "toID": "ta7"
+            },
+            {
+                "edgeID": 76,
+                "fromID": "pos5",
+                "toID": "rel8"
+            },
+            {
+                "edgeID": 77,
+                "fromID": "rel8",
+                "toID": "iss3"
+            },
+            {
+                "edgeID": 78,
+                "fromID": "ta8",
+                "toID": "ya_ta8"
+            },
+            {
+                "edgeID": 79,
+                "fromID": "ya_ta8",
+                "toID": "rel8"
+            },
+            {
+                "edgeID": 80,
+                "fromID": "ta8",
+                "toID": "l_0_pos5"
+            },
+            {
+                "edgeID": 81,
+                "fromID": "l_0_iss3",
+                "toID": "ta8"
+            },
+            {
+                "edgeID": 82,
+                "fromID": "arg5",
+                "toID": "rel9"
+            },
+            {
+                "edgeID": 83,
+                "fromID": "rel9",
+                "toID": "pos5"
+            },
+            {
+                "edgeID": 84,
+                "fromID": "ta9",
+                "toID": "ya_ta9"
+            },
+            {
+                "edgeID": 85,
+                "fromID": "ya_ta9",
+                "toID": "rel9"
+            },
+            {
+                "edgeID": 86,
+                "fromID": "ta9",
+                "toID": "l_0_arg5"
+            },
+            {
+                "edgeID": 87,
+                "fromID": "l_0_pos5",
+                "toID": "ta9"
+            },
+            {
+                "edgeID": 88,
+                "fromID": "arg6",
+                "toID": "rel10"
+            },
+            {
+                "edgeID": 89,
+                "fromID": "rel10",
+                "toID": "pos5"
+            },
+            {
+                "edgeID": 90,
+                "fromID": "ta10",
+                "toID": "ya_ta10"
+            },
+            {
+                "edgeID": 91,
+                "fromID": "ya_ta10",
+                "toID": "rel10"
+            },
+            {
+                "edgeID": 92,
+                "fromID": "ta10",
+                "toID": "l_0_arg6"
+            },
+            {
+                "edgeID": 93,
+                "fromID": "l_0_pos5",
+                "toID": "ta10"
+            }
+        ]
+    },
+    "IBIS": {
+        "issues": [
+            "iss1",
+            "iss2",
+            "iss3"
+        ],
+        "positions": [
+            "pos1",
+            "pos2",
+            "pos3",
+            "pos4",
+            "pos5"
+        ],
+        "arguments": [
+            "arg1",
+            "arg2",
+            "arg3",
+            "arg4",
+            "arg5",
+            "arg6"
+        ]
+    }
+}

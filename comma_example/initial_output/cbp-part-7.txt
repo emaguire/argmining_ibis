@@ -1,0 +1,79 @@
+```json
+[
+  {
+    "id": "iss1",
+    "orig": "Concerns have also been expressed about the NICE guidance on long covid",
+    "text": "Are there concerns regarding the NICE guidance on long covid?",
+    "parent": []
+  },
+  {
+    "id": "pos1",
+    "orig": "the guidance did not adequately describe the condition or its causes",
+    "text": "The NICE guidance did not adequately describe long covid or its causes.",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "arg1",
+    "orig": "The guideline is overly focused on self-management, psychological support, and rehabilitation, resulting in the potential for ‘watered-down’ versions of NHS long COVID clinics that do not provide thorough physical assessment of patients.",
+    "text": "The guideline is overly focused on self-management, psychological support, and rehabilitation, which may result in NHS long covid clinics that do not provide thorough physical assessments of patients.",
+    "pro": [
+      "pos1"
+    ],
+    "con": []
+  },
+  {
+    "id": "iss2",
+    "orig": "What decision-makers’ understanding of long-term sequelae and Long Covid was",
+    "text": "What was the understanding of decision-makers regarding long-term sequelae and long covid?",
+    "parent": []
+  },
+  {
+    "id": "iss3",
+    "orig": "What was the role of patient advocacy in the recognition and response to Long Covid",
+    "text": "What was the role of patient advocacy in the recognition and response to long covid?",
+    "parent": []
+  },
+  {
+    "id": "iss4",
+    "orig": "Was there data collection and modelling of Long Covid",
+    "text": "Was there data collection and modelling of long covid?",
+    "parent": []
+  },
+  {
+    "id": "iss5",
+    "orig": "Was the prevalence and the risk of Long Covid taken into account when decisions, like the imposition and then easing of non-pharmaceutical interventions, were adopted",
+    "text": "Was the prevalence and the risk of long covid taken into account when decisions, such as the imposition and easing of non-pharmaceutical interventions, were adopted?",
+    "parent": []
+  },
+  {
+    "id": "iss6",
+    "orig": "How - and to what extent - did decision makers warn the public about the risk of developing Long Covid and take the disease into account in public health communications",
+    "text": "How and to what extent did decision-makers warn the public about the risk of developing long covid and incorporate the disease into public health communications?",
+    "parent": []
+  },
+  {
+    "id": "iss7",
+    "orig": "Whether nearly 2 million people suffering from Long Covid today was avoidable?",
+    "text": "Was it avoidable that nearly 2 million people are suffering from long covid today?",
+    "parent": []
+  },
+  {
+    "id": "pos2",
+    "orig": "people were given plenty of advice to protect themselves from Covid, and as soon as we began to understood what Long Covid was and its risks, we also publicised the risks of Long Covid as well",
+    "text": "People were given sufficient advice to protect themselves from covid, and the risks of long covid were publicised as soon as they were understood.",
+    "parent": [
+      "iss6"
+    ]
+  },
+  {
+    "id": "pos3",
+    "orig": "Boris Johnson denied that his “prolonged disbelief” in long covid contributed to a delay in its recognition",
+    "text": "Boris Johnson denied that his prolonged disbelief in long covid contributed to a delay in its recognition.",
+    "parent": [
+      "iss2"
+    ]
+  }
+]
+```

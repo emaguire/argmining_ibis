@@ -1,0 +1,482 @@
+{
+    "AIF": {
+        "nodes": [
+            {
+                "nodeID": "iss1",
+                "type": "I",
+                "text": "Are there concerns regarding the NICE guidance on long covid?"
+            },
+            {
+                "nodeID": "l_0_iss1",
+                "type": "L",
+                "text": "Concerns have also been expressed about the NICE guidance on long covid"
+            },
+            {
+                "nodeID": "ya_0_iss1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos1",
+                "type": "I",
+                "text": "The NICE guidance did not adequately describe long covid or its causes."
+            },
+            {
+                "nodeID": "l_0_pos1",
+                "type": "L",
+                "text": "the guidance did not adequately describe the condition or its causes"
+            },
+            {
+                "nodeID": "ya_0_pos1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg1",
+                "type": "I",
+                "text": "The guideline is overly focused on self-management, psychological support, and rehabilitation, which may result in NHS long covid clinics that do not provide thorough physical assessments of patients."
+            },
+            {
+                "nodeID": "l_0_arg1",
+                "type": "L",
+                "text": "The guideline is overly focused on self-management, psychological support, and rehabilitation, resulting in the potential for \u2018watered-down\u2019 versions of NHS long COVID clinics that do not provide thorough physical assessment of patients."
+            },
+            {
+                "nodeID": "ya_0_arg1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss2",
+                "type": "I",
+                "text": "What was the understanding of decision-makers regarding long-term sequelae and long covid?"
+            },
+            {
+                "nodeID": "l_0_iss2",
+                "type": "L",
+                "text": "What decision-makers\u2019 understanding of long-term sequelae and Long Covid was"
+            },
+            {
+                "nodeID": "ya_0_iss2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss3",
+                "type": "I",
+                "text": "What was the role of patient advocacy in the recognition and response to long covid?"
+            },
+            {
+                "nodeID": "l_0_iss3",
+                "type": "L",
+                "text": "What was the role of patient advocacy in the recognition and response to Long Covid"
+            },
+            {
+                "nodeID": "ya_0_iss3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss4",
+                "type": "I",
+                "text": "Was there data collection and modelling of long covid?"
+            },
+            {
+                "nodeID": "l_0_iss4",
+                "type": "L",
+                "text": "Was there data collection and modelling of Long Covid"
+            },
+            {
+                "nodeID": "ya_0_iss4",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss5",
+                "type": "I",
+                "text": "Was the prevalence and the risk of long covid taken into account when decisions, such as the imposition and easing of non-pharmaceutical interventions, were adopted?"
+            },
+            {
+                "nodeID": "l_0_iss5",
+                "type": "L",
+                "text": "Was the prevalence and the risk of Long Covid taken into account when decisions, like the imposition and then easing of non-pharmaceutical interventions, were adopted"
+            },
+            {
+                "nodeID": "ya_0_iss5",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss6",
+                "type": "I",
+                "text": "How and to what extent did decision-makers warn the public about the risk of developing long covid and incorporate the disease into public health communications?"
+            },
+            {
+                "nodeID": "l_0_iss6",
+                "type": "L",
+                "text": "How - and to what extent - did decision makers warn the public about the risk of developing Long Covid and take the disease into account in public health communications"
+            },
+            {
+                "nodeID": "ya_0_iss6",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss7",
+                "type": "I",
+                "text": "Was it avoidable that nearly 2 million people are suffering from long covid today?"
+            },
+            {
+                "nodeID": "l_0_iss7",
+                "type": "L",
+                "text": "Whether nearly 2 million people suffering from Long Covid today was avoidable?"
+            },
+            {
+                "nodeID": "ya_0_iss7",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos2",
+                "type": "I",
+                "text": "People were given sufficient advice to protect themselves from covid, and the risks of long covid were publicised as soon as they were understood."
+            },
+            {
+                "nodeID": "l_0_pos2",
+                "type": "L",
+                "text": "people were given plenty of advice to protect themselves from Covid, and as soon as we began to understood what Long Covid was and its risks, we also publicised the risks of Long Covid as well"
+            },
+            {
+                "nodeID": "ya_0_pos2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos3",
+                "type": "I",
+                "text": "Boris Johnson denied that his prolonged disbelief in long covid contributed to a delay in its recognition."
+            },
+            {
+                "nodeID": "l_0_pos3",
+                "type": "L",
+                "text": "Boris Johnson denied that his \u201cprolonged disbelief\u201d in long covid contributed to a delay in its recognition"
+            },
+            {
+                "nodeID": "ya_0_pos3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "rel0",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta0",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta0",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel1",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta1",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta1",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel2",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta2",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta2",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel3",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta3",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta3",
+                "type": "YA",
+                "text": "Default Illocution"
+            }
+        ],
+        "edges": [
+            {
+                "edgeID": 0,
+                "fromID": "l_0_iss1",
+                "toID": "ya_0_iss1"
+            },
+            {
+                "edgeID": 1,
+                "fromID": "ya_0_iss1",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 2,
+                "fromID": "l_0_pos1",
+                "toID": "ya_0_pos1"
+            },
+            {
+                "edgeID": 3,
+                "fromID": "ya_0_pos1",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 4,
+                "fromID": "l_0_arg1",
+                "toID": "ya_0_arg1"
+            },
+            {
+                "edgeID": 5,
+                "fromID": "ya_0_arg1",
+                "toID": "arg1"
+            },
+            {
+                "edgeID": 6,
+                "fromID": "l_0_iss2",
+                "toID": "ya_0_iss2"
+            },
+            {
+                "edgeID": 7,
+                "fromID": "ya_0_iss2",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 8,
+                "fromID": "l_0_iss3",
+                "toID": "ya_0_iss3"
+            },
+            {
+                "edgeID": 9,
+                "fromID": "ya_0_iss3",
+                "toID": "iss3"
+            },
+            {
+                "edgeID": 10,
+                "fromID": "l_0_iss4",
+                "toID": "ya_0_iss4"
+            },
+            {
+                "edgeID": 11,
+                "fromID": "ya_0_iss4",
+                "toID": "iss4"
+            },
+            {
+                "edgeID": 12,
+                "fromID": "l_0_iss5",
+                "toID": "ya_0_iss5"
+            },
+            {
+                "edgeID": 13,
+                "fromID": "ya_0_iss5",
+                "toID": "iss5"
+            },
+            {
+                "edgeID": 14,
+                "fromID": "l_0_iss6",
+                "toID": "ya_0_iss6"
+            },
+            {
+                "edgeID": 15,
+                "fromID": "ya_0_iss6",
+                "toID": "iss6"
+            },
+            {
+                "edgeID": 16,
+                "fromID": "l_0_iss7",
+                "toID": "ya_0_iss7"
+            },
+            {
+                "edgeID": 17,
+                "fromID": "ya_0_iss7",
+                "toID": "iss7"
+            },
+            {
+                "edgeID": 18,
+                "fromID": "l_0_pos2",
+                "toID": "ya_0_pos2"
+            },
+            {
+                "edgeID": 19,
+                "fromID": "ya_0_pos2",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 20,
+                "fromID": "l_0_pos3",
+                "toID": "ya_0_pos3"
+            },
+            {
+                "edgeID": 21,
+                "fromID": "ya_0_pos3",
+                "toID": "pos3"
+            },
+            {
+                "edgeID": 22,
+                "fromID": "pos1",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 23,
+                "fromID": "rel0",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 24,
+                "fromID": "ta0",
+                "toID": "ya_ta0"
+            },
+            {
+                "edgeID": 25,
+                "fromID": "ya_ta0",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 26,
+                "fromID": "ta0",
+                "toID": "l_0_pos1"
+            },
+            {
+                "edgeID": 27,
+                "fromID": "l_0_iss1",
+                "toID": "ta0"
+            },
+            {
+                "edgeID": 28,
+                "fromID": "arg1",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 29,
+                "fromID": "rel1",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 30,
+                "fromID": "ta1",
+                "toID": "ya_ta1"
+            },
+            {
+                "edgeID": 31,
+                "fromID": "ya_ta1",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 32,
+                "fromID": "ta1",
+                "toID": "l_0_arg1"
+            },
+            {
+                "edgeID": 33,
+                "fromID": "l_0_pos1",
+                "toID": "ta1"
+            },
+            {
+                "edgeID": 34,
+                "fromID": "pos2",
+                "toID": "rel2"
+            },
+            {
+                "edgeID": 35,
+                "fromID": "rel2",
+                "toID": "iss6"
+            },
+            {
+                "edgeID": 36,
+                "fromID": "ta2",
+                "toID": "ya_ta2"
+            },
+            {
+                "edgeID": 37,
+                "fromID": "ya_ta2",
+                "toID": "rel2"
+            },
+            {
+                "edgeID": 38,
+                "fromID": "ta2",
+                "toID": "l_0_pos2"
+            },
+            {
+                "edgeID": 39,
+                "fromID": "l_0_iss6",
+                "toID": "ta2"
+            },
+            {
+                "edgeID": 40,
+                "fromID": "pos3",
+                "toID": "rel3"
+            },
+            {
+                "edgeID": 41,
+                "fromID": "rel3",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 42,
+                "fromID": "ta3",
+                "toID": "ya_ta3"
+            },
+            {
+                "edgeID": 43,
+                "fromID": "ya_ta3",
+                "toID": "rel3"
+            },
+            {
+                "edgeID": 44,
+                "fromID": "ta3",
+                "toID": "l_0_pos3"
+            },
+            {
+                "edgeID": 45,
+                "fromID": "l_0_iss2",
+                "toID": "ta3"
+            }
+        ]
+    },
+    "IBIS": {
+        "issues": [
+            "iss1",
+            "iss2",
+            "iss3",
+            "iss4",
+            "iss5",
+            "iss6",
+            "iss7"
+        ],
+        "positions": [
+            "pos1",
+            "pos2",
+            "pos3"
+        ],
+        "arguments": [
+            "arg1"
+        ]
+    }
+}

@@ -1,0 +1,261 @@
+{
+    "AIF": {
+        "nodes": [
+            {
+                "nodeID": "iss1",
+                "type": "I",
+                "text": "How is long covid diagnosed?"
+            },
+            {
+                "nodeID": "l_0_iss1",
+                "type": "L",
+                "text": "How is long covid diagnosed?"
+            },
+            {
+                "nodeID": "ya_0_iss1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss2",
+                "type": "I",
+                "text": "How many people are affected by long covid?"
+            },
+            {
+                "nodeID": "l_0_iss2",
+                "type": "L",
+                "text": "How many people are affected by long covid?"
+            },
+            {
+                "nodeID": "ya_0_iss2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos1",
+                "type": "I",
+                "text": "In March 2023, an estimated 1.9 million people in the UK reported that they were experiencing long covid, representing 2.9% of the population."
+            },
+            {
+                "nodeID": "l_0_pos1",
+                "type": "L",
+                "text": "In March 2023, an estimated 1.9 million people in the UK reported that they were experiencing long covid, representing 2.9% of the population."
+            },
+            {
+                "nodeID": "ya_0_pos1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss3",
+                "type": "I",
+                "text": "How has long covid affected healthcare services?"
+            },
+            {
+                "nodeID": "l_0_iss3",
+                "type": "L",
+                "text": "How has long covid affected healthcare services?"
+            },
+            {
+                "nodeID": "ya_0_iss3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss4",
+                "type": "I",
+                "text": "What are the causes of long covid?"
+            },
+            {
+                "nodeID": "l_0_iss4",
+                "type": "L",
+                "text": "Causes of long covid"
+            },
+            {
+                "nodeID": "ya_0_iss4",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos2",
+                "type": "I",
+                "text": "Research exploring the causes of the condition and potential treatment options is ongoing."
+            },
+            {
+                "nodeID": "l_0_pos2",
+                "type": "L",
+                "text": "Research exploring the causes of the condition and potential treatment options is ongoing."
+            },
+            {
+                "nodeID": "ya_0_pos2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "rel0",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta0",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta0",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel1",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta1",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta1",
+                "type": "YA",
+                "text": "Default Illocution"
+            }
+        ],
+        "edges": [
+            {
+                "edgeID": 0,
+                "fromID": "l_0_iss1",
+                "toID": "ya_0_iss1"
+            },
+            {
+                "edgeID": 1,
+                "fromID": "ya_0_iss1",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 2,
+                "fromID": "l_0_iss2",
+                "toID": "ya_0_iss2"
+            },
+            {
+                "edgeID": 3,
+                "fromID": "ya_0_iss2",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 4,
+                "fromID": "l_0_pos1",
+                "toID": "ya_0_pos1"
+            },
+            {
+                "edgeID": 5,
+                "fromID": "ya_0_pos1",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 6,
+                "fromID": "l_0_iss3",
+                "toID": "ya_0_iss3"
+            },
+            {
+                "edgeID": 7,
+                "fromID": "ya_0_iss3",
+                "toID": "iss3"
+            },
+            {
+                "edgeID": 8,
+                "fromID": "l_0_iss4",
+                "toID": "ya_0_iss4"
+            },
+            {
+                "edgeID": 9,
+                "fromID": "ya_0_iss4",
+                "toID": "iss4"
+            },
+            {
+                "edgeID": 10,
+                "fromID": "l_0_pos2",
+                "toID": "ya_0_pos2"
+            },
+            {
+                "edgeID": 11,
+                "fromID": "ya_0_pos2",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 12,
+                "fromID": "pos1",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 13,
+                "fromID": "rel0",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 14,
+                "fromID": "ta0",
+                "toID": "ya_ta0"
+            },
+            {
+                "edgeID": 15,
+                "fromID": "ya_ta0",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 16,
+                "fromID": "ta0",
+                "toID": "l_0_pos1"
+            },
+            {
+                "edgeID": 17,
+                "fromID": "l_0_iss2",
+                "toID": "ta0"
+            },
+            {
+                "edgeID": 18,
+                "fromID": "pos2",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 19,
+                "fromID": "rel1",
+                "toID": "iss4"
+            },
+            {
+                "edgeID": 20,
+                "fromID": "ta1",
+                "toID": "ya_ta1"
+            },
+            {
+                "edgeID": 21,
+                "fromID": "ya_ta1",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 22,
+                "fromID": "ta1",
+                "toID": "l_0_pos2"
+            },
+            {
+                "edgeID": 23,
+                "fromID": "l_0_iss4",
+                "toID": "ta1"
+            }
+        ]
+    },
+    "IBIS": {
+        "issues": [
+            "iss1",
+            "iss2",
+            "iss3",
+            "iss4"
+        ],
+        "positions": [
+            "pos1",
+            "pos2"
+        ],
+        "arguments": []
+    }
+}

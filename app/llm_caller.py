@@ -1,11 +1,13 @@
 import os
 import sys
+import re
 from pathlib import Path
 import json
 
 import instructor
 from pydantic import BaseModel
 from typing import List
+from retrying import retry
 
 from app.utils import node_merge_output
 from app.ibis import ibis
@@ -33,7 +35,7 @@ logger.addHandler(handler)
 # LLM_URL = os.getenv('LLM_URL', 'http://localhost:8000') # internal port is 8000, only use this if you've linked the containers
 LLM_URL = os.getenv('LLM_URL', 'http://localhost:7060')
 LLM_API_KEY = Path('/run/secrets/LLM_API_KEY.txt').read_text().strip() if Path('/run/secrets/LLM_API_KEY.txt').exists() else None
-MODEL_NAME = 'meta-llama/Llama-3.2-3B-Instruct' #'google/gemma-3-4b-pt' #'swiss-ai/Apertus-8B-Instruct-2509'
+MODEL_NAME = 'google/gemma-4-E4B-it' #'nvidia/Gemma-4-31B-IT-NVFP4'
 
 # should have asyncio if you're going to do async
 unstructured_client = None
@@ -50,7 +52,38 @@ if LLM_API_KEY:
         base_url=f"{LLM_URL}/v1",
         api_key=LLM_API_KEY),
         mode=instructor.Mode.JSON)
+else:
+    print("NO API KEY FOUND!!")
 
+
+def get_final(response):
+    # if 'Gemma' or 'gemma' in MODEL_NAME:
+    #     json_match = re.search(r'```json\s*(.*?)\s*```', response.choices[0].message.content, re.DOTALL)
+    #     if json_match:
+    #         json_str = json_match.group(1)
+    #         to_return = json.loads(json_str)
+    #         logger.info("Result loaded as JSON")
+    #         logger.info("Starts with: %s", response.choices[0].message.content[:50])
+    #         # print(response.choices[0].message.content)
+    #         logger.info("")
+            
+    #     else:
+    #         to_return = response.choices[0].message.content
+    #         logger.info("Failed to load as JSON!!")
+    #         logger.info("TOTAL RESULT: ")
+    #         logger.info(str(response.choices[0].message.content))
+    #         logger.info("Starts with: %s", response.choices[0].message.content[:25])
+    # else:
+    to_return = json.loads(response.choices[0].message.content)
+    
+    print("Returning a result of type ", type(to_return))
+    print(to_return)
+    
+    if type(to_return) is list:
+        to_return = {'ibis': to_return}
+        print(f"loljk, going to return a {type(to_return)}")
+
+    return to_return
 
 # A silly test that requires no input to check the call is working
 # def test_llm(model_name="Qwen/Qwen3-4B"):
@@ -92,7 +125,8 @@ OUTPUT:
                 extra_body={"guided_json": DogpriceList.model_json_schema()}
             )
     
-    return json.loads(response.choices[0].message.content)
+    to_return = get_final(response)
+    return to_return
 
 # A similar silly test, but checking the instructor client is working
 def test_instructor(model_name=MODEL_NAME):
@@ -219,16 +253,17 @@ def instruct_call_llm(messages, output_format=None, model_name="swiss-ai/Apertus
     return response_content
 
 
-# Returns a JSON dict as output if an output_format is specified, and a string otherwise
-# Original version using pydantic, but not instructor.
-# def call_llm(messages, output_format=None, model_name="Qwen/Qwen3-4B"):
-def call_llm(messages, output_format=None, model_name=MODEL_NAME):
+# Performs the call with retries
+@retry(stop_max_attempt_number=5, wait_fixed=2000)
+def make_call_with_retry(messages, output_format=None, model_name=MODEL_NAME):
     if output_format:
-        # logger.debug("Structured output requested for model output: %s", output_format)
-        response = client.chat.completions.create(
+        logger.info("Making call...")
+        logger.debug("Structured output requested for model output: %s", output_format)
+        # response = client.chat.completions.create(
+        response = client.chat.completions.parse(
                     model=model_name,
                     messages=[{"role": msg['role'], "content": msg['content']} for msg in messages],
-                    extra_body={"guided_json": output_format.model_json_schema()},
+                    response_format=output_format,
                     timeout=180
                 )
     else:
@@ -239,28 +274,39 @@ def call_llm(messages, output_format=None, model_name=MODEL_NAME):
                     timeout=120
                 )
     
+    logger.info("Response recieved")
+    logger.info("%s", response)
     response_content = response.choices[0].message.content
-
     # logger.debug(logger.debug("Original output is type %s", type(response_content)))
 
     if output_format:
         try:
-            # logger.debug("Requested output format was %s", output_format)
+            logger.debug("Requested output format was %s", output_format)
             if type(response_content) is str:
-                # logger.debug("Loading string response as json")
-                json_out = json.loads(response_content)
-                # logger.debug("Result of json.loads is type %s", type(json_out))
-                return json_out
+                response_content = get_final(response)
             else:
-                logger.debug("Response can't be loaded by json.loads() because it's %s", type(response_content))
-                return response_content
+                logger.debug("Response can't be loaded by json.loads() because it's type %s", type(response_content))
         except json.decoder.JSONDecodeError as e:
             logger.error("Attempted to load output as json but failed")
             logger.error("================================================")
             logger.error("Output that could not be converted by json.loads(): ")
             logger.error(response_content)
             logger.error("================================================")
-            return response_content
+    
+    return response_content
+
+# Returns a JSON dict as output if an output_format is specified, and a string otherwise
+# It fails even after internal retries, return an empty instance of the format requested
+def call_llm(messages, output_format=None, model_name=MODEL_NAME):
+    try:
+        response_content = make_call_with_retry(messages, output_format, model_name)
+    except Exception as e:
+        logger.error("Retries failed")
+        if output_format is not None:
+            empty_ex = output_format()
+            response_content = empty_ex.model_dump()
+        else:
+            response_content = ''
     
     return response_content
 
@@ -309,6 +355,8 @@ def text_to_informal_ibis(input_text):
 
     Output JSON:
     '''
+
+    logger.info("Running on text beginning with: %s", input_text[:100])
 
     messages = [{'role': 'user', 'content': prompt}]
     result = call_llm(messages, ibis)

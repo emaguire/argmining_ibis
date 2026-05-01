@@ -18,7 +18,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-def ibis_output_to_xaif(in_dict):
+def ibis_output_to_xaif(in_dict, verbose=False):
     xaif = new_ibis_aif()
     all_i_node_ids = [n['id'] for n in in_dict['ibis']]
     
@@ -29,6 +29,8 @@ def ibis_output_to_xaif(in_dict):
     i_node_anchors = {}
 
     # First round: create and anchor I-nodes
+    if verbose:
+        print("=== CREATING AND ANCHORING I-NODES ===")
     for n in in_dict['ibis']:
         # Store IBIS information
         if n['type'] == 'issue':
@@ -44,24 +46,32 @@ def ibis_output_to_xaif(in_dict):
         # Create and add L and YA nodes for each origin segment
         i_node_anchors[i_node['nodeID']] = []
         orig_counter = 0
-        for orig in n['orig']:
-            l_node = add_node(f"l_{orig_counter}_{n['id']}", 'L', orig, xaif)
-            ya_node = add_node(f"ya_{orig_counter}_{n['id']}", "YA", "Default Illocuting", xaif)
-            orig_counter += 1 
+        if verbose:
+            print(f"\nAnchoring node {n['id']}! It has {len(n['orig'])} anchors.")
+        
+        l_node = add_node(f"l_{orig_counter}_{n['id']}", 'L', n['orig'], xaif)
+        ya_node = add_node(f"ya_{orig_counter}_{n['id']}", "YA", "Default Illocuting", xaif)
+        orig_counter += 1 
 
-            # Record the created L-node as anchor point for this I-node
-            i_node_anchors[i_node['nodeID']].append(l_node['nodeID'])
-            
-            # Connect from L to YA
-            add_edge(l_node['nodeID'],ya_node['nodeID'],edge_counter, xaif)
-            edge_counter += 1
+        # Record the created L-node as anchor point for this I-node
+        i_node_anchors[i_node['nodeID']].append(l_node['nodeID'])
+        
+        # Connect from L to YA
+        add_edge(l_node['nodeID'],ya_node['nodeID'],edge_counter, xaif)
+        edge_counter += 1
 
-            # Connect from YA to I
-            add_edge(ya_node['nodeID'],i_node['nodeID'],edge_counter, xaif)
-            edge_counter += 1
+        # Connect from YA to I
+        add_edge(ya_node['nodeID'],i_node['nodeID'],edge_counter, xaif)
+        edge_counter += 1
+
+        if verbose:
+            print(f"\tAnchored {n['id']} origin text: {n['orig']}")
+            print(f"\t\tCreated L-node {l_node} and YA-node {ya_node}")
 
 
     # Second round: create and anchor relations
+    if verbose:
+        print("=== CREATING AND ANCHORING RELATION NODES ===")
     for n in in_dict['ibis']:
         if n['type'] == 'argument':
             rels_to_create = [{'id': concl_id, 'reltype': 'Pro'} for concl_id in n['pro']] + [{'id': concl_id, 'reltype': 'Con'} for concl_id in n['con']]
@@ -70,9 +80,16 @@ def ibis_output_to_xaif(in_dict):
         elif n['type'] == 'issue':
             rels_to_create = [{'id': concl_id, 'reltype': 'Related Issue'} for concl_id in n['parent']]
         
+        if verbose:
+            print(f"\nCreating relations for node {n['id']}")
+            for r in rels_to_create:
+                print(f"\t{r}")
+
         for c in rels_to_create:
             # Ensure parent node exists
             if c['id'] not in all_i_node_ids:
+                if verbose:
+                    print("No real parent for suggested relation: ", c)
                 continue
 
             # Create relation node

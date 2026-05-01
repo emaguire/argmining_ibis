@@ -38,9 +38,6 @@ def merge_xaif_list(xaif_list, file_name='', save_to_dir=''):
         # Doing this 
         for t in ['issues', 'positions', 'arguments']:
             current_xaif['IBIS'][t] = [f"{old_id}_{i}" for old_id in current_xaif['IBIS'][t]]
-        for entry in current_xaif['source_info']:
-            old_id = entry['nodeID']
-            entry['nodeID'] = f"{old_id}_{i}"
 
         merged_xaif_dict['IBIS']['issues'] += current_xaif['IBIS']['issues']
         merged_xaif_dict['IBIS']['positions'] += current_xaif['IBIS']['positions']

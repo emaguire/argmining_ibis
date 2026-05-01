@@ -298,14 +298,11 @@ def argmine_ibis_from_texts():
             logger.info('Running text_to_ibis on %s', file_entry['origin'])
             try:
                 xaif_list += [text_to_ibis.text_to_ibis(file_entry['text'][0], origin_name=file_entry['origin'], save_to_dir=temp_dir)]
-                time.sleep(30.0)
             except Exception as e:
                 logger.error('Failed to get initial text analysis for %s', file_entry['origin'], exc_info=True)
         elif len(file_entry['text']) > 1:
             counter = 0
             for chunk in file_entry['text']:
-                # chunk_name = f"{file_entry['origin']}_{counter}"
-                # chunk_name = f"{file_entry['origin'].rsplit('.',1)[0]}_{counter}"
                 namesplit = file_entry['origin'].rsplit('.',1)
                 if len(namesplit) > 1:
                     chunk_name = f"{namesplit[0]}_{counter}.{namesplit[-1]}"

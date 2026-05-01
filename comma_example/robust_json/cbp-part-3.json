@@ -1,0 +1,130 @@
+{
+    "ibis": [
+        {
+            "id": "iss1",
+            "orig": "Symptoms",
+            "text": "What are the symptoms of long covid?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos1",
+            "orig": "People with longer-term effects after a Covid-19 infection can experience a wide range of symptoms that can affect different parts of the body.",
+            "text": "People with longer-term effects after a Covid-19 infection can experience a wide range of symptoms affecting different parts of the body.",
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg1",
+            "orig": "Respiratory symptoms, such as breathlessness or a cough\n- Cardiovascular symptoms, such as chest tightness or pain, or palpitations\n- Generalised symptoms, including fatigue, fever (a temperature over 38\u00b0C) or pain\n- Neurological symptoms, including cognitive impairment (sometimes termed \u2018brain fog\u2019), headaches, disrupted sleep, peripheral neuropathy (pins and needles or numbness in the hands or feet), dizziness, delirium, mobility impairment or visual disturbances\n- Gastrointestinal symptoms, including pain, nausea, vomiting, diarrhoea, weight loss and reduced appetite\n- Musculoskeletal symptoms, such as joint or muscle pain\n- Ear, nose and throat symptoms, such as tinnitus (hearing sounds that do not come from an outside source), earache, sore throat, the loss of taste and/or smell, nasal congestion (blocked nose)\n- Dermatological symptoms, such as skin rashes or hair loss\n- Psychological or psychiatric symptoms, such as depression, anxiety or symptoms of post-traumatic stress disorder (PTSD).",
+            "text": "Symptoms include respiratory, cardiovascular, generalised, neurological, gastrointestinal, musculoskeletal, ear, nose and throat, dermatological, and psychological or psychiatric symptoms.",
+            "type": "argument",
+            "pro": [
+                "pos1"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos2",
+            "orig": "some symptoms are less common in children and young people",
+            "text": "Some symptoms of long covid are less common in children and young people.",
+            "type": "position",
+            "parent": [
+                "iss1"
+            ]
+        },
+        {
+            "id": "arg2",
+            "orig": "children may be less affected by respiratory symptoms (including shortness of breath and cough) and cardiovascular symptoms (including palpitations or pain).",
+            "text": "Children may be less affected by respiratory symptoms, such as shortness of breath and cough, and cardiovascular symptoms, such as palpitations or pain.",
+            "type": "argument",
+            "pro": [
+                "pos2"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss2",
+            "orig": "Assessment and investigations",
+            "text": "How should long covid be assessed and investigated?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos3",
+            "orig": "NICE recommends that patients are assessed using a \u201cholistic, person-centred approach\u201d.",
+            "text": "NICE recommends that patients are assessed using a holistic, person-centred approach.",
+            "type": "position",
+            "parent": [
+                "iss2"
+            ]
+        },
+        {
+            "id": "arg3",
+            "orig": "This assessment should include taking a comprehensive clinical history (including the history of known or suspected Covid-19 infections and other health conditions) and examining the patient to assess their physical, cognitive, psychological and psychiatric symptoms, as well as their ability to carry out day-to-day tasks.",
+            "text": "Assessment should include a comprehensive clinical history and an examination of physical, cognitive, psychological, and psychiatric symptoms, as well as the ability to perform daily tasks.",
+            "type": "argument",
+            "pro": [
+                "pos3"
+            ],
+            "con": []
+        },
+        {
+            "id": "pos4",
+            "orig": "tests and investigations should be offered to patients based on their symptoms, with the aim of ruling out serious complications of Covid-19 infection and alternative diagnoses.",
+            "text": "Tests and investigations should be offered based on symptoms to rule out serious complications of Covid-19 and alternative diagnoses.",
+            "type": "position",
+            "parent": [
+                "iss2"
+            ]
+        },
+        {
+            "id": "arg4",
+            "orig": "These might include blood tests, exercise tolerance tests or chest x-rays (for continuing respiratory symptoms), or patients\u2019 self-monitoring of heart rate, blood pressure, pulse oximetry, or ongoing symptoms.",
+            "text": "Investigations may include blood tests, exercise tolerance tests, chest x-rays, or patient self-monitoring of heart rate, blood pressure, and pulse oximetry.",
+            "type": "argument",
+            "pro": [
+                "pos4"
+            ],
+            "con": []
+        },
+        {
+            "id": "iss3",
+            "orig": "Referral to other services",
+            "text": "When should patients be referred to other services?",
+            "type": "issue",
+            "parent": []
+        },
+        {
+            "id": "pos5",
+            "orig": "clinicians should consider referring people to \u201can appropriate service, such as an integrated multidisciplinary assessment service\u201d.",
+            "text": "Clinicians should consider referring patients to an appropriate service, such as an integrated multidisciplinary assessment service.",
+            "type": "position",
+            "parent": [
+                "iss3"
+            ]
+        },
+        {
+            "id": "arg5",
+            "orig": "When serious complications of Covid-19 and alternative diagnoses have been ruled out",
+            "text": "Referral should be considered when serious complications of Covid-19 and alternative diagnoses have been ruled out.",
+            "type": "argument",
+            "pro": [
+                "pos5"
+            ],
+            "con": []
+        },
+        {
+            "id": "arg6",
+            "orig": "A clinician could refer a patient to an assessment service at any time after four weeks have passed since the start of an acute Covid-19 infection.",
+            "text": "A clinician could refer a patient to an assessment service any time after four weeks have passed since the start of an acute Covid-19 infection.",
+            "type": "argument",
+            "pro": [
+                "pos5"
+            ],
+            "con": []
+        }
+    ]
+}

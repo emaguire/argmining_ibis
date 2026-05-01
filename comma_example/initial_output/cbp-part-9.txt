@@ -1,0 +1,119 @@
+```json
+[
+  {
+    "id": "iss1",
+    "orig": "some groups are more likely to experience long covid than others",
+    "text": "Are some groups more likely to experience long covid than others?",
+    "type": "issue",
+    "parent": []
+  },
+  {
+    "id": "pos1",
+    "orig": "the prevalence of self-reported long covid was greater among female respondents (3.3%) than male respondents (2.5%)",
+    "text": "The prevalence of self-reported long covid was greater among female respondents than male respondents.",
+    "type": "position",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "pos2",
+    "orig": "Prevalence rates were higher among people aged 35 to 49 (4.2%) and 50 to 69 (4.5%) than the general population (2.9%)",
+    "text": "Prevalence rates of long covid were higher among people aged 35 to 69 than the general population.",
+    "type": "position",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "pos3",
+    "orig": "Children and young people were least at risk, with rates in those under the age of 25 lower than in all other age groups",
+    "text": "Children and young people under the age of 25 were at the lowest risk of long covid.",
+    "type": "position",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "pos4",
+    "orig": "people who had a self-reported, preexisting health condition that affects their ability to carry out day-to-day activities, who were considerably more likely to experience long covid than those with a non-limiting health condition or no pre-existing conditions",
+    "text": "People with pre-existing health conditions that limit day-to-day activities were considerably more likely to experience long covid.",
+    "type": "position",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "pos5",
+    "orig": "Prevalence of self-reported long covid was higher among those living in the most deprived areas (3.9%)",
+    "text": "The prevalence of self-reported long covid was higher among those living in the most deprived areas.",
+    "type": "position",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "pos6",
+    "orig": "A higher proportion of people in the White ethnic group reported experiencing long covid (3.0%) than people in the Black (1.7%) or Asian (2.4%) ethnic groups",
+    "text": "A higher proportion of people in the White ethnic group reported experiencing long covid than those in Black or Asian ethnic groups.",
+    "type": "position",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "pos7",
+    "orig": "Prevalence rates were also higher among people working in social care (5.3%) and health care (4.4%) than in other employment sectors",
+    "text": "Prevalence rates of long covid were higher among people working in social and health care than in other employment sectors.",
+    "type": "position",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "pos8",
+    "orig": "prevalence was highest among those living in the North East of England (3.7%) and in Scotland (3.3%)",
+    "text": "The prevalence of long covid was highest among people living in the North East of England and Scotland.",
+    "type": "position",
+    "parent": [
+      "iss1"
+    ]
+  },
+  {
+    "id": "iss2",
+    "orig": "How has long covid affected healthcare services?",
+    "text": "How has long covid affected healthcare services?",
+    "type": "issue",
+    "parent": []
+  },
+  {
+    "id": "pos9",
+    "orig": "Concerns about the impact of long covid on healthcare services centre on the cost of providing services for long covid patients and the impact of long covid on the NHS workforce",
+    "text": "The impact of long covid on healthcare services centres on the cost of providing services and the effect on the NHS workforce.",
+    "type": "position",
+    "parent": [
+      "iss2"
+    ]
+  },
+  {
+    "id": "arg1",
+    "orig": "between 5,000 and 10,000 NHS staff could be off sick with long covid",
+    "text": "Between 5,000 and 10,000 NHS staff could be off sick with long covid.",
+    "type": "argument",
+    "pro": [
+      "pos9"
+    ],
+    "con": []
+  },
+  {
+    "id": "arg2",
+    "orig": "primary care consultations in relation to long covid could cost over £23 million each year",
+    "text": "Primary care consultations related to long covid could cost over £23 million per year.",
+    "type": "argument",
+    "pro": [
+      "pos9"
+    ],
+    "con": []
+  }
+]
+```

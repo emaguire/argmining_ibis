@@ -1,0 +1,662 @@
+{
+    "AIF": {
+        "nodes": [
+            {
+                "nodeID": "iss1",
+                "type": "I",
+                "text": "Does a patient need to have had a positive Covid-19 test to be referred to another service or to receive specialist input or investigations?"
+            },
+            {
+                "nodeID": "l_0_iss1",
+                "type": "L",
+                "text": "a patient does not have to have had a positive Covid-19 test to be referred to another service or to receive specialist input or investigations"
+            },
+            {
+                "nodeID": "ya_0_iss1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos1",
+                "type": "I",
+                "text": "A patient does not have to have had a positive Covid-19 test to be referred to another service or to receive specialist input or investigations."
+            },
+            {
+                "nodeID": "l_0_pos1",
+                "type": "L",
+                "text": "a patient does not have to have had a positive Covid-19 test to be referred to another service or to receive specialist input or investigations"
+            },
+            {
+                "nodeID": "ya_0_pos1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss2",
+                "type": "I",
+                "text": "How should long covid be managed and rehabilitated?"
+            },
+            {
+                "nodeID": "l_0_iss2",
+                "type": "L",
+                "text": "Management and rehabilitation"
+            },
+            {
+                "nodeID": "ya_0_iss2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos2",
+                "type": "I",
+                "text": "NICE guidance focuses on self-management and rehabilitation for people who are affected by long covid."
+            },
+            {
+                "nodeID": "l_0_pos2",
+                "type": "L",
+                "text": "NICE guidance focuses on self-management and rehabilitation for people who are affected by the condition"
+            },
+            {
+                "nodeID": "ya_0_pos2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg1",
+                "type": "I",
+                "text": "There are currently no known effective treatments that can cure long covid."
+            },
+            {
+                "nodeID": "l_0_arg1",
+                "type": "L",
+                "text": "There are currently no known effective treatments that can cure long covid"
+            },
+            {
+                "nodeID": "ya_0_arg1",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss3",
+                "type": "I",
+                "text": "Are there adequate healthcare services available for people with long covid?"
+            },
+            {
+                "nodeID": "l_0_iss3",
+                "type": "L",
+                "text": "availability of healthcare services"
+            },
+            {
+                "nodeID": "ya_0_iss3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos3",
+                "type": "I",
+                "text": "Some patients have been unable to access appropriate help for long covid."
+            },
+            {
+                "nodeID": "l_0_pos3",
+                "type": "L",
+                "text": "some patients had been unable to access appropriate help"
+            },
+            {
+                "nodeID": "ya_0_pos3",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos4",
+                "type": "I",
+                "text": "The UK Government has invested \u00a3314 million and established over 100 specialised services to provide care for people with long covid."
+            },
+            {
+                "nodeID": "l_0_pos4",
+                "type": "L",
+                "text": "the UK Government states it has invested \u00a3314 million to provide care for people with long covid, and has established over 100 specialised services"
+            },
+            {
+                "nodeID": "ya_0_pos4",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "iss4",
+                "type": "I",
+                "text": "Should NHS England publish a plan to deal with long covid?"
+            },
+            {
+                "nodeID": "l_0_iss4",
+                "type": "L",
+                "text": "NHS England should publish a plan to deal with long covid"
+            },
+            {
+                "nodeID": "ya_0_iss4",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "pos5",
+                "type": "I",
+                "text": "NHS England will work with stakeholders to develop and publish a new Long COVID Plan for 2022 to 2023."
+            },
+            {
+                "nodeID": "l_0_pos5",
+                "type": "L",
+                "text": "NHS England will work with stakeholders, including patient groups, to develop and publish a new Long COVID Plan for 2022 to 2023"
+            },
+            {
+                "nodeID": "ya_0_pos5",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "arg2",
+                "type": "I",
+                "text": "Long covid is likely to have implications for demand and workforce across a range of services."
+            },
+            {
+                "nodeID": "l_0_arg2",
+                "type": "L",
+                "text": "long covid is likely to have implications for demand and workforce across a range of services"
+            },
+            {
+                "nodeID": "ya_0_arg2",
+                "type": "YA",
+                "text": "Default Illocuting"
+            },
+            {
+                "nodeID": "rel0",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta0",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta0",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel1",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta1",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta1",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel2",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta2",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta2",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel3",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta3",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta3",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel4",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta4",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta4",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel5",
+                "type": "MA",
+                "text": "Related Issue"
+            },
+            {
+                "nodeID": "ta5",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta5",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel6",
+                "type": "MA",
+                "text": "Position On"
+            },
+            {
+                "nodeID": "ta6",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta6",
+                "type": "YA",
+                "text": "Default Illocution"
+            },
+            {
+                "nodeID": "rel7",
+                "type": "RA",
+                "text": "Pro"
+            },
+            {
+                "nodeID": "ta7",
+                "type": "TA",
+                "text": "Default Transition"
+            },
+            {
+                "nodeID": "ya_ta7",
+                "type": "YA",
+                "text": "Default Illocution"
+            }
+        ],
+        "edges": [
+            {
+                "edgeID": 0,
+                "fromID": "l_0_iss1",
+                "toID": "ya_0_iss1"
+            },
+            {
+                "edgeID": 1,
+                "fromID": "ya_0_iss1",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 2,
+                "fromID": "l_0_pos1",
+                "toID": "ya_0_pos1"
+            },
+            {
+                "edgeID": 3,
+                "fromID": "ya_0_pos1",
+                "toID": "pos1"
+            },
+            {
+                "edgeID": 4,
+                "fromID": "l_0_iss2",
+                "toID": "ya_0_iss2"
+            },
+            {
+                "edgeID": 5,
+                "fromID": "ya_0_iss2",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 6,
+                "fromID": "l_0_pos2",
+                "toID": "ya_0_pos2"
+            },
+            {
+                "edgeID": 7,
+                "fromID": "ya_0_pos2",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 8,
+                "fromID": "l_0_arg1",
+                "toID": "ya_0_arg1"
+            },
+            {
+                "edgeID": 9,
+                "fromID": "ya_0_arg1",
+                "toID": "arg1"
+            },
+            {
+                "edgeID": 10,
+                "fromID": "l_0_iss3",
+                "toID": "ya_0_iss3"
+            },
+            {
+                "edgeID": 11,
+                "fromID": "ya_0_iss3",
+                "toID": "iss3"
+            },
+            {
+                "edgeID": 12,
+                "fromID": "l_0_pos3",
+                "toID": "ya_0_pos3"
+            },
+            {
+                "edgeID": 13,
+                "fromID": "ya_0_pos3",
+                "toID": "pos3"
+            },
+            {
+                "edgeID": 14,
+                "fromID": "l_0_pos4",
+                "toID": "ya_0_pos4"
+            },
+            {
+                "edgeID": 15,
+                "fromID": "ya_0_pos4",
+                "toID": "pos4"
+            },
+            {
+                "edgeID": 16,
+                "fromID": "l_0_iss4",
+                "toID": "ya_0_iss4"
+            },
+            {
+                "edgeID": 17,
+                "fromID": "ya_0_iss4",
+                "toID": "iss4"
+            },
+            {
+                "edgeID": 18,
+                "fromID": "l_0_pos5",
+                "toID": "ya_0_pos5"
+            },
+            {
+                "edgeID": 19,
+                "fromID": "ya_0_pos5",
+                "toID": "pos5"
+            },
+            {
+                "edgeID": 20,
+                "fromID": "l_0_arg2",
+                "toID": "ya_0_arg2"
+            },
+            {
+                "edgeID": 21,
+                "fromID": "ya_0_arg2",
+                "toID": "arg2"
+            },
+            {
+                "edgeID": 22,
+                "fromID": "pos1",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 23,
+                "fromID": "rel0",
+                "toID": "iss1"
+            },
+            {
+                "edgeID": 24,
+                "fromID": "ta0",
+                "toID": "ya_ta0"
+            },
+            {
+                "edgeID": 25,
+                "fromID": "ya_ta0",
+                "toID": "rel0"
+            },
+            {
+                "edgeID": 26,
+                "fromID": "ta0",
+                "toID": "l_0_pos1"
+            },
+            {
+                "edgeID": 27,
+                "fromID": "l_0_iss1",
+                "toID": "ta0"
+            },
+            {
+                "edgeID": 28,
+                "fromID": "pos2",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 29,
+                "fromID": "rel1",
+                "toID": "iss2"
+            },
+            {
+                "edgeID": 30,
+                "fromID": "ta1",
+                "toID": "ya_ta1"
+            },
+            {
+                "edgeID": 31,
+                "fromID": "ya_ta1",
+                "toID": "rel1"
+            },
+            {
+                "edgeID": 32,
+                "fromID": "ta1",
+                "toID": "l_0_pos2"
+            },
+            {
+                "edgeID": 33,
+                "fromID": "l_0_iss2",
+                "toID": "ta1"
+            },
+            {
+                "edgeID": 34,
+                "fromID": "arg1",
+                "toID": "rel2"
+            },
+            {
+                "edgeID": 35,
+                "fromID": "rel2",
+                "toID": "pos2"
+            },
+            {
+                "edgeID": 36,
+                "fromID": "ta2",
+                "toID": "ya_ta2"
+            },
+            {
+                "edgeID": 37,
+                "fromID": "ya_ta2",
+                "toID": "rel2"
+            },
+            {
+                "edgeID": 38,
+                "fromID": "ta2",
+                "toID": "l_0_arg1"
+            },
+            {
+                "edgeID": 39,
+                "fromID": "l_0_pos2",
+                "toID": "ta2"
+            },
+            {
+                "edgeID": 40,
+                "fromID": "pos3",
+                "toID": "rel3"
+            },
+            {
+                "edgeID": 41,
+                "fromID": "rel3",
+                "toID": "iss3"
+            },
+            {
+                "edgeID": 42,
+                "fromID": "ta3",
+                "toID": "ya_ta3"
+            },
+            {
+                "edgeID": 43,
+                "fromID": "ya_ta3",
+                "toID": "rel3"
+            },
+            {
+                "edgeID": 44,
+                "fromID": "ta3",
+                "toID": "l_0_pos3"
+            },
+            {
+                "edgeID": 45,
+                "fromID": "l_0_iss3",
+                "toID": "ta3"
+            },
+            {
+                "edgeID": 46,
+                "fromID": "pos4",
+                "toID": "rel4"
+            },
+            {
+                "edgeID": 47,
+                "fromID": "rel4",
+                "toID": "iss3"
+            },
+            {
+                "edgeID": 48,
+                "fromID": "ta4",
+                "toID": "ya_ta4"
+            },
+            {
+                "edgeID": 49,
+                "fromID": "ya_ta4",
+                "toID": "rel4"
+            },
+            {
+                "edgeID": 50,
+                "fromID": "ta4",
+                "toID": "l_0_pos4"
+            },
+            {
+                "edgeID": 51,
+                "fromID": "l_0_iss3",
+                "toID": "ta4"
+            },
+            {
+                "edgeID": 52,
+                "fromID": "iss4",
+                "toID": "rel5"
+            },
+            {
+                "edgeID": 53,
+                "fromID": "rel5",
+                "toID": "pos3"
+            },
+            {
+                "edgeID": 54,
+                "fromID": "ta5",
+                "toID": "ya_ta5"
+            },
+            {
+                "edgeID": 55,
+                "fromID": "ya_ta5",
+                "toID": "rel5"
+            },
+            {
+                "edgeID": 56,
+                "fromID": "ta5",
+                "toID": "l_0_iss4"
+            },
+            {
+                "edgeID": 57,
+                "fromID": "l_0_pos3",
+                "toID": "ta5"
+            },
+            {
+                "edgeID": 58,
+                "fromID": "pos5",
+                "toID": "rel6"
+            },
+            {
+                "edgeID": 59,
+                "fromID": "rel6",
+                "toID": "iss4"
+            },
+            {
+                "edgeID": 60,
+                "fromID": "ta6",
+                "toID": "ya_ta6"
+            },
+            {
+                "edgeID": 61,
+                "fromID": "ya_ta6",
+                "toID": "rel6"
+            },
+            {
+                "edgeID": 62,
+                "fromID": "ta6",
+                "toID": "l_0_pos5"
+            },
+            {
+                "edgeID": 63,
+                "fromID": "l_0_iss4",
+                "toID": "ta6"
+            },
+            {
+                "edgeID": 64,
+                "fromID": "arg2",
+                "toID": "rel7"
+            },
+            {
+                "edgeID": 65,
+                "fromID": "rel7",
+                "toID": "pos5"
+            },
+            {
+                "edgeID": 66,
+                "fromID": "ta7",
+                "toID": "ya_ta7"
+            },
+            {
+                "edgeID": 67,
+                "fromID": "ya_ta7",
+                "toID": "rel7"
+            },
+            {
+                "edgeID": 68,
+                "fromID": "ta7",
+                "toID": "l_0_arg2"
+            },
+            {
+                "edgeID": 69,
+                "fromID": "l_0_pos5",
+                "toID": "ta7"
+            }
+        ]
+    },
+    "IBIS": {
+        "issues": [
+            "iss1",
+            "iss2",
+            "iss3",
+            "iss4"
+        ],
+        "positions": [
+            "pos1",
+            "pos2",
+            "pos3",
+            "pos4",
+            "pos5"
+        ],
+        "arguments": [
+            "arg1",
+            "arg2"
+        ]
+    }
+}
