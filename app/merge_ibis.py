@@ -205,8 +205,27 @@ def graft_issues(ibis_xaif, verbose=False):
     list_orphans = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in orphan_issues]
     list_other = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in other_issues]
 
-    node_merge_results = llm_caller.issues_to_merge_across_lists(list_orphans, list_other)
+    # Original batchless
+    # node_merge_results = llm_caller.issues_to_merge_across_lists(list_orphans, list_other)
 
+    merger_lists = []
+    orphan_batches = batch_list(list_orphans)
+    other_batches = batch_list(list_other)
+    for orphans in orphan_batches:
+        for others in other_batches:
+            merger_lists.append(llm_caller.issues_to_merge_across_lists(orphans, others))
+    
+    # Orphans or other were empty: just return as is
+    if len(merger_lists) == 0:
+        return ibis_xaif
+    # Only one set of identified merges
+    elif len(merger_lists) == 1:
+        node_merge_results = merger_lists[0]
+    # Multiple sets of identified merges: combine before merging
+    else:
+        pass
+
+    
     # Can be handled the same way as other merging: merging replaces edge mentions, 
     # which will create parent relations for the orphan being merged in.
     new_merger_ids = merge_nodesets(node_merge_results, ibis_xaif, verbose=verbose)
