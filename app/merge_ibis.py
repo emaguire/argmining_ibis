@@ -4,7 +4,7 @@ import os
 from copy import deepcopy
 
 from app import llm_caller
-from app.utils import new_ibis_aif, get_ibis_type, node_merge_output, get_orphans, get_children
+from app.utils import new_ibis_aif, get_ibis_type, node_merge_output, get_orphans, get_children, batch_list
 
 
 ################
@@ -114,23 +114,33 @@ def merge_nodesets(node_merge_results, ibis_xaif, verbose=False):
 
 # Type-specific prompts: return IDs of nodes to merge, and the text to use in the merge
 def get_issues_to_merge(issue_ids, ibis_xaif):
-
     input_list = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in issue_ids]
-    
+    base_merger = {'merges':[]}
+
     if len(input_list) < 2:
-        return {'merges':[]}
+        return base_merger
     
-    return llm_caller.issues_to_merge(input_list)
+    batches = batch_list(input_list)
+    for b in batches:
+        next_merge = llm_caller.issues_to_merge(b)
+        base_merger['merges'] += next_merge['merges']
+    
+    return base_merger
 
 
 def get_propositions_to_merge(proposition_ids, ibis_xaif):
-
     input_list = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in proposition_ids]
+    base_merger = {'merges':[]}    
     
     if len(input_list) < 2:
-        return {'merges':[]}
+        return base_merger
+    
+    batches = batch_list(input_list)
+    for b in batches:
+        next_merge = llm_caller.propositions_to_merge(b)
+        base_merger['merges'] += next_merge['merges']
 
-    return llm_caller.propositions_to_merge(input_list)
+    return base_merger
 
 
 

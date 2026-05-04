@@ -3,35 +3,48 @@ import datetime
 import json
 
 from app import llm_caller
-from app.utils import node_merge_output, siblings, line_of_ancestry, add_crosslink
+from app.utils import node_merge_output, siblings, line_of_ancestry, add_crosslink, batch_list
 
 
 
 def get_issues_to_link(issue_ids, ibis_xaif, verbose=False):
     input_list = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in issue_ids]
+    base_merger = {'merges':[]}
+
 
     if verbose:
         print(f"Issue IDs provided: ", issue_ids)
         print(f"Issue-linking input list: ", input_list)
 
     if len(input_list) < 2:
-        return {'merges':[]}
+        return base_merger
+    
+    batches = batch_list(input_list)
+    for b in batches:
+        next_merge = llm_caller.issues_to_link(b)
+        base_merger['merges'] += next_merge['merges']
 
-    return llm_caller.issues_to_link(input_list)
+    return base_merger
 
 
 
 def get_propositions_to_link(prop_ids, ibis_xaif, verbose=False):
     input_list = [(n['nodeID'], n['text']) for n in ibis_xaif['AIF']['nodes'] if n['nodeID'] in prop_ids]
+    base_merger = {'merges':[]}
 
     if verbose:
         print("Proposition IDs provided: ", prop_ids)
         print(f"Proposition-linking input list: ", input_list)
 
     if len(input_list) < 2:
-        return {'merges':[]}
+        return base_merger
+
+    batches = batch_list(input_list)
+    for b in batches:
+        next_merge = llm_caller.propositions_to_link(b)
+        base_merger['merges'] += next_merge['merges']
     
-    return llm_caller.propositions_to_link(input_list)
+    return base_merger
 
 
 

@@ -1,6 +1,53 @@
 from pydantic import BaseModel
 from typing import List
 
+import itertools
+import tiktoken
+
+
+#############
+# Wrangling #
+#############
+
+# Given a list of tuples of form [('id1', 'text1'), ('id2', 'text2'), ...]
+# Return a list of lists, where the text length of each sublist respects a max length
+def batch_list(input_list, max_size=1500):
+    encoding = tiktoken.get_encoding("cl100k_base")
+    n = len(input_list)
+    size_ok = False
+
+    if n == 0:
+        return []
+
+    while not size_ok and n > 0:
+        shrinkme = False
+        list_of_lists = [list(tup) for tup in list(itertools.batched(input_list, n=n))]
+        
+        for sublist in list_of_lists:
+            concat_text = ' '.join([t[1] for t in sublist])
+            len_in_toks = len(encoding.encode(concat_text))
+            
+            # Found a sublist with texts that are too long
+            # Stop checking at this sublist size and reduce number of items per list
+            if len_in_toks >= max_size:
+                shrinkme = True
+            if shrinkme:
+                n -= 1
+                break
+        
+        # Got to the end of the list without needing to shrink!
+        if not shrinkme:
+            size_ok = True
+
+        # An individual text is too large, but can't make lists any smaller
+        # Send back like this for some output for now
+        if shrinkme and n < 1:
+            print("An individual text is too large")
+            break
+    
+    return list_of_lists
+
+
 ################
 # Node merging #
 ################
