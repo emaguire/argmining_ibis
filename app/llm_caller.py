@@ -21,9 +21,9 @@ import logging
 logging.getLogger("openai").setLevel(logging.INFO)
 
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
+handler.setLevel(logging.INFO)
 formatter = logging.Formatter('[%(asctime)s][%(levelname)s]: %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
@@ -35,58 +35,47 @@ logger.addHandler(handler)
 # LLM_URL = os.getenv('LLM_URL', 'http://localhost:8000') # internal port is 8000, only use this if you've linked the containers
 LLM_URL = os.getenv('LLM_URL', 'http://localhost:7060')
 LLM_API_KEY = Path('/run/secrets/LLM_API_KEY.txt').read_text().strip() if Path('/run/secrets/LLM_API_KEY.txt').exists() else None
-MODEL_NAME = 'google/gemma-4-E4B-it' #'nvidia/Gemma-4-31B-IT-NVFP4'
+MODEL_NAME = 'nvidia/Gemma-4-31B-IT-NVFP4'
+# 'google/gemma-4-E4B-it'
 
-# should have asyncio if you're going to do async
-unstructured_client = None
+
 structured_client = None
 if LLM_API_KEY:
-    client = OpenAI(
+    client = AsyncOpenAI(
         base_url=f"{LLM_URL}/v1",
         api_key=LLM_API_KEY,
-        max_retries=5,
-        timeout=180.0
+        max_retries=3,
+        timeout=60.0
     )
 
-    structured_client = instructor.from_openai(OpenAI(
-        base_url=f"{LLM_URL}/v1",
-        api_key=LLM_API_KEY),
-        mode=instructor.Mode.JSON)
 else:
-    print("NO API KEY FOUND!!")
+    logger.info("NO API KEY FOUND!!")
 
 
-def get_final(response):
-    # if 'Gemma' or 'gemma' in MODEL_NAME:
-    #     json_match = re.search(r'```json\s*(.*?)\s*```', response.choices[0].message.content, re.DOTALL)
-    #     if json_match:
-    #         json_str = json_match.group(1)
-    #         to_return = json.loads(json_str)
-    #         logger.info("Result loaded as JSON")
-    #         logger.info("Starts with: %s", response.choices[0].message.content[:50])
-    #         # print(response.choices[0].message.content)
-    #         logger.info("")
-            
-    #     else:
-    #         to_return = response.choices[0].message.content
-    #         logger.info("Failed to load as JSON!!")
-    #         logger.info("TOTAL RESULT: ")
-    #         logger.info(str(response.choices[0].message.content))
-    #         logger.info("Starts with: %s", response.choices[0].message.content[:25])
-    # else:
-    to_return = json.loads(response.choices[0].message.content)
+def get_final(response, structured=True):
+    if not structured:
+        to_return = response.choices[0].message.content
     
+    else:
+        try: 
+            to_return = json.loads(response.choices[0].message.content)
+            logger.info("Result loaded as JSON")
+            logger.info("Starts with: %s", response.choices[0].message.content[:50])
+
+        except:
+            to_return = response.choices[0].message.content
+            logger.info("Failed to load as JSON!!")
+            logger.info("TOTAL RESULT: ")
+            logger.info(str(response.choices[0].message.content))
+            logger.info("Starts with: %s", response.choices[0].message.content[:25])
+
     print("Returning a result of type ", type(to_return))
     print(to_return)
     
-    if type(to_return) is list:
-        to_return = {'ibis': to_return}
-        print(f"loljk, going to return a {type(to_return)}")
 
     return to_return
 
 # A silly test that requires no input to check the call is working
-# def test_llm(model_name="Qwen/Qwen3-4B"):
 def test_llm(model_name=MODEL_NAME):
     print("Container-internal tester.")
     print(model_name)
@@ -119,14 +108,131 @@ OUTPUT:
         }
     ]
 
-    response = test_client.chat.completions.create(
+    response = test_client.chat.completions.parse(
                 model=model_name,
                 messages=[{"role": msg['role'], "content": msg['content']} for msg in messages],
-                extra_body={"guided_json": DogpriceList.model_json_schema()}
+                response_format=DogpriceList
             )
     
     to_return = get_final(response)
     return to_return
+
+# A set of functions based on the above to test that async is working
+
+async def doggies(model_name=MODEL_NAME, dog_select=0):
+    class Dogprice(BaseModel):
+            name: str
+            price: float
+    class DogpriceList(BaseModel):
+        dogs: List[Dogprice]
+    
+    test_client = AsyncOpenAI(
+        base_url=f"{LLM_URL}/v1",
+        api_key=LLM_API_KEY
+    )
+
+    doggies = ["One dog is a pomeranian called Kiwi and it costs €1200.",
+               "Another dog is a mix called Spigot worth €20.",
+               "There is also a dog named Supremo who is €10000.",
+               "Bella the Chow Chow is a liberated canine that somehow costs nothing at all.",
+               "Fido is going for €50.",
+               "Lucky is a black labrador for €150"
+               ]
+    
+    prompt = f'''
+Output how much dogs cost using JSON. 
+
+INPUT: {doggies[dog_select]}
+
+OUTPUT:
+'''
+
+    messages = [
+        {
+            'role': 'user',
+            'content': prompt
+        }
+    ]
+
+    response = await test_client.chat.completions.parse(
+                model=model_name,
+                messages=[{"role": msg['role'], "content": msg['content']} for msg in messages],
+                # extra_body={"guided_json": DogpriceList.model_json_schema()}
+                response_format=DogpriceList
+            )
+    
+    print("RESPONSE: ", response.choices[0].message.content)
+
+    to_return = get_final(response)
+    
+    return to_return
+
+# Use the above the test async across multible calls
+async def test_llm_split(model_name=MODEL_NAME, dog_select=0):
+    print("Container-internal tester.")
+    print(model_name)
+    print("LLM_URL: ", LLM_URL)
+    print(f"!! Selecting dog numero {dog_select}")
+        
+    to_return = await doggies(MODEL_NAME,dog_select)
+    print("Here's the result inside the llm-caller function after awaiting the function that actually contains the call: ", to_return)
+    
+    return to_return
+
+# Self-contained async test
+async def test_llm_async(model_name=MODEL_NAME):
+    print("Container-internal tester.")
+    print(model_name)
+    print("LLM_URL: ", LLM_URL)
+
+    class Dogprice(BaseModel):
+            name: str
+            price: float
+    class DogpriceList(BaseModel):
+        dogs: List[Dogprice]
+        
+    
+    test_client = AsyncOpenAI(
+        base_url=f"{LLM_URL}/v1",
+        api_key=LLM_API_KEY
+    )
+
+    prompts = []
+    prompts.append('''
+Output how much dogs cost using JSON. 
+INPUT: One dog is a pomeranian called Kiwi and it costs €1200. 
+OUTPUT:''')
+    prompts.append('''
+Output how much dogs cost using JSON. 
+INPUT: Another dog is a mix called Spigot worth €20.
+OUTPUT:''')
+#     prompts.append('''
+# Output how much dogs cost using JSON. 
+# INPUT: There is also a dog named Supremo who is €10000.
+# OUTPUT:''')
+
+    messages = [
+        {
+            'role': 'user',
+            'content': prompt
+        } for prompt in prompts
+    ]
+
+    responses = await test_client.chat.completions.create(
+                model=model_name,
+                messages=[{"role": msg['role'], "content": msg['content']} for msg in messages],
+                # extra_body={"guided_json": DogpriceList.model_json_schema()}
+                response_format=DogpriceList
+            )
+    
+    to_return = []
+    for response in responses:
+        logger.info("A response item in the list: ")
+        logger.info(str(response))
+        to_return.append(get_final(response))
+    return to_return
+
+
 
 # A similar silly test, but checking the instructor client is working
 def test_instructor(model_name=MODEL_NAME):
@@ -255,20 +361,21 @@ def instruct_call_llm(messages, output_format=None, model_name="swiss-ai/Apertus
 
 # Performs the call with retries
 @retry(stop_max_attempt_number=5, wait_fixed=2000)
-def make_call_with_retry(messages, output_format=None, model_name=MODEL_NAME):
+async def make_call_with_retry(messages, output_format=None, model_name=MODEL_NAME):
     if output_format:
         logger.info("Making call...")
         logger.debug("Structured output requested for model output: %s", output_format)
-        # response = client.chat.completions.create(
-        response = client.chat.completions.parse(
+
+        response = await client.chat.completions.parse(
                     model=model_name,
                     messages=[{"role": msg['role'], "content": msg['content']} for msg in messages],
                     response_format=output_format,
-                    timeout=180
+                    timeout=120
                 )
     else:
         # logger.debug("No structured output format requested for model output")
-        response = unstructured_client.chat.completions.create(
+        logger.info("Making call with no structure required for output...")
+        response = await client.chat.completions.create(
                     model=model_name,
                     messages=[{"role": msg['role'], "content": msg['content']} for msg in messages],
                     timeout=120
@@ -295,11 +402,12 @@ def make_call_with_retry(messages, output_format=None, model_name=MODEL_NAME):
     
     return response_content
 
+
 # Returns a JSON dict as output if an output_format is specified, and a string otherwise
 # It fails even after internal retries, return an empty instance of the format requested
-def call_llm(messages, output_format=None, model_name=MODEL_NAME):
+async def call_llm(messages, output_format=None, model_name=MODEL_NAME):
     try:
-        response_content = make_call_with_retry(messages, output_format, model_name)
+        response_content = await make_call_with_retry(messages, output_format, model_name)
     except Exception as e:
         logger.error("Retries failed")
         if output_format is not None:
@@ -312,24 +420,13 @@ def call_llm(messages, output_format=None, model_name=MODEL_NAME):
 
 
 
-############
-# BATCHING #
-############
-
-# Return a list of lists: each list can be used as the input for a request.
-def split_list(input_list):
-    pass
-    
-
-
 #########
 # CALLS #
 #########
 
 
 # Find in text
-
-def text_to_informal_ibis(input_text):
+async def text_to_informal_ibis(input_text):
     prompt = f'''
     For the given input text, return a list of JSON objects of three types (issue, position, argument) based on original text spans from the text.
     Valid fields for all three types are: id, orig, text, type. The orig field contains the original text span. The text field contains the original text span rephrased as a single grammatically correct question if it was a question, or rephrased as a complete sentence otherwise.
@@ -359,14 +456,14 @@ def text_to_informal_ibis(input_text):
     logger.info("Running on text beginning with: %s", input_text[:100])
 
     messages = [{'role': 'user', 'content': prompt}]
-    result = call_llm(messages, ibis)
+    result = await call_llm(messages, ibis)
 
     return result
 
 
 # Linking
 
-def propositions_to_link(input_list):
+async def propositions_to_link(input_list):
 
     prompt = f'''
 For the given input list of statements with ID codes, identify which pairs of statements, if any, can be closely linked.
@@ -401,12 +498,12 @@ Input list:
 Output list:
 '''
     messages = [{'role': 'user', 'content': prompt}]
-    result = call_llm(messages, node_merge_output)
+    result = await call_llm(messages, node_merge_output)
     
     return result
 
 
-def issues_to_link(input_list):
+async def issues_to_link(input_list):
 
     prompt = f'''
 For the given input list of questions with ID codes, identify which pairs of questions, if any, can be closely linked.
@@ -434,7 +531,7 @@ Output list:
 '''
 
     messages = [{'role': 'user', 'content': prompt}]
-    result = call_llm(messages, node_merge_output)
+    result = await call_llm(messages, node_merge_output)
     
     return result 
 
@@ -442,7 +539,7 @@ Output list:
 
 # Merging
 
-def propositions_to_merge(input_list):
+async def propositions_to_merge(input_list):
     prompt = f'''
 For the given input list of statements with ID codes, identify which subsets of statements, if any, can be merged.
 Statements can be merged if they have the same or almost identical meaning.
@@ -472,12 +569,12 @@ Output list:
 '''
     
     messages = [{'role': 'user', 'content': prompt}]
-    result = call_llm(messages, node_merge_output)
+    result = await call_llm(messages, node_merge_output)
     
     return result
 
 
-def issues_to_merge(input_list):
+async def issues_to_merge(input_list):
     prompt = f'''
 For the given input list of questions with ID codes, identify which subsets of questions, if any, can be merged.
 Questions can be merged if they have the same or almost identical meaning.
@@ -499,12 +596,12 @@ Output list:
 '''
     
     messages = [{'role': 'user', 'content': prompt}]
-    result = call_llm(messages, node_merge_output)
+    result = await call_llm(messages, node_merge_output)
     
     return result
 
 
-def issues_to_merge_across_lists(input_list_a, input_list_b):
+async def issues_to_merge_across_lists(input_list_a, input_list_b):
     prompt = f'''
 You will be given two lists of questions with ID codes, List A and List B.
 For the given lists, identify which pairs of questions, one from List A and one from List B, can be merged, if any.
@@ -549,6 +646,6 @@ Output list:
 '''
     
     messages = [{'role': 'user', 'content': prompt}]
-    result = call_llm(messages, node_merge_output)
+    result = await call_llm(messages, node_merge_output)
     
     return result

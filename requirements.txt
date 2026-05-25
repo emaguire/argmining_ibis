@@ -20,7 +20,7 @@ email-validator==2.3.0
 executing==2.2.1
 fastapi==0.128.0
 fastapi-cli==0.0.20
-Flask==3.1.3
+Flask[async]==3.1.3
 flatbuffers==25.12.19
 greenlet==3.2.4
 gunicorn==25.2.0
@@ -96,6 +96,7 @@ retrying==1.4.2
 rich==14.2.0
 rich-toolkit==0.17.1
 setuptools==80.10.2
+sentence-transformers==5.4.1
 shellingham==1.5.4
 six==1.17.0
 sniffio==1.3.1

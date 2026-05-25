@@ -5,14 +5,30 @@ services:
     ports:
       - "8060:5000"
     restart: unless-stopped
+    volumes:
+      - "${HOME}/.cache/huggingface:/root/.cache/huggingface"
     environment:
+      - NVIDIA_VISIBLE_DEVICES=1
       - LLM_URL=http://host.docker.internal:7060
+      - HF_TOKEN=hf_token_secret
     extra_hosts:
       - "host.docker.internal:host-gateway"
     secrets:
       - source: api_key_secret
         target: /run/secrets/LLM_API_KEY.txt
+      - source: hf_token_secret
+        target: /run/secrets/HF_KEY.txt
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
 
 secrets:
   api_key_secret:
     file: .secrets/LLM_API_KEY.txt
+  hf_token_secret:
+    file: .secrets/HUGGINGFACE_TOKEN.txt

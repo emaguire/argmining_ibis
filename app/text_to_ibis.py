@@ -5,8 +5,10 @@ import datetime
 from app import llm_caller
 from app.utils import new_ibis_aif, add_node, add_edge
 
+from copy import deepcopy
 import sys
 import logging 
+import asyncio
 
 # Add logs to the docker logs
 logger = logging.getLogger()
@@ -18,10 +20,116 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
+def valid_ibis_rel(child_type, parent_type):
+    if child_type == 'issue' and parent_type in ['issue', 'posiiton', 'argument']:
+        return True
+    elif child_type == 'position' and parent_type == 'issue':
+        return True
+    elif child_type == 'argument' and parent_type == 'position':
+        return True
+    else:
+        return False
+
+# Get children by finding nodes which designate the input node as a parent, 
+# and which are themselves of the right type
+def get_valid_ibis_children(node, ibis_output, verbose=False):
+    all_issues = [n for n in ibis_output if n['type'] == 'issue']
+
+    if verbose:
+        print(f"\nGetting valid children for node {node['id']}:")
+        print(node)
+
+
+    if node['type'] == 'argument': # can only have issues as children
+        potential_children = all_issues
+        valid_children = [n for n in potential_children if node['id'] in n['parent']]
+    
+    elif node['type'] == 'issue': # can have positions and other issues as children
+        all_positions = [n for n in ibis_output if n['type'] == 'position']
+        potential_children = all_issues + all_positions
+        valid_children = [n for n in potential_children if node['id'] in n['parent']]
+
+    elif node['type'] == 'position': # can have arguments and issues as children
+        all_args  = [n for n in ibis_output if n['type'] == 'argument']
+        potential_children = all_issues + all_args
+        valid_arg_children = [n for n in all_args if node['id'] in n['pro'] or node['id'] in n['con']]
+        valid_iss_children = [n for n in all_issues if node['id'] in n['parent']]
+        valid_children = valid_arg_children + valid_iss_children
+
+    else:
+        potential_children = []
+        valid_children = []
+
+    if verbose:
+        print("Pool of potential children: ", potential_children)
+        print("Valid children: ", valid_children)
+
+    return valid_children
+
+
+def get_valid_ibis_descendants(node_id, nodelist, verbose=False):
+    descendants = []
+    immediate_children = get_valid_ibis_children(node_id, nodelist)
+    if verbose:
+        print(f"Immediate children of {node_id} are: {immediate_children}")
+    
+    descendants += immediate_children
+    
+    for child in immediate_children:
+        if verbose:
+            print(f"Getting descendants of child {child}")
+        descendants += get_valid_ibis_descendants(child, nodelist)
+    
+    # Remove duplicates in case of an argument which is the child of more than one position
+    descendants = [i for n, i in enumerate(descendants) if i not in descendants[n + 1:]]
+
+    return descendants
+
+
+
 def ibis_output_to_xaif(in_dict, verbose=False):
     xaif = new_ibis_aif()
     all_i_node_ids = [n['id'] for n in in_dict['ibis']]
     
+    if verbose:
+        print(f"===== Building valid IBIS graph =====")
+    # Only keep nodes that are part of a valid structure
+    # Start from top level issues, and keep their valid descendents
+    all_issues = [n for n in in_dict['ibis'] if n['type'] == 'issue']
+    orphan_issues = [n for n in all_issues if len(n['parent']) == 0]
+    
+    if verbose:
+        print(f"All issues: ")
+        print(all_issues)
+        print(f"Orphan issues: ")
+        print(orphan_issues)
+    rooted_ibis = deepcopy(orphan_issues)
+    
+    for n in orphan_issues:
+        if verbose:
+            print(f"\n----- Getting valid desendents of {n} -----")
+        rooted_ibis += get_valid_ibis_descendants(n, in_dict['ibis'], verbose=verbose)
+    
+    # Remove any duplicates (args may have multiple parents)
+    rooted_ibis = [i for n, i in enumerate(rooted_ibis) if i not in rooted_ibis[n + 1:]]
+    
+
+    # Nodes were added if they had a valid parent, but arguments can have multiple parents:
+    # Remove any extra invalid parents (only positions in the rooted ibis list are valid)
+    args = [n for n in rooted_ibis if n['type'] == 'argument']
+    pos_ids = [n['id'] for n in rooted_ibis if n['type'] == 'position']
+
+    for a in args:
+        a['pro'] = list(set(a['pro']).intersection(set(pos_ids)))
+        a['con'] = list(set(a['con']).intersection(set(pos_ids)))
+    rooted_ibis = [n for n in rooted_ibis if n['type'] != 'argument'] + args
+
+    if verbose:
+        print("\n==== Final list of valid nodes and relations ====")
+        for n in rooted_ibis:
+            print(n)
+
+    # Convert to AIF
     edge_counter = 0
     relnode_counter = 0 
     ta_counter = 0
@@ -31,7 +139,8 @@ def ibis_output_to_xaif(in_dict, verbose=False):
     # First round: create and anchor I-nodes
     if verbose:
         print("=== CREATING AND ANCHORING I-NODES ===")
-    for n in in_dict['ibis']:
+
+    for n in rooted_ibis:
         # Store IBIS information
         if n['type'] == 'issue':
             xaif['IBIS']["issues"].append(n['id'])
@@ -47,32 +156,34 @@ def ibis_output_to_xaif(in_dict, verbose=False):
         i_node_anchors[i_node['nodeID']] = []
         orig_counter = 0
         if verbose:
-            print(f"\nAnchoring node {n['id']}! It has {len(n['orig'])} anchors.")
+            print(f"\nAnchoring node {n['id']}! It has {len(n['orig'])} anchor(s).")
         
-        l_node = add_node(f"l_{orig_counter}_{n['id']}", 'L', n['orig'], xaif)
-        ya_node = add_node(f"ya_{orig_counter}_{n['id']}", "YA", "Default Illocuting", xaif)
-        orig_counter += 1 
+        for t in n['orig']:
+            l_node = add_node(f"l_{orig_counter}_{n['id']}", 'L', t, xaif)
+            ya_node = add_node(f"ya_{orig_counter}_{n['id']}", "YA", "Default Illocuting", xaif)
+            orig_counter += 1 
 
-        # Record the created L-node as anchor point for this I-node
-        i_node_anchors[i_node['nodeID']].append(l_node['nodeID'])
+            # Record the created L-node as anchor point for this I-node
+            i_node_anchors[i_node['nodeID']].append(l_node['nodeID'])
         
-        # Connect from L to YA
-        add_edge(l_node['nodeID'],ya_node['nodeID'],edge_counter, xaif)
-        edge_counter += 1
+            # Connect from L to YA
+            add_edge(l_node['nodeID'],ya_node['nodeID'],edge_counter, xaif)
+            edge_counter += 1
 
-        # Connect from YA to I
-        add_edge(ya_node['nodeID'],i_node['nodeID'],edge_counter, xaif)
-        edge_counter += 1
+            # Connect from YA to I
+            add_edge(ya_node['nodeID'],i_node['nodeID'],edge_counter, xaif)
+            edge_counter += 1
 
-        if verbose:
-            print(f"\tAnchored {n['id']} origin text: {n['orig']}")
-            print(f"\t\tCreated L-node {l_node} and YA-node {ya_node}")
+            if verbose:
+                print(f"\tAnchored {n['id']} origin text: {t}")
+                print(f"\t\tCreated L-node {l_node} and YA-node {ya_node}")
 
 
     # Second round: create and anchor relations
     if verbose:
         print("=== CREATING AND ANCHORING RELATION NODES ===")
-    for n in in_dict['ibis']:
+    # for n in in_dict['ibis']:
+    for n in rooted_ibis:
         if n['type'] == 'argument':
             rels_to_create = [{'id': concl_id, 'reltype': 'Pro'} for concl_id in n['pro']] + [{'id': concl_id, 'reltype': 'Con'} for concl_id in n['con']]
         elif n['type'] == 'position':
@@ -96,11 +207,11 @@ def ibis_output_to_xaif(in_dict, verbose=False):
             relID = f"rel{relnode_counter}"
             relnode_counter += 1
             if c['reltype'] == 'Pro':
-                rel_node = add_node(relID, 'RA', 'Pro', xaif)
+                add_node(relID, 'RA', 'Pro', xaif)
             elif c['reltype'] == 'Con':
-                rel_node = add_node(relID, 'CA', 'Con', xaif)
+                add_node(relID, 'CA', 'Con', xaif)
             else:
-                rel_node = add_node(relID, 'MA', c['reltype'], xaif)
+                add_node(relID, 'MA', c['reltype'], xaif)
 
             # Link it to the I-nodes with a pair of edges
             add_edge(n['id'], relID, edge_counter, xaif)
@@ -114,7 +225,7 @@ def ibis_output_to_xaif(in_dict, verbose=False):
             for premise_l_anchor in i_node_anchors[n['id']]:
                 # Create and add TA node
                 taID = f"ta{ta_counter}"
-                ta_node = add_node(taID, "TA", "Default Transition", xaif)
+                add_node(taID, "TA", "Default Transition", xaif)
                 ta_counter += 1
                 
                 # Create and add YA node
@@ -141,14 +252,15 @@ def ibis_output_to_xaif(in_dict, verbose=False):
 
 # Given a text, return an IBIS graph in AIF
 # If given a directory to use, will save the original model output and the AIF as JSON files
-def text_to_ibis(input_text, origin_name='', save_to_dir=''):
+async def text_to_ibis(input_text, origin_name='', save_to_dir=''):
     if save_to_dir:
         if origin_name:
             file_base = origin_name.rsplit('.',1)[0]
         else: 
             file_base = f"unknown_{datetime.datetime.now().strftime("%y%m%d%m%H%M%S")}"
     
-    result_json = llm_caller.text_to_informal_ibis(input_text)
+    result_json = await llm_caller.text_to_informal_ibis(input_text)
+    # result_json = await asyncio.gather(result_json_coro)
     
     logger.debug("Result of text_to_informal_ibis is type %s", type(result_json))
     if type(result_json) is str:

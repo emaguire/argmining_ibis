@@ -11,7 +11,7 @@ import tiktoken
 
 # Given a list of tuples of form [('id1', 'text1'), ('id2', 'text2'), ...]
 # Return a list of lists, where the text length of each sublist respects a max length
-def batch_list(input_list, max_size=1500):
+def batch_list(input_list, max_size=28000):
     encoding = tiktoken.get_encoding("cl100k_base")
     n = len(input_list)
     size_ok = False
