@@ -27,7 +27,7 @@ import logging
 
 # Check dev mode for whether to do file cleanup
 DEV_MODE = os.getenv('DEV_MODE', False)
-CONCURRENCY = 2
+CONCURRENCY = 4
 
 # Add logs to the docker logs
 logger = logging.getLogger()
@@ -155,7 +155,7 @@ def index():
 # Run the whole thing end-to-end
 @app.route('/', methods=['POST'])
 async def argmine_ibis():
-    chunk_size=4000
+    chunk_size=2000
     logger.info("Chunk size: %s", str(chunk_size))
 
     semaphore = asyncio.Semaphore(CONCURRENCY)
@@ -498,7 +498,10 @@ async def app_merge_ibis():
         ##################
         # 1. Intake file #
         ##################
-        file = request.files.getlist('file')
+        file_list = request.files.getlist('file')
+        if not file_list:
+            return jsonify({"error": "No file uploaded"}), 400  # Handle missing file
+        file = file_list[0]
         
         # Make copies of original input file
         orig_dir = os.path.join(temp_dir, 'orig_files')
@@ -523,10 +526,13 @@ async def app_merge_ibis():
         # Merge nodes #
         ###############
         try:
-            merged_xaif = await merge_ibis.merge_ibis_nodes(merged_xaif, save_to_dir=temp_dir)
+            merged_xaif = await merge_ibis.merge_ibis_nodes(xaif, save_to_dir=temp_dir)
         except Exception as e:
             logger.error("Node merging failed", exc_info=True)
             merged_xaif = xaif
+
+        with open(f"{temp_dir}/merge_result.json", 'w') as f:
+            json.dump(merged_xaif,f, indent=4)
 
     finally:
         if not DEV_MODE:

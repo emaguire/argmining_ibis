@@ -144,24 +144,55 @@ def get_parents(node_id, ibis_xaif):
 
 # Get all descendants of a node
 # Prevents looping, but includes self if descent is circular
-def get_descendants(node_id, ibis_xaif, seen=[]):
+def get_descendants(node_id, ibis_xaif, seen=[], verbose=False):
+    if verbose:
+        print(f"Getting descendants of {node_id}.\nHave currently seen: {seen}")
+
     direct_children = get_children(node_id, ibis_xaif)
+    if verbose:
+        print(f"Direct children: {direct_children}")
     descendants = direct_children
 
+    seen += [node_id]
     for child_id in direct_children:
         if child_id not in seen:
-            descendants += get_descendants(child_id, ibis_xaif, seen=seen+[node_id]+descendants)
+            if verbose:
+                print(f"\tHave not previously seen {child_id}: getting its descendants")
+            descendants += get_descendants(child_id, ibis_xaif, seen=seen+descendants, verbose=verbose)
 
     # Remove duplicates: an argument may be pro one position and con another
+    if verbose:
+        print(f"Done checking for descendants of {node_id}")
+        print(f"\tSaw {seen}")
+        print(f"Descendants are {list(set(descendants))}")
     return list(set(descendants))
 
 
 # Return true if one node descends from the other
-def line_of_ancestry(node1_id, node2_id, ibis_xaif):
-    node1_descendants = get_descendants(node1_id, ibis_xaif)
-    node2_descendants = get_descendants(node2_id, ibis_xaif)
+def line_of_ancestry(node1_id, node2_id, ibis_xaif, verbose=False):
+    ancestry = False
+    
+    if verbose:
+        print(f"Getting descendants of {node1_id}")
+    node1_descendants = get_descendants(node1_id, ibis_xaif, verbose=verbose)
+    if verbose:
+        print(f"\t{node1_id} descendants: {node1_descendants}")
+        print(f"Getting descendants of {node2_id}")
+    node2_descendants = get_descendants(node2_id, ibis_xaif, verbose=verbose)
+    if verbose:
+        print(f"\t{node2_id} descendants: {node2_descendants}")
+    
+    if node1_id in node2_descendants:
+        ancestry = True
+        if verbose:
+            print(f"{node1_id} descends from {node2_id}")
+    
+    if node2_id in node1_descendants:
+        ancestry = True
+        if verbose:
+            print(f"{node2_id} descends from {node1_id}")
 
-    return node1_id in node2_descendants or node2_id in node1_descendants
+    return ancestry
 
 
 #  Return true if nodes share a parent

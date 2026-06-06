@@ -35,6 +35,7 @@ logger.addHandler(handler)
 # LLM_URL = os.getenv('LLM_URL', 'http://localhost:8000') # internal port is 8000, only use this if you've linked the containers
 LLM_URL = os.getenv('LLM_URL', 'http://localhost:7060')
 LLM_API_KEY = Path('/run/secrets/LLM_API_KEY.txt').read_text().strip() if Path('/run/secrets/LLM_API_KEY.txt').exists() else None
+# LLM_API_KEY = Path('./.secrets/LLM_API_KEY.txt').read_text().strip() if Path('./.secrets/LLM_API_KEY.txt').exists() else None
 MODEL_NAME = 'nvidia/Gemma-4-31B-IT-NVFP4'
 # 'google/gemma-4-E4B-it'
 
@@ -80,6 +81,7 @@ def test_llm(model_name=MODEL_NAME):
     print("Container-internal tester.")
     print(model_name)
     print("LLM_URL: ", LLM_URL)
+    print("API KEY:", LLM_API_KEY)
 
     class Dogprice(BaseModel):
             name: str
@@ -546,6 +548,7 @@ Statements can be merged if they have the same or almost identical meaning.
 The subsets must be exclusive, with no statement appearing in more than one subset.
 It is possible that there are no statements which can be merged.
 For each subset, return a tuple with a list of the ID codes of statements in the set, and text paraphrasing the combined statements.
+Use UK spelling.
 
 
 Example input:
@@ -581,13 +584,16 @@ Questions can be merged if they have the same or almost identical meaning.
 The subsets must be exclusive, with no question appearing in more than one subset.
 It is possible that there are no questions which can be merged.
 For each subset, return a tuple with a list of the ID codes of questions in the set, and text paraphrasing the combined questions.
+Use UK spelling.
 
 
-Example input:
-[('id1', "What should we do about the park?"), ('id2', "What should happen with the park?"), ('id3', "Should a new playground be added to the park?")]
+Example input 1:
+[('id1', "What should we do about the park?"), ('id2', "What should happen with the park?"), ('id3', "Should a new playground be added to the park?"), ('id4', "What is the best plan for the park?")]
 
-Example output:
-[(['id1', 'id2'], "What should be done about the park?")]
+Example output 1:
+[(['id1', 'id2', 'id4'], "What should be done about the park?")]
+
+
 
 Input list:
 {input_list}
@@ -609,6 +615,7 @@ Questions can be merged if they have the same or almost identical meaning.
 The pairs must be exclusive, with no question being used in more than one pair.
 It is possible that there are no question pairs which can be merged.
 For each pair, return a tuple with a list of the ID codes of the questions in the pair (the ID from List A and then the ID from List B), and text paraphrasing the combined questions.
+Use UK spelling.
 
 
 Example input 1:
