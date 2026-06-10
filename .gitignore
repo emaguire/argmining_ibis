@@ -1,5 +1,6 @@
 .secrets
 .examples
+.scrap
 **/__pycache__/**
 dev_temp
 **.ipynb
@@ -7,3 +8,4 @@ external_tester.py
 comma_example
 .vscode
 test_docs/inputs/bigset
+docker-compose.env.yml

@@ -32,12 +32,10 @@ logger.addHandler(handler)
 # SETUP #
 #########
 
-# LLM_URL = os.getenv('LLM_URL', 'http://localhost:8000') # internal port is 8000, only use this if you've linked the containers
 LLM_URL = os.getenv('LLM_URL', 'http://localhost:7060')
-LLM_API_KEY = Path('/run/secrets/LLM_API_KEY.txt').read_text().strip() if Path('/run/secrets/LLM_API_KEY.txt').exists() else None
+LLM_API_KEY = Path('/run/secrets/LLM_API_KEY.txt').read_text().strip() if Path('/run/secrets/LLM_API_KEY.txt').exists() else os.getenv('LLM_API_KEY')
 # LLM_API_KEY = Path('./.secrets/LLM_API_KEY.txt').read_text().strip() if Path('./.secrets/LLM_API_KEY.txt').exists() else None
-MODEL_NAME = 'nvidia/Gemma-4-31B-IT-NVFP4'
-# 'google/gemma-4-E4B-it'
+MODEL_NAME = os.getenv('MODEL_NAME', 'nvidia/Gemma-4-31B-IT-NVFP4')
 
 
 structured_client = None
@@ -76,7 +74,33 @@ def get_final(response, structured=True):
 
     return to_return
 
-# A silly test that requires no input to check the call is working
+
+def hello_world():
+    client = OpenAI(
+        base_url=f"{LLM_URL}/v1",
+        api_key=LLM_API_KEY
+    )
+
+    prompt = "Say: hello world!"
+
+    messages = [
+        {
+            'role': 'user',
+            'content': prompt
+        }
+    ]
+
+    response = client.chat.completions.parse(
+                model=MODEL_NAME,
+                messages=[{"role": msg['role'], "content": msg['content']} for msg in messages]
+            )
+    
+    to_return = get_final(response)
+    return to_return
+
+
+
+# A silly test that requires no input to check the call is working and producing structured output
 def test_llm(model_name=MODEL_NAME):
     print("Container-internal tester.")
     print(model_name)
@@ -119,8 +143,8 @@ OUTPUT:
     to_return = get_final(response)
     return to_return
 
-# A set of functions based on the above to test that async is working
 
+# A set of functions based on the above to test that async is working
 async def doggies(model_name=MODEL_NAME, dog_select=0):
     class Dogprice(BaseModel):
             name: str

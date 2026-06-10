@@ -6,6 +6,15 @@ RUN mkdir -p /home/argmining_ibis
 RUN mkdir -p /home/argmining_ibis/temp
 WORKDIR /home/argmining_ibis
 
+# Install RabbitMQ as a broker and Redis as a backend for celery
+RUN apt-get update
+RUN apt-get install -y rabbitmq-server
+RUN apt-get install -y redis-server
+
+# Stop Celery complaining about root user 
+# (because docker runs commands inside container as root)
+ENV C_FORCE_ROOT=1
+
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip  
 
@@ -25,8 +34,13 @@ ADD README.md /home/argmining_ibis/README.md
 ADD boot.sh ./  
 RUN chmod +x boot.sh  
 
+# Add a dev variant boot script and ensure it has execution permissions
+# (may want to use it in a docker-compose.dev.yml)
+ADD dev_boot.sh ./  
+RUN chmod +x dev_boot.sh  
+
 # Set the Flask application environment variable
-ENV FLASK_APP app  
+ENV FLASK_APP=app  
 
 # Expose port 5000 for the application
 EXPOSE 5000  
