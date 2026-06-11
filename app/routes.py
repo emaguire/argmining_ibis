@@ -18,6 +18,7 @@ from glob import glob
 from app import celery_tasks
 from app import xaif_dg_convert
 from app import llm_caller
+from app import dg_utils
 
 # from app import intake_files
 # from app import text_to_ibis
@@ -64,7 +65,7 @@ def new_tmp_dir():
 # Check the llm response is working
 @flask_app.route('/health', methods=['GET'])
 def alive():    
-    return jsonify("I'm alive!")
+    return jsonify("I'm (still) alive!")
 
 # Check the llm response is working
 @flask_app.route('/test', methods=['GET'])
@@ -360,9 +361,11 @@ async def argmine_ibis():
 
 
 
-@flask_app.route('/convert_to_dg', methods=['GET', 'POST'])
+@flask_app.route('/convert-to-dg', methods=['POST'])
 def convertor():
     if request.method == 'POST':
+
+        logger.info("Converting file!")
 
         f = request.files.get('file')
         if not f:
@@ -383,11 +386,15 @@ def convertor():
             os.remove(xaif_filename)
             return jsonify({"error": "Invalid JSON format"}), 400
         
+        logger.info("File loaded")
+
         ####################################
         
         dg_format = xaif_dg_convert.xaif_to_dg(ibis_xaif, topic)
 
         #####################################
+
+        logger.info("Conversion to DG complete!")
 
         # Clean up the uploaded file
         os.remove(xaif_filename)
