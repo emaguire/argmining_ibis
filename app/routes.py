@@ -18,13 +18,7 @@ from glob import glob
 from app import celery_tasks
 from app import xaif_dg_convert
 from app import llm_caller
-from app import dg_utils
 
-# from app import intake_files
-# from app import text_to_ibis
-# from app import merge_ibis
-# from app import crosslink_ibis
-# from app import utils
 
 import asyncio
 import logging
@@ -188,7 +182,6 @@ def check_celery_task():
          'task_id': task_id,
          'status': result.status
      })
-    #  return jsonify(f"Status of {task_id}: {result.status}")
 
 # Get the result of a celery task with the posted ID
 @flask_app.route('/task-result', methods=['POST'])
@@ -203,6 +196,49 @@ def get_celery_task_result():
 # Main entrypoint: intake original files and run end-to-end #
 #############################################################
 
+@flask_app.route('/php', methods=['POST'])
+async def test_php():
+    file_names = []
+    files = request.files.to_dict()
+
+    temp_dir = new_tmp_dir()
+    orig_dir = os.path.join(temp_dir, 'orig_files')
+    os.mkdir(orig_dir)
+
+    for file in files:
+        logger.info("file=%s", str(file))
+        file_names += [{'filename':files[file].filename, 'type': str(type(files[file]))}]
+        short_filename = os.path.basename(files[file].filename)
+        files[file].save(os.path.join(orig_dir, short_filename))
+
+    return jsonify(file_names)
+
+
+@flask_app.route('/php-list', methods=['POST'])
+async def test_php_list():
+    file_names = []
+    files = request.files.getlist('file[]')
+
+    logger.info(str(type(files)))
+    logger.info(str(type(files[0])))
+
+    temp_dir = new_tmp_dir()
+    orig_dir = os.path.join(temp_dir, 'orig_files')
+    os.mkdir(orig_dir)
+
+    for file in files:
+        file_names += [{'filename':file.filename, 'type': str(type(file))}]
+        short_filename = os.path.basename(file.filename)
+        file.save(os.path.join(orig_dir, short_filename))
+        
+        # file_names += [{'file':file, 'type': str(type(file))}]
+
+    
+    # if len(file_names) == 0:
+    #     return jsonify("Didn't find any files :(")
+
+    return jsonify(file_names)
+
 
 # Run the whole thing end-to-end
 # This needs to deal with the posted input and send it onward
@@ -210,8 +246,10 @@ def get_celery_task_result():
 @flask_app.route('/', methods=['POST'])
 async def argmine_ibis():
     # Check input
-    file_list = request.files.getlist('file')
-    if not file_list:
+    # file_list = request.files.getlist('file')
+    file_dict = request.files.to_dict()
+
+    if not file_dict:
         return jsonify({"error": "No file uploaded"}), 400  # Handle missing file
 
     # Make the temp dir
@@ -224,10 +262,10 @@ async def argmine_ibis():
     orig_dir = os.path.join(temp_dir, 'orig_files')
     os.mkdir(orig_dir)
     
-    for file in file_list:
-        logger.info("Read file %s", file.filename)
-        short_filename = os.path.basename(file.filename)
-        file.save(os.path.join(orig_dir, short_filename))
+    for file in file_dict:
+        logger.info("Read file %s", file_dict[file].filename)
+        short_filename = os.path.basename(file_dict[file].filename)
+        file_dict[file].save(os.path.join(orig_dir, short_filename))
 
     # Give the task to the celery worker
     result = celery_tasks.argmining_complete_pipeline.delay(temp_dir)
@@ -236,127 +274,6 @@ async def argmine_ibis():
     logger.info("** Started task %s **", str(result.id))
     return jsonify({'task_id': result.id})
     
-
-
-
-    try:
-        #######################################
-        # 1. Intake files and process to text #
-        #######################################
-
-
-
-        # Make copies of original input files
-        orig_dir = os.path.join(temp_dir, 'orig_files')
-        os.mkdir(orig_dir)
-        
-        for file in file_list:
-            logger.info("Read file %s", file.filename)
-            short_filename = os.path.basename(file.filename)
-            file.save(os.path.join(orig_dir, short_filename))
-
-        text_dir = os.path.join(temp_dir, 'input_text')
-        os.mkdir(text_dir)
-
-        # Convert input files to plaintext
-        local_input_files = glob(os.path.join(orig_dir, "*"))
-        logger.info('Creating texts for %s', str(local_input_files))
-        try:
-            text_list = intake_files.create_texts(local_input_files, chunk_size=chunk_size, save_to_dir=text_dir)
-        except Exception as e:
-            logger.error("Text-creation failed", exc_info=True)
-        
-
-        logger.info("!!! FILE PROCESSING DONE")
-
-        ############################################
-        # 2. Initial argmining on individual files #
-        ############################################
-        # For each created text chunk, create IBIS XAIF
-        # Accumulate in a list of python dicts
-        
-        xaif_creation_tasks = []
-
-        async def create_xaif(text, origin_name, save_to_dir):
-            async with semaphore:
-                return await text_to_ibis.text_to_ibis(text, origin_name=origin_name, save_to_dir=save_to_dir)
-
-        for file_entry in text_list:
-            # If only one chunk, no need to name output
-            if len(file_entry['text']) == 1: 
-                logger.info('Running text_to_ibis on %s', file_entry['origin'])
-                try:
-                    xaif_creation_tasks.append(create_xaif(file_entry['text'][0], origin_name=file_entry['origin'], save_to_dir=temp_dir))
-                except Exception as e:
-                    logger.error('Failed to get initial text analysis for %s', file_entry['origin'], exc_info=True)
-            
-            # Otherwise, give the parts numbered names
-            elif len(file_entry['text']) > 1:
-                counter = 0
-                for chunk in file_entry['text']:
-                    namesplit = file_entry['origin'].rsplit('.',1)
-                    if len(namesplit) > 1:
-                        chunk_name = f"{namesplit[0]}_{counter}.{namesplit[-1]}"
-                    else:
-                        chunk_name = f"{namesplit[0]}_{counter}"
-
-                    logger.info('Running text_to_ibis on content from %s (part %s/%s)', chunk_name, str(counter+1), str(len(file_entry['text'])))
-                    try:
-                        xaif_creation_tasks.append(create_xaif(chunk, origin_name=chunk_name, save_to_dir=temp_dir))
-                        logger.info("Completed for part %s", str(counter))
-                    except Exception as e:
-                        logger.error('Failed to get initial text analysis for %s', chunk_name, exc_info=True)
-                    counter += 1
-        
-        xaif_list = await asyncio.gather(*xaif_creation_tasks)
-
-        logger.info("!!! INITIAL ARGMINING ON CHUNKS DONE")
-
-
-        #####################################
-        # 3. Merge all resulting XAIF files #
-        #####################################
-        logger.info('Merging files into a single file')
-        try:
-            merged_xaif = merge_ibis.merge_xaif_list(xaif_list, save_to_dir=temp_dir)
-        except Exception as e:
-            logger.error("File merging failed", exc_info=True)
-
-        logger.info("!!! SIMPLE FILE MERGE DONE")
-        
-
-        ##################
-        # 4. Merge nodes #
-        ##################
-        logger.info('Merging nodes')
-        try:
-            merged_xaif = await merge_ibis.merge_ibis_nodes(merged_xaif, save_to_dir=temp_dir)
-        except Exception as e:
-            logger.error("Node merging failed", exc_info=True)
-
-        logger.info("!!! NODE MERGING DONE")
-
-        #################
-        # 5. Link nodes #
-        ################# 
-        logger.info('Linking nodes')
-        try:
-            result_xaif = await crosslink_ibis.link_nodes(merged_xaif, save_to_dir=temp_dir)
-        except Exception as e:
-            result_xaif = merged_xaif
-            logger.error("Node linking failed", exc_info=True)
-
-        logger.info("!!! NODE LINKING DONE")
-    
-    # Clear temp directory at the end if this wasn't in devmode
-    finally:
-        if not DEV_MODE:
-            logger.info("Cleaning up temp directory.")
-            shutil.rmtree(temp_dir)
-    
-    logger.info("!!! Done!")
-
-    return jsonify(result_xaif)
 
 
 
@@ -371,7 +288,7 @@ def convertor():
         if not f:
             return jsonify({"error": "No file uploaded"}), 400  # Handle missing file
 
-        topic = request.form.get('topic') # replace with data stream: curl -d "param1=myvalue"
+        topic = request.form.get('topic')
         if not topic:
             return jsonify({"error": "No topic provided"}), 400  # Handle missing file
 
