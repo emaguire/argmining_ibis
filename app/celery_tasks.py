@@ -61,7 +61,9 @@ def argmining_complete_pipeline(dir_name, cache=False):
     # return the existing result for that file
     # (Deal with using multiple cached files per request later)
     if cache:
-        print("Checking if cache can be used")
+        # Check if cache has been set to somewhere else
+        cache_dir = os.getenv('ARGMINE_CACHE', 'cache')
+
         input_file_list = glob(f"{dir_name}/orig_files/*")
         if len(input_file_list) == 1:
             with open(input_file_list[0], 'rb') as f:
@@ -69,13 +71,12 @@ def argmining_complete_pipeline(dir_name, cache=False):
             
         # Check if a result exists for this file: 
         # clean up and return it if so
-        cache_match = glob(f"cache/{filehex}.json")
+        cache_match = glob(f"{cache_dir}/{filehex}.json")
         if len(cache_match) == 1:
             logger.info("Found a cached result for the submitted document")
             logger.info("Loading %s", str(cache_match[0]))
             with open(cache_match[0]) as f:
                 result = json.loads(f.read())
-                logger.info("Loaded result is type %s", str(type(result)))
             if not DEV_MODE:
                 shutil.rmtree(dir_name)
             return result
@@ -85,7 +86,7 @@ def argmining_complete_pipeline(dir_name, cache=False):
     # If cache has been set and only one file is submitted
     # save the result for that file for potential future use
     if cache and len(input_file_list) == 1:
-        with open(f"cache/{filehex}.json", 'w') as f:
+        with open(f"{cache_dir}/{filehex}.json", 'w') as f:
             json.dump(result, f, indent=4)
 
     return result

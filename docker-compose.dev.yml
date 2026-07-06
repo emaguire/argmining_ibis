@@ -3,6 +3,7 @@ services:
    volumes: 
       - ./app:/home/argmining_ibis/app
       - ./dev_temp:/home/argmining_ibis/temp
+      - ./.argmine_cache:/home/argmining_ibis/cache
    entrypoint:
       - /bin/sh
       - ./dev_boot.sh

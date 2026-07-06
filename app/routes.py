@@ -307,7 +307,7 @@ def get_celery_task_result():
 @flask_app.route('/', methods=['POST'])
 @limiter.limit("100 per day;10 per 15 minutes")
 async def argmine_ibis_celery():
-    use_cache = os.getenv('ARGMINE_CACHE', False)
+    use_cache = os.getenv('ARGMINE_CACHE_ON', False)
     if use_cache:
         logger.info('Using cached results where possible')
     

@@ -2,6 +2,7 @@
 .examples
 .scrap
 .logs
+.argmine_cache
 huggingface
 **/__pycache__/**
 dev_temp
