@@ -4,6 +4,7 @@ FROM python:3.14
 # Create and set the working directory inside the container
 RUN mkdir -p /home/argmining_ibis
 RUN mkdir -p /home/argmining_ibis/temp
+RUN mkdir -p /home/argmining_ibis/cache
 WORKDIR /home/argmining_ibis
 
 # Install RabbitMQ as a broker and Redis as a backend for celery

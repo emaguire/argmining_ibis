@@ -11,6 +11,7 @@ services:
       - NVIDIA_VISIBLE_DEVICES=1
       - LLM_URL=http://host.docker.internal:7060
       - HF_TOKEN=hf_token_secret
+      - ARGMINE_CACHE=true
     extra_hosts:
       - "host.docker.internal:host-gateway"
     secrets:

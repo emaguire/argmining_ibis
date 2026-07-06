@@ -5,6 +5,7 @@ import uuid
 import tempfile
 import shutil
 from glob import glob
+import json
 
 import logging
 
@@ -20,7 +21,8 @@ from app import xaif_dg_convert
 
 
 DEV_MODE = os.getenv('DEV_MODE', False)
-CONCURRENCY=4
+CONCURRENCY=os.getenv('CONCURRENCY', 4)
+CHUNK_SIZE=os.getenv('CHUNK_SIZE', 2000)
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -30,10 +32,8 @@ formatter = logging.Formatter('[%(asctime)s][%(levelname)s]: %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-
-
 async def argmine_ibis(temp_dir):
-    chunk_size=2000
+    chunk_size=CHUNK_SIZE
     logger.info("Chunk size: %s", str(chunk_size))
     semaphore = asyncio.Semaphore(CONCURRENCY)
 
@@ -143,4 +143,17 @@ async def argmine_ibis(temp_dir):
     
     logger.info("!!! Done!")
 
+    return result_xaif
+
+
+async def argmine_ibis_and_save(temp_dir):
+    result_xaif = await argmine_ibis(temp_dir)
+    
+    try:
+        with open(f"{temp_dir}/final.json", 'w') as f:
+            json.dump(result_xaif, f, indent=4)
+    except:
+        with open(f"{temp_dir}/final.json", 'w') as f:
+            json.dump({}, f, indent=4)
+    
     return result_xaif

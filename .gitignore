@@ -1,6 +1,8 @@
 .secrets
 .examples
 .scrap
+.logs
+huggingface
 **/__pycache__/**
 dev_temp
 **.ipynb
