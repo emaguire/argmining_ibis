@@ -12,3 +12,4 @@ comma_example
 .vscode
 test_docs/inputs/bigset
 docker-compose.env.yml
+testbuild.sh
