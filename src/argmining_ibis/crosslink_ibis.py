@@ -4,8 +4,8 @@ import json
 
 import asyncio
 
-from app import llm_caller
-from app.utils import node_merge_output, siblings, line_of_ancestry, add_crosslink, batch_list
+from argmining_ibis import llm_caller
+from .utils import node_merge_output, siblings, line_of_ancestry, add_crosslink, batch_list
 
 CONCURRENCY=2
 

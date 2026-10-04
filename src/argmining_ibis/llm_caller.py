@@ -9,8 +9,8 @@ from pydantic import BaseModel
 from typing import List
 from retrying import retry
 
-from app.utils import node_merge_output
-from app.ibis import ibis
+from .utils import node_merge_output
+from .ibis import ibis
 
 
 from openai import AsyncOpenAI, OpenAI, BadRequestError

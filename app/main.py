@@ -4,7 +4,7 @@
 from app import intake_files
 from app import text_to_ibis
 from app import merge_ibis
-from app import crosslink_ibis
+from src.argmining_ibis import crosslink_ibis
 
 import datetime
 import os

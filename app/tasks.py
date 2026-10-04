@@ -1,4 +1,4 @@
-from celery import Celery
+from .celery_app import celery_app
 from asgiref.sync import async_to_sync
 
 from glob import glob
@@ -8,7 +8,7 @@ import json
 import hashlib
 
 from app import argmining
-from app.llm_caller import hello_world
+from argmining_ibis.llm_caller import hello_world
 import asyncio
 
 import sys
@@ -26,7 +26,6 @@ logger.addHandler(handler)
 DEV_MODE = os.getenv('DEV_MODE', False)
 
 
-celery_app = Celery('celery_tasks', backend='redis://localhost', broker='pyamqp://')
 
 async def async_waiting():
     await asyncio.sleep(20)
@@ -47,22 +46,25 @@ def add(x, y):
 
 @celery_app.task
 def twenty_secs():
-    result = async_to_sync(async_waiting)()
+    result = async_waiting()
     return result
 
 @celery_app.task
 def pass_an_arg(x):
-    result = async_to_sync(async_with_arg)(x)
+    result = async_with_arg(x)
     return result
 
 @celery_app.task
-def argmining_complete_pipeline(dir_name, cache=False):
+async def argmining_complete_pipeline(dir_name, cache=False):
     # If cache has been set and only one file is submitted
     # return the existing result for that file
     # (Deal with using multiple cached files per request later)
     if cache:
         # Check if cache has been set to somewhere else
-        cache_dir = os.getenv('ARGMINE_CACHE', 'cache')
+        cache_dir = os.getenv('ARGMINE_CACHE', '/home/argmining_ibis/cache')
+        # if it doesn't exist, make it
+        if not os.path.isdir(cache_dir):
+            os.mkdir(cache_dir)
 
         input_file_list = glob(f"{dir_name}/orig_files/*")
         if len(input_file_list) == 1:
@@ -81,7 +83,8 @@ def argmining_complete_pipeline(dir_name, cache=False):
                 shutil.rmtree(dir_name)
             return result
 
-    result = async_to_sync(argmining.argmine_ibis)(dir_name)
+    result = await argmining.argmine_ibis(dir_name)
+    # result = async_to_sync(argmining.argmine_ibis)(dir_name)
 
     # If cache has been set and only one file is submitted
     # save the result for that file for potential future use

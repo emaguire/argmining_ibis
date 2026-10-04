@@ -11,8 +11,8 @@ from pathlib import Path
 from sentence_transformers import CrossEncoder
 
 
-from app import llm_caller
-from app.utils import new_ibis_aif, get_ibis_type, node_merge_output, get_orphans, get_children, get_descendants, batch_list
+from argmining_ibis import llm_caller
+from .utils import new_ibis_aif, get_ibis_type, node_merge_output, get_orphans, get_children, get_descendants, batch_list
 
 import logging
 logging.getLogger("openai").setLevel(logging.INFO)

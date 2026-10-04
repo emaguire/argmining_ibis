@@ -1,4 +1,4 @@
-from app import dg_utils
+from argmining_ibis import dg_utils
 from collections import Counter
 from copy import deepcopy
 

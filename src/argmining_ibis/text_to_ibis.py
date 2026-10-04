@@ -2,8 +2,8 @@ import json
 import os
 import datetime
 
-from app import llm_caller
-from app.utils import new_ibis_aif, add_node, add_edge
+from argmining_ibis import llm_caller
+from .utils import new_ibis_aif, add_node, add_edge
 
 from copy import deepcopy
 import sys

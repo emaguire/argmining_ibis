@@ -11,12 +11,12 @@ import logging
 
 import asyncio
 
-from app import llm_caller
-from app import intake_files
-from app import text_to_ibis
-from app import merge_ibis
-from app import crosslink_ibis
-from app import xaif_dg_convert
+from argmining_ibis import llm_caller
+from argmining_ibis import intake_files
+from argmining_ibis import text_to_ibis
+from argmining_ibis import merge_ibis
+from argmining_ibis import crosslink_ibis
+from argmining_ibis import xaif_dg_convert
 
 
 

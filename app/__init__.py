@@ -1,7 +1,5 @@
-from flask import Flask, request
-import json
+# import Flask
 
-application = Flask(__name__)
-
+# application = Flask(__name__)
     
 from app import routes

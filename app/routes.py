@@ -18,9 +18,9 @@ import json
 from glob import glob
 
 
-from app import celery_tasks
-from app import xaif_dg_convert
-from app import llm_caller
+from app import tasks
+from argmining_ibis import xaif_dg_convert
+from argmining_ibis import llm_caller
 
 import asyncio
 import logging
@@ -101,13 +101,13 @@ def say_hello():
 # Check llm response is working from a celery worker
 @flask_app.route('/celery-hello', methods=['GET'])
 def check_model_with_celery():    
-    result = celery_tasks.hello_world_llm.delay()
+    result = tasks.hello_world_llm.delay()
     return jsonify(result.get())
 
 # Get a response from a celery worker
 @flask_app.route('/celery', methods=['GET'])
 def test_celery():    
-    result = celery_tasks.add.delay(5,5)
+    result = tasks.add.delay(5,5)
     answer = result.get()
     task_id = result.id
     return jsonify(f"Task {task_id} produced this very nice answer: {answer}")
@@ -115,9 +115,9 @@ def test_celery():
 # Get a response from a celery worker using the task id
 @flask_app.route('/celery-id', methods=['GET'])
 def test_celery_id():    
-    result = celery_tasks.add.delay(5,5)
+    result = tasks.add.delay(5,5)
     task_id = result.id
-    result_again = celery_tasks.celery_app.AsyncResult(task_id)
+    result_again = tasks.celery_app.AsyncResult(task_id)
     answer = result_again.get()
     return jsonify(f"Task {task_id} produced: {answer}")
 
@@ -196,23 +196,23 @@ def ping():
 # Sanity-checking test for async
 @flask_app.route('/async', methods=['GET'])
 async def test_async():    
-    result = celery_tasks.twenty_secs.delay()
+    result = await tasks.twenty_secs.adelay()
     return jsonify({'task_id': result.id})
 
 @flask_app.route('/async-arg', methods=['GET'])
 async def test_async_arg():    
-    result = celery_tasks.pass_an_arg.delay("foo")
+    result = await tasks.pass_an_arg.adelay("foo")
     return result.get()
 
 @flask_app.route('/add', methods=['GET'])
-async def test_add():    
-    result = celery_tasks.add.delay(2,2)
+def test_add():    
+    result = tasks.add.delay(2,2)
     return jsonify({'task_id': result.id})
 
 # Get a dict back for testing that json are being handled properly
 @flask_app.route('/dummy', methods=['GET'])
-async def test_dict():    
-    result = celery_tasks.dummy_json.delay()
+def test_dict():    
+    result = tasks.dummy_json.delay()
     return jsonify(result.get())
 
 
@@ -268,7 +268,12 @@ def new_tmp_dir(task_id=''):
 
     return temp_dir
 
-
+# return the celery log
+@flask_app.route('/celery-log', methods=['GET'])
+def get_celery_logs():
+    with open("/home/argmining_ibis/celery.log") as f:
+        celery_log = f.read()
+    return celery_log
 
 
 ####################
@@ -279,7 +284,7 @@ def new_tmp_dir(task_id=''):
 @flask_app.route('/task-status', methods=['POST'])
 def check_celery_task():
      task_id = request.form.get('id')
-     result = celery_tasks.celery_app.AsyncResult(task_id)
+     result = tasks.celery_app.AsyncResult(task_id)
      status = result.status
      if status == 'SUCCESS':
         logger.info("TASK COMPLETE (%s): %s"%(task_id, datetime.datetime.now().strftime("%y-%m-%d_%H:%M:%S")))
@@ -292,7 +297,7 @@ def check_celery_task():
 @flask_app.route('/task-result', methods=['POST'])
 def get_celery_task_result():
      task_id = request.form.get('id')
-     result = celery_tasks.celery_app.AsyncResult(task_id)
+     result = tasks.celery_app.AsyncResult(task_id)
      return jsonify(result.get())
 
 
@@ -334,7 +339,7 @@ async def argmine_ibis_celery():
         file_dict[file].save(os.path.join(orig_dir, short_filename))
 
     # Give the task to the celery worker
-    result = celery_tasks.argmining_complete_pipeline.delay(temp_dir, cache=use_cache)
+    result = await tasks.argmining_complete_pipeline.adelay(temp_dir, cache=use_cache)
 
     # Return the celery task ID
     logger.info("** Started task %s **", str(result.id))
