@@ -1,12 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional,Literal
 
-# class ibisComponent(BaseModel):
-#     id : str
-#     text : str
-#     orig : List[str]
 
-# class ibisIssue(ibisComponent):
+
 class ibisIssue(BaseModel):
     id : str
     text : str
@@ -33,3 +29,22 @@ class ibisArgument(BaseModel):
 
 class ibis(BaseModel):
     ibis: List[ibisIssue | ibisPosition | ibisArgument] = []
+
+
+
+class ibisOrigin(BaseModel):
+    quote: str
+    src: str
+
+class ibisIssueSourced(ibisIssue):
+    orig : List[ibisOrigin]
+
+class ibisPositionSourced(ibisPosition):
+    orig : List[ibisOrigin]
+
+
+class ibisArgumentSourced(ibisArgument):
+    orig : List[ibisOrigin]
+
+class ibisSourced(BaseModel):
+    ibis: List[ibisIssueSourced | ibisPositionSourced | ibisArgumentSourced] = []

@@ -6,6 +6,7 @@ import tempfile
 import shutil
 from glob import glob
 import json
+import re 
 
 import logging
 
@@ -40,7 +41,9 @@ async def argmine_ibis(temp_dir):
     try:
         orig_dir = os.path.join(temp_dir, 'orig_files')
         text_dir = os.path.join(temp_dir, 'input_text')
+        stamped_text_dir = os.path.join(temp_dir, 'stamped_text')
         os.mkdir(text_dir)
+        os.mkdir(stamped_text_dir)
 
         # Convert input files to plaintext
         local_input_files = glob(os.path.join(orig_dir, "*"))
@@ -65,12 +68,14 @@ async def argmine_ibis(temp_dir):
 
         async def create_xaif(text, origin_name, save_to_dir):
             async with semaphore:
-                return await text_to_ibis.text_to_ibis(text, origin_name=origin_name, save_to_dir=save_to_dir)
+                return await text_to_ibis.text_to_ibis(text, origin_name=origin_name, save_to_dir=save_to_dir, doc_source=True)
 
+        chunk_names = []
         for file_entry in text_list:
-            # If only one chunk, no need to name output
+            # If only one chunk, no need to give output another name
             if len(file_entry['text']) == 1: 
                 logger.info('Running text_to_ibis on %s', file_entry['origin'])
+                chunk_names += [file_entry['origin']]
                 try:
                     xaif_creation_tasks.append(create_xaif(file_entry['text'][0], origin_name=file_entry['origin'], save_to_dir=temp_dir))
                 except Exception as e:
@@ -82,9 +87,10 @@ async def argmine_ibis(temp_dir):
                 for chunk in file_entry['text']:
                     namesplit = file_entry['origin'].rsplit('.',1)
                     if len(namesplit) > 1:
-                        chunk_name = f"{namesplit[0]}_{counter}.{namesplit[-1]}"
+                        chunk_name = f"{namesplit[0]}_CHUNK_{counter}.{namesplit[-1]}"
                     else:
-                        chunk_name = f"{namesplit[0]}_{counter}"
+                        chunk_name = f"{namesplit[0]}_CHUNK_{counter}"
+                    chunk_names += [chunk_name]
 
                     logger.info('Running text_to_ibis on content from %s (part %s/%s)', chunk_name, str(counter+1), str(len(file_entry['text'])))
                     try:
@@ -94,11 +100,23 @@ async def argmine_ibis(temp_dir):
                         logger.error('Failed to get initial text analysis for %s', chunk_name, exc_info=True)
                     counter += 1
         
-        xaif_list = await asyncio.gather(*xaif_creation_tasks)
+        # This is a tuple of two lists: XAIF, and origin text stamped with L-node source locations
+        xaif_text_list = await asyncio.gather(*xaif_creation_tasks)
 
-        # return "!!! INITIAL ARGMINING ON CHUNKS DONE"
         logger.info("!!! INITIAL ARGMINING ON CHUNKS DONE")
 
+        xaif_list = [i[0] for i in xaif_text_list]
+        marked_text_list = [i[1] for i in xaif_text_list]
+
+        if DEV_MODE:
+            for txt, name in zip(marked_text_list, chunk_names):
+                try:
+                    prepend = name.rsplit('.',1)[0]
+                except:
+                    prepend = name
+                with open(f"{stamped_text_dir}/{prepend}_stamped.txt", 'w') as f:
+                    f.write(txt)
+        
 
         #####################################
         # 3. Merge all resulting XAIF files #
@@ -110,6 +128,34 @@ async def argmine_ibis(temp_dir):
             logger.error("File merging failed", exc_info=True)
 
         logger.info("!!! SIMPLE FILE MERGE DONE")
+
+        # 3b. Add complete structured source info to the merged xaif file
+        
+        # Need to update the locating stamps to reference the chunk they were found in
+        # (same update was done to L-node IDs when chunkes merged: they must continue to match)
+        def update_stamps(list_of_chunks):
+            restamped_text = ""
+            for i, chunk in enumerate(list_of_chunks):
+                stamped_lines = chunk.split('\n')
+                for j, line in enumerate(stamped_lines):
+                    stamps = re.findall(r"<IBIS_SRC_[\w]+_[\d]+_[\w]+>", line)
+                    for s in stamps:
+                        new_stamp = re.sub('>', f'_{i}>', s)
+                        print(f"Found stamp {s}")
+                        print(f"New stamp: {new_stamp}")
+                        stamped_lines[j] = re.sub(s, new_stamp, stamped_lines[j])
+                        print(stamped_lines[j])
+                        print()
+                # When all lines of chunk have been updated, add them to the final result
+                # Extra \n at the end as next chunk will start without a newline or break
+                restamped_text += '\n'.join(stamped_lines) + '\n\n'
+            return restamped_text
+
+        # Remerge the text chunks, editing the source stamps to reflect for which chunk they were found in.
+        # This will match the node ID updates made to the IDs of the L-nodes themselves when xaif was merfed.
+        # (they were paired in xaif_text_list: ordering and therefore numbering will match)
+        remerged_text = update_stamps(marked_text_list)
+        merged_xaif = text_to_ibis.add_sources_to_xaif(merged_xaif, remerged_text)
         
 
         ##################

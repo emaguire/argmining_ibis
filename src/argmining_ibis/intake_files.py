@@ -57,7 +57,7 @@ def create_texts(list_of_paths, chunk_size=1500, save_to_dir=''):
             elif len(text_chunks) > 1:
                 counter = 0
                 for c in text_chunks:
-                    with open(os.path.join(save_to_dir, f"{file_name}_{counter}.txt"), 'w') as f:
+                    with open(os.path.join(save_to_dir, f"{file_name}_CHUNK_{counter}.txt"), 'w') as f:
                         f.write(c)
                     counter +=1
 

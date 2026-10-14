@@ -110,3 +110,47 @@ def get_source_texts_list(i_node_id, xaif):
 def get_source_texts(i_node_id, xaif):
     list_of_texts = get_source_texts_list(i_node_id, xaif)
     return "\n".join(list_of_texts)
+
+
+
+# !! Fancier sourcing using locutions and participants
+def get_source_locations_list(i_node_id, xaif):
+    ya_node_ids = {n['nodeID']: n for n in xaif['AIF']['nodes'] if n['type'] == 'YA'}
+    l_node_ids = {n['nodeID']:n for n in xaif['AIF']['nodes'] if n['type'] == 'L'}
+
+    nodes_to_i = [e['fromID'] for e in xaif['AIF']['edges'] if e['toID'] == i_node_id]
+    ya_to_i = [n for n in nodes_to_i if n in list(ya_node_ids.keys())]
+
+    anchoring_l_ids = []
+    for ya in ya_to_i:
+        nodes_to_ya = [e['fromID'] for e in xaif['AIF']['edges'] if e['toID'] == ya]
+        l_to_ya = [n for n in nodes_to_ya if n in l_node_ids]
+
+        anchoring_l_ids += l_to_ya
+
+    # Given L-node IDs, use the locution/participant info to 
+    anchoring_l_texts = []
+
+    for l_id in anchoring_l_ids:
+        l_node = [n for n in xaif['AIF']['nodes'] if n['nodeID'] == l_id][0]
+        loc = [l for l in xaif['AIF']['locutions'] if l['nodeID'] == l_id]
+        if len(loc) == 0:
+            continue
+        source_id = loc[0]["personID"]
+        source_participant = [p for p in xaif['AIF']['participants'] if p['participantID'] == source_id][0]
+
+        try:
+            final_source_text = f'''{source_participant['firstname']}
+{source_participant['surname']}
+"{l_node['text'].split(':')[1].strip()}"'''
+        except: # fall back to the L-node if something has gone wrong
+            final_source_text =  l_node['text']
+
+        anchoring_l_texts += [final_source_text]
+
+    return anchoring_l_texts
+
+# Return a ready-formatted string
+def get_source_locations(i_node_id, xaif):
+    list_of_texts = get_source_locations_list(i_node_id, xaif)
+    return "\n\n".join(list_of_texts)

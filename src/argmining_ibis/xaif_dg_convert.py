@@ -1,4 +1,4 @@
-from argmining_ibis import dg_utils
+from . import dg_utils
 from collections import Counter
 from copy import deepcopy
 
@@ -99,6 +99,10 @@ def replace_ids(ibis_xaif):
         ibis_xaif['IBIS']['issues'] = [new_id if x == old_id else x for x in ibis_xaif['IBIS']['issues']]
         ibis_xaif['IBIS']['positions'] = [new_id if x == old_id else x for x in ibis_xaif['IBIS']['positions']]
         ibis_xaif['IBIS']['arguments'] = [new_id if x == old_id else x for x in ibis_xaif['IBIS']['arguments']]
+
+        if n['type'] == "L":
+            for loc in ibis_xaif['AIF']['locutions']:
+                loc['nodeID'] = new_id if loc['nodeID'] == old_id else loc['nodeID']
 
         id_counter += 1
     
@@ -215,7 +219,7 @@ def xaif_to_dg(ibis_xaif, topic):
     # Attach the top-level issues to the topic
     roots = dg_utils.get_orphans(ibis_xaif)
     for node in roots:
-        source_texts = dg_utils.get_source_texts(node['nodeID'], ibis_xaif)
+        source_texts = dg_utils.get_source_locations(node['nodeID'], ibis_xaif)
         new_node = make_dg_node(node['nodeID'], 0, "Issue", node['text'], node['text'], source_texts)
         dg_dict['Nodes'].append(new_node)
 
@@ -234,7 +238,7 @@ def xaif_to_dg(ibis_xaif, topic):
         nodes_in_rel = get_nodes_in_rel(rel, ibis_xaif)
 
         for ant in nodes_in_rel['ant']:
-            source_texts = dg_utils.get_source_texts(ant['nodeID'], ibis_xaif)
+            source_texts = dg_utils.get_source_locations(ant['nodeID'], ibis_xaif)
             dg_node_type = get_dg_type(ant['nodeID'], nodes_in_rel['rel']['type'], ibis_xaif)
             for cons in nodes_in_rel['cons']:
                 new_node = make_dg_node(ant['nodeID'], cons['nodeID'], dg_node_type, ant['text'],ant['text'], source_texts)

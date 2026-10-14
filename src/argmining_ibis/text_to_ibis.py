@@ -1,14 +1,16 @@
 import json
 import os
 import datetime
-
-from argmining_ibis import llm_caller
-from .utils import new_ibis_aif, add_node, add_edge
-
+import re
 from copy import deepcopy
 import sys
 import logging 
 import asyncio
+
+from markdown_it import MarkdownIt
+
+from . import llm_caller
+from .utils import new_ibis_aif, add_node, add_edge
 
 # Add logs to the docker logs
 logger = logging.getLogger()
@@ -20,6 +22,127 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
+######################
+# Utils for sourcing #
+######################
+
+
+def number_lines(orig_md_lines):
+    numbered_lines = []
+    for i, line in enumerate(orig_md_lines):
+        # numbered_lines += [f'<{i}> {line}']
+        if line != '\n':
+            numbered_lines += [f'<{i}> {line}']
+        else:
+            numbered_lines += [line]
+    md_numbered = '\n'.join(numbered_lines)
+    return md_numbered
+
+# part no. can be identified in `text_to_ibis` which is the parent function,
+# and passed in to this one to complete the stamp
+def stamp_sources(informal_ibis,numbered_source, part_no=''):
+    source_lines = numbered_source.split('\n')
+
+    # Go through each source for each node
+    # Add the source's ID stamp to the end of the line it matches
+    for node in informal_ibis['ibis']:
+        for i, orig in enumerate(node['orig']):
+            # Make the stamp for this quote
+            stamp = f"<IBIS_SRC_l_{i}_{node['id']}"
+            if part_no != '':
+                stamp = stamp + f'_{part_no}>'
+            else:
+                stamp = stamp + '>'
+            
+            # When a line begins with the source marker, add the stamp to the end
+            for j,l in enumerate(source_lines):
+                result = re.match(f"{orig['src']}", l)
+                if result:
+                    # print(f"Found it in this line: \n\t", l)
+                    source_lines[j] = l + stamp
+                    # print(l)
+    
+    # When all nodes have had their stamps added to the lines
+    # clean up by removing initial marker and rejoining them
+    clean_lines = [re.sub(r'^<[\d]+>','',l).strip() for l in source_lines]
+            
+    return '\n'.join(clean_lines)
+
+
+# Return string with the section the quote string is found in, assuming tokens
+# is a markdown parse by markdown_it
+def locate_quote(quote, tokens):
+    found = False
+    # Search for the match
+    for i, target_token in enumerate(tokens):
+        if quote in target_token.content:
+            found = True
+            break
+    if not found:
+        return "UNKNOWN"
+
+
+    # print(f"Found target in token {i}:")
+    # print(target_token.content)
+    # print()
+
+    # Start the location report. Two cases:
+    # 1. Match is itself a section heading: it is its own structure info
+    # (note that this means you want the marker to be something you can parse out, so you can mark and then clean a heading)
+    if re.match(r'h[\d]+', target_token.tag):
+        have_level = True
+        position_info = target_token.content
+        last_level = int(re.match(r'(?<=h)[\d]+', target_token.tag).group(0))
+
+    # 2. Match is in some kind of text: 
+    else:
+        have_level = False
+        position_info = ''
+
+    # Backtrack until you reach a H1 tag or the start of the document,
+    # adding higher level section names to position info as you go
+    reversed_tokens = list(reversed(tokens[:i]))
+    for j, token in enumerate(reversed_tokens):
+        # Found a heading tag
+        if re.match(r'h[\d]+', token.tag) and token.type=='heading_close':
+            # print(f"found a {re.match(r'h[\d]+', token.tag).group(0)} heading")
+            
+            # If it's the first level we've found, take it
+            # (text will be next inline element)
+            if not have_level:
+                have_level = True
+                last_level = int(re.search(r'(?<=h)[\d]+', token.tag).group(0)) 
+                # Add this heading to the position info
+                position_info = reversed_tokens[j+1].content + '\n' + position_info
+                
+                # Update most recent level
+                last_level = int(re.search(r'(?<=h)[\d]+', token.tag).group(0))
+
+                # Finish immediately if you've found a H1
+                if last_level < 2:
+                    break
+            
+            # If a level has been found, check if it's a higher level than the most recently added heading
+            # (text will be next inline element)
+            elif int(re.search(r'(?<=h)[\d]+', token.tag).group(0)) < last_level:
+                # Add this heading to the position info
+                position_info = reversed_tokens[j+1].content + '\n' + position_info
+                
+                # Update most recent level
+                last_level = int(re.search(r'(?<=h)[\d]+', token.tag).group(0))
+
+                # Finish immediately if you've found a H1
+                if last_level < 2:
+                    break
+
+    # Remove any stamps
+    position_info = re.sub(r"<IBIS_SRC_[\w]+_[\d]+_[\w]+>",'',position_info)
+
+    return position_info
+
+
+
+
 def valid_ibis_rel(child_type, parent_type):
     if child_type == 'issue' and parent_type in ['issue', 'posiiton', 'argument']:
         return True
@@ -29,6 +152,12 @@ def valid_ibis_rel(child_type, parent_type):
         return True
     else:
         return False
+
+
+
+###############################################
+# Utils for manipulating informal ibis output #
+###############################################
 
 # Get children by finding nodes which designate the input node as a parent, 
 # and which are themselves of the right type
@@ -85,6 +214,11 @@ def get_valid_ibis_descendants(node_id, nodelist, verbose=False):
 
     return descendants
 
+
+
+##################
+# Main functions #
+##################
 
 
 def ibis_output_to_xaif(in_dict, verbose=False):
@@ -158,7 +292,8 @@ def ibis_output_to_xaif(in_dict, verbose=False):
         if verbose:
             print(f"\nAnchoring node {n['id']}! It has {len(n['orig'])} anchor(s).")
         
-        for t in n['orig']:
+        for orig in n['orig']:
+            t = orig['quote']
             l_node = add_node(f"l_{orig_counter}_{n['id']}", 'L', t, xaif)
             ya_node = add_node(f"ya_{orig_counter}_{n['id']}", "YA", "Default Illocuting", xaif)
             orig_counter += 1 
@@ -250,17 +385,80 @@ def ibis_output_to_xaif(in_dict, verbose=False):
     return xaif
 
 
+# Add locution and speaker fields to all xaif with location info 
+def add_sources_to_xaif(xaif, full_text):
+    md = MarkdownIt()
+    tokens = md.parse(full_text)
+
+    nodes_at_locations = {}
+    
+    # Get source locations of all l-nodes
+    l_nodes = [n for n in xaif['AIF']['nodes'] if n['type'] == 'L']
+    for l in l_nodes:
+        node_id = l['nodeID']
+        filename = l['text'].split(':')[0].strip()
+        location = locate_quote(f"<IBIS_SRC_{node_id}>", tokens).strip()
+        
+        full_location = f"{filename}\n{location}"
+
+        if full_location not in nodes_at_locations:
+            nodes_at_locations[full_location] = {
+                'nodes':[node_id],
+                'file': filename,
+                'location': location
+                }
+        else:
+            nodes_at_locations[full_location]['nodes'] += [node_id]
+
+    # Create a participant for each location and associate each locution with that ID
+    participants = []
+    locutions = []
+    for i, loc in enumerate(nodes_at_locations):
+        participants += [{
+            "participantID": i + 1,
+            "firstname": nodes_at_locations[loc]['file'],
+            "surname":  nodes_at_locations[loc]['location']
+        }]
+
+        for n in nodes_at_locations[loc]['nodes']:
+            locutions += [{
+                "nodeID": n,
+                "personID": i + 1,
+                "start": None,
+                "end": None
+            }]
+
+    xaif['AIF']['participants'] = participants
+    xaif['AIF']['locutions'] = locutions
+
+    return xaif
+    
+
+
 # Given a text, return an IBIS graph in AIF
 # If given a directory to use, will save the original model output and the AIF as JSON files
-async def text_to_ibis(input_text, origin_name='', save_to_dir=''):
+async def text_to_ibis(input_text, origin_name='', doc_source=False, save_to_dir=''):
     if save_to_dir:
         if origin_name:
-            file_base = origin_name.rsplit('.',1)[0]
+            file_base_incl_number = origin_name.rsplit('.',1)[0]
         else: 
-            file_base = f"unknown_{datetime.datetime.now().strftime("%y%m%d%m%H%M%S")}"
-    
-    result_json = await llm_caller.text_to_informal_ibis(input_text)
+            file_base_incl_number = f"unknown_{datetime.datetime.now().strftime("%y%m%d%m%H%M%S")}"
+
+    # Check if this is a chunk: if so, get the number
+    if origin_name:
+        part_match = re.search(r"(?<=_CHUNK_)[\d+](?=.txt)", origin_name)
+        if part_match:
+            part_no = part_match.group(0)
+        else:
+            part_no = ''
+
+    # Add line numbers
+    numbered_text = number_lines(input_text.split('\n'))
+    result_json = await llm_caller.text_to_informal_ibis(numbered_text)
     # result_json = await asyncio.gather(result_json_coro)
+    # Update the copy of the text with sourcing stamps
+    if doc_source:
+        text_with_node_stamps = stamp_sources(result_json, numbered_text, part_no)
     
     logger.debug("Result of text_to_informal_ibis is type %s", type(result_json))
     if type(result_json) is str:
@@ -271,10 +469,10 @@ async def text_to_ibis(input_text, origin_name='', save_to_dir=''):
     
     if save_to_dir:
         if type(result_json) is dict:
-            with open(os.path.join(save_to_dir,f"{file_base}_ibisout.json"), 'w') as f:
+            with open(os.path.join(save_to_dir,f"{file_base_incl_number}_ibisout.json"), 'w') as f:
                 json.dump(result_json, f, indent=4)
         else:
-            with open(os.path.join(save_to_dir,f"{file_base}_failed_ibisout.json"), 'w') as f:
+            with open(os.path.join(save_to_dir,f"{file_base_incl_number}_failed_ibisout.json"), 'w') as f:
                 f.write(result_json)
         
 
@@ -283,15 +481,19 @@ async def text_to_ibis(input_text, origin_name='', save_to_dir=''):
     # Add sourcing and save to dir if wanted
     l_nodes = [n for n in xaif_output['AIF']['nodes'] if n['type'] == 'L']
     if origin_name != '':
+        # Remove chunk indicator if present
+        file_name = re.sub(r'_CHUNK_[\d]+','', origin_name)
         for l in l_nodes:
-            l['text'] = f"{origin_name}: {l['text']}"
+            l['text'] = f"{file_name}: {l['text']}"
     else:
         for l in l_nodes:
             l['text'] = f"Unknown: {l['text']}"
     
     if save_to_dir:
-        with open(os.path.join(save_to_dir, f"{file_base}_aif.json"), 'w') as f:
+        with open(os.path.join(save_to_dir, f"{file_base_incl_number}_aif.json"), 'w') as f:
             json.dump(xaif_output, f, indent=4)
 
-
-    return xaif_output
+    if doc_source:
+        return xaif_output, text_with_node_stamps
+    else:
+        return xaif_output
