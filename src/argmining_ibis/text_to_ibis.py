@@ -437,7 +437,7 @@ def add_sources_to_xaif(xaif, full_text):
 
 # Given a text, return an IBIS graph in AIF
 # If given a directory to use, will save the original model output and the AIF as JSON files
-async def text_to_ibis(input_text, origin_name='', doc_source=False, save_to_dir=''):
+async def text_to_ibis(input_text, topic, origin_name='', doc_source=False, save_to_dir=''):
     if save_to_dir:
         if origin_name:
             file_base_incl_number = origin_name.rsplit('.',1)[0]
@@ -454,7 +454,7 @@ async def text_to_ibis(input_text, origin_name='', doc_source=False, save_to_dir
 
     # Add line numbers
     numbered_text = number_lines(input_text.split('\n'))
-    result_json = await llm_caller.text_to_informal_ibis(numbered_text)
+    result_json = await llm_caller.text_to_informal_ibis(topic, numbered_text)
     # result_json = await asyncio.gather(result_json_coro)
     # Update the copy of the text with sourcing stamps
     if doc_source:

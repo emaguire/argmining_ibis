@@ -55,7 +55,7 @@ def pass_an_arg(x):
     return result
 
 @celery_app.task
-async def argmining_complete_pipeline(dir_name, cache=False):
+async def argmining_complete_pipeline(topic, dir_name, cache=False):
     # If cache has been set and only one file is submitted
     # return the existing result for that file
     # (Deal with using multiple cached files per request later)
@@ -83,7 +83,7 @@ async def argmining_complete_pipeline(dir_name, cache=False):
                 shutil.rmtree(dir_name)
             return result
 
-    result = await argmining.argmine_ibis(dir_name)
+    result = await argmining.argmine_ibis(topic, dir_name)
     # result = async_to_sync(argmining.argmine_ibis)(dir_name)
 
     # If cache has been set and only one file is submitted

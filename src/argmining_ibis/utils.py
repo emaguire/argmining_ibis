@@ -241,7 +241,7 @@ def anchoring_l_nodes(inodeID, xaif):
 
 
 def add_s_node_with_edges(nodeID, type, text, ant_id_list, cons_id,  xaif):
-    add_node(nodeID, type, text)
+    add_node(nodeID, type, text, xaif)
     
     edge_counter = max([e['edgeID'] for e in xaif['AIF']['edges']]) + 1 if len(xaif['AIF']['edges']) > 0 else 1
     add_edge(nodeID, cons_id, edge_counter, xaif)

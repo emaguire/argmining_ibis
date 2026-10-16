@@ -364,7 +364,7 @@ async def text_to_informal_ibis_old(input_text):
     return result
 
 
-async def text_to_informal_ibis(input_text):
+async def text_to_informal_ibis_general(input_text):
     prompt = f'''
     For the given input text, return a list of JSON objects of three types (issue, position, argument) based on original text spans from the text.
     Valid fields for all three types are: id, orig, text, type. 
@@ -402,6 +402,49 @@ async def text_to_informal_ibis(input_text):
     result = await call_llm(messages, ibisSourced)
 
     return result
+
+
+
+async def text_to_informal_ibis(central_issue,input_text):
+    prompt = f'''
+    From the input text, identify questions and relevant material with respect to the following CENTRAL ISSUE: {central_issue}
+    
+    To do this, return a list of JSON objects of three types (issue, position, argument) based on original text spans from the text.
+    Valid fields for all three types are: id, orig, text, type. 
+    
+    Every line of the input text begins with a stamp of format <NUMBER>, e.g. <1>, <50>.
+    The orig field contains a list of dictionaries each of the form {{'quote': str, 'src': str}}.
+    The quote field in orig contains the original text span.
+    The src field in orig contains the <NUMBER> stamps at the begininning of the lines of the original text spans. 
+    The text field contains the original text span rephrased as a single grammatically correct question if it was a question, or rephrased as a complete sentence otherwise.
+    An example of orig and text fields is:
+    {{
+    "orig": [{{"quote": "As we do not know how long the condition lasts", "src": "<27>"}}]
+    "text": "We do not know how long the condition lasts.",
+    }}
+    Additional valid fields for objects of type 'issue' and 'position' are: parent.
+    Additional valid fields for objects of type 'argument' are: pro, con.
+
+    The types are described here:
+    1. Issues. Text spans which contain the main issue or question being addressed by the text. The 'parent' field is a list with the ID of any other issue, position or argument which this issue is a question about, if any. The 'parent' field should otherwise be an empty list. Any issue which does not have another issue, position or argument as a parent must be directly relevant to addressing to the CENTRAL ISSUE. Give each issue an ID in the form 'issNUMBER'.
+
+    2. Positions. Text spans which provide answers to or ideas about the issues. The 'parent' field is a list with the ID of the issue each position is connected to. Give each position an ID in the form 'posNUMBER'. 
+
+    3. Arguments. Text spans which give reasons for or against the positions, or for or against other arguments. The 'pro' field is a list with the ID of every position or other argument it is a pro for. The 'con' field is a list with the ID of every position or other argument it is a con for. Give each argument an ID in the form 'argNUMBER'. 
+
+    Use UK spelling.
+
+    Input text:
+    {input_text}
+
+    Output JSON:
+    '''
+
+    messages = [{'role': 'user', 'content': prompt}]
+    result = await call_llm(messages, ibisSourced)
+
+    return result
+
 
 
 # Linking

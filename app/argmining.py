@@ -12,12 +12,11 @@ import logging
 
 import asyncio
 
-from argmining_ibis import llm_caller
 from argmining_ibis import intake_files
 from argmining_ibis import text_to_ibis
 from argmining_ibis import merge_ibis
+from argmining_ibis import condense_ibis
 from argmining_ibis import crosslink_ibis
-from argmining_ibis import xaif_dg_convert
 
 
 
@@ -33,7 +32,7 @@ formatter = logging.Formatter('[%(asctime)s][%(levelname)s]: %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-async def argmine_ibis(temp_dir):
+async def argmine_ibis(topic, temp_dir):
     chunk_size=CHUNK_SIZE
     logger.info("Chunk size: %s", str(chunk_size))
     semaphore = asyncio.Semaphore(CONCURRENCY)
@@ -68,7 +67,7 @@ async def argmine_ibis(temp_dir):
 
         async def create_xaif(text, origin_name, save_to_dir):
             async with semaphore:
-                return await text_to_ibis.text_to_ibis(text, origin_name=origin_name, save_to_dir=save_to_dir, doc_source=True)
+                return await text_to_ibis.text_to_ibis(text, topic, origin_name=origin_name, save_to_dir=save_to_dir, doc_source=True)
 
         chunk_names = []
         for file_entry in text_list:
@@ -129,7 +128,9 @@ async def argmine_ibis(temp_dir):
 
         logger.info("!!! SIMPLE FILE MERGE DONE")
 
-        # 3b. Add complete structured source info to the merged xaif file
+        ###################################################################
+        # 3b. Add complete structured source info to the merged xaif file #
+        ###################################################################
         
         # Need to update the locating stamps to reference the chunk they were found in
         # (same update was done to L-node IDs when chunkes merged: they must continue to match)
@@ -156,6 +157,8 @@ async def argmine_ibis(temp_dir):
         # (they were paired in xaif_text_list: ordering and therefore numbering will match)
         remerged_text = update_stamps(marked_text_list)
         merged_xaif = text_to_ibis.add_sources_to_xaif(merged_xaif, remerged_text)
+
+
         
 
         ##################
@@ -169,14 +172,21 @@ async def argmine_ibis(temp_dir):
 
         logger.info("!!! NODE MERGING DONE")
 
+        #############################################
+        # 4b. Reduce the number of top-level issues #
+        #############################################
+        logger.info('Condensing top-level issues')
+        condensed_xaif = await condense_ibis.condense_ibis(merged_xaif, save_to_dir=temp_dir)
+
+
         #################
         # 5. Link nodes #
         ################# 
         logger.info('Linking nodes')
         try:
-            result_xaif = await crosslink_ibis.link_nodes(merged_xaif, save_to_dir=temp_dir)
+            result_xaif = await crosslink_ibis.link_nodes(condensed_xaif, save_to_dir=temp_dir)
         except Exception as e:
-            result_xaif = merged_xaif
+            result_xaif = condensed_xaif
             logger.error("Node linking failed", exc_info=True)
 
         logger.info("!!! NODE LINKING DONE")

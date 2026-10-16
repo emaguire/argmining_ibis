@@ -319,6 +319,8 @@ async def argmine_ibis_celery():
     # Check input
     # file_list = request.files.getlist('file')
     file_dict = request.files.to_dict()
+    topic = request.form.get('topic')
+    
 
     if not file_dict:
         return jsonify({"error": "No file uploaded"}), 400  # Handle missing file
@@ -339,7 +341,7 @@ async def argmine_ibis_celery():
         file_dict[file].save(os.path.join(orig_dir, short_filename))
 
     # Give the task to the celery worker
-    result = await tasks.argmining_complete_pipeline.adelay(temp_dir, cache=use_cache)
+    result = await tasks.argmining_complete_pipeline.adelay(topic, temp_dir, cache=use_cache)
 
     # Return the celery task ID
     logger.info("** Started task %s **", str(result.id))
