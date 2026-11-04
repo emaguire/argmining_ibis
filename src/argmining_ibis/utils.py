@@ -299,3 +299,19 @@ def add_crosslink(node_id_1, node_id_2, ibis_xaif):
     add_directional_crosslink(node_id_1, node_id_2, ibis_xaif)
     add_directional_crosslink(node_id_2, node_id_1, ibis_xaif)
     return ibis_xaif
+
+
+
+##########
+# Typing #
+##########
+
+
+class questionTypes(BaseModel):
+    infoseekq: List[str]
+    delibq: List[str]
+
+class propositionTypes(BaseModel):
+    fact: List[str]
+    policy: List[str]
+    value: List[str]

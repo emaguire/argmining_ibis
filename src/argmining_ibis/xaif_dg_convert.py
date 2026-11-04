@@ -42,6 +42,23 @@ def get_ibis_type(node_id, ibis_xaif):
     else:
         return None
 
+# Get the name of the proposition type 
+# (conversion to nice prose is partly hardcoded: have to update too here if categories get updated)
+def get_prop_type(node_id, xaif):
+    type_name = ''
+    for subtype in xaif['AIF']['propTypes']:
+        if node_id in xaif['AIF']['propTypes'][subtype]:
+            type_name = subtype
+            break
+
+    if type_name == "infoseekq":
+        return "Information-seeking question"
+    elif type_name == "delibq":
+        return "Deliberative question"
+    else:
+        return f"{type_name.title()} claim"
+
+
 def get_dg_type(node_id, rel_type, ibis_xaif):
     ibis_type = get_ibis_type(node_id, ibis_xaif)
     if ibis_type == "issue":
@@ -100,6 +117,9 @@ def replace_ids(ibis_xaif):
         ibis_xaif['IBIS']['positions'] = [new_id if x == old_id else x for x in ibis_xaif['IBIS']['positions']]
         ibis_xaif['IBIS']['arguments'] = [new_id if x == old_id else x for x in ibis_xaif['IBIS']['arguments']]
 
+        for subtype in ibis_xaif['AIF']['propTypes']:
+            ibis_xaif['AIF']['propTypes'][subtype] = [new_id if x == old_id else x for x in ibis_xaif['AIF']['propTypes'][subtype]]
+
         if n['type'] == "L":
             for loc in ibis_xaif['AIF']['locutions']:
                 loc['nodeID'] = new_id if loc['nodeID'] == old_id else loc['nodeID']
@@ -142,7 +162,6 @@ def get_all_crosslinks(xaif):
         linked_by_cl.append(get_nodes_in_rel(cl, xaif))
     
     return linked_by_cl
-
 
 
 
@@ -238,7 +257,10 @@ def xaif_to_dg(ibis_xaif, topic):
         nodes_in_rel = get_nodes_in_rel(rel, ibis_xaif)
 
         for ant in nodes_in_rel['ant']:
+            prop_type = get_prop_type(ant['nodeID'], ibis_xaif)
             source_texts = dg_utils.get_source_locations(ant['nodeID'], ibis_xaif)
+            source_texts = f"{prop_type}\n\n{source_texts}"
+
             dg_node_type = get_dg_type(ant['nodeID'], nodes_in_rel['rel']['type'], ibis_xaif)
             for cons in nodes_in_rel['cons']:
                 new_node = make_dg_node(ant['nodeID'], cons['nodeID'], dg_node_type, ant['text'],ant['text'], source_texts)

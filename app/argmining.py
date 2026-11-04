@@ -17,6 +17,7 @@ from argmining_ibis import text_to_ibis
 from argmining_ibis import merge_ibis
 from argmining_ibis import condense_ibis
 from argmining_ibis import crosslink_ibis
+from argmining_ibis import inode_typing
 
 
 
@@ -186,10 +187,24 @@ async def argmine_ibis(topic, temp_dir):
         try:
             result_xaif = await crosslink_ibis.link_nodes(condensed_xaif, save_to_dir=temp_dir)
         except Exception as e:
-            result_xaif = condensed_xaif
             logger.error("Node linking failed", exc_info=True)
 
         logger.info("!!! NODE LINKING DONE")
+
+
+        ###############################
+        # 6. Assign subtypes to nodes #
+        ###############################
+        logger.info('Typing nodes')
+        try:
+            result_xaif = await inode_typing.subtype_nodes(result_xaif, save_to_dir=temp_dir)
+        except Exception as e:
+            logger.info("Node typing failed")
+
+        logger.info("!!! NODE TYPING DONE")
+
+
+
     
     # Clear temp directory at the end if this wasn't in devmode
     finally:

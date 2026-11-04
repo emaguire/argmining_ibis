@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from typing import List
 from retrying import retry
 
-from .utils import node_merge_output
+from .utils import node_merge_output, questionTypes, propositionTypes
 from .ibis import ibis, ibisSourced
 
 
@@ -637,5 +637,100 @@ Output list:
     
     messages = [{'role': 'user', 'content': prompt}]
     result = await call_llm(messages, node_merge_output)
+    
+    return result
+
+
+
+#####################################
+# Typing Questions and Propositions #
+#####################################
+
+# this belongs in the llm_caller
+async def assign_question_types(input_list):
+    prompt = f'''
+For the given input list of questions with ID codes, sort them into sets according to type.
+The subsets must be exclusive, with no question appearing in more than one subset.
+Return a json with a field for each type, where each field contains a list of the ID codes of questions in the type/subset.
+
+The possible types are:
+1. "infoseekq". Information-seeking questions. These are questions seeking specific and objective factual information, such as a definition, a statistic, or an event. The answer to these questions should be objective and possible to provide with sufficient access to information. The answer does not depend on the person answering.
+Examples:
+How many people live in Dublin?
+When is a person considered homeless?
+What is the impact of homelessness on families?
+
+
+2. "delibq". Deliberative questions. These are questions seeking suggestions, ideas and decisions. They may not have an objective answer, and instead have an answer that must be reached through discussion. They are especially likely to be questions about potential actions, or evaluative questions. The answer depends on a judgement or decision by the person who answers the question: information may inform this, but information is not an answer by itself. 
+Examples:
+How can homeless shelters better ensure safety of the people staying there?
+Should Dublin City Council be more proactive in preventing homelessness?
+How can we reach people at risk of homelessness?
+
+
+Example input 1:
+[('id1', "What are the demands of local residents?"), ('id2', "What should happen with the park?"), ('id3', "Should a new playground be added to the park?"), ('id4', "Are there enough schools in the area?"), ('id5', "How does the local community manage anti-social behaviour?"), ('id6', "What support for skill-development is available to young people?")]
+
+
+
+Example output 1:
+{{"infoseekq":['id1', 'id6', 'id5'],"delibq":['id2', 'id3', 'id4']}}
+
+
+
+Input list:
+{input_list}
+
+Output list:
+'''
+    
+    messages = [{'role': 'user', 'content': prompt}]
+    result = await call_llm(messages, questionTypes)
+    
+    return result
+
+async def assign_proposition_types(input_list):
+    prompt = f'''
+For the given input list of statements with ID codes, sort them into sets according to type.
+The subsets must be exclusive, with no statement appearing in more than one subset.
+Return a json with a field for each type, where each field contains a list of the ID codes of statements in the type/subset.
+
+The possible types are:
+1. "fact". Facts. These are statements of objective factual information, such as a definition, a statistic, or an event.  They can be proved or disproved.
+Examples:
+Dublin has a population of approximately 1 million.
+The definition of homelessness depends on the jurisdiction.
+Schools report signficiantly higher levels of stress and anxiety among homeless children versus children in families with homes.
+
+2. "policy". Policies. These are statements about what could or should be (or not), such as conditions that should or should not exist or an action that should or should not be taken.
+Examples:
+Updating definitions of homelessness will let us better recognise the scale of hidden homelessness.
+It should not be difficult to find housing with rent that is a third of minimum wage.
+Illegal evictions should be stopped by law enforcement.
+
+3. "value". Values. These are statements expressing an evaluation or comparison, whether as positive or negative or one thing versus another.
+Examples:
+It is most important to prioritise children and those above the age of 65 for rehousing.
+Support at the point of homelessness is less effective than intervention when risk of homelessness becomes high.
+
+
+Example input 1:
+[('id1', "Breakfast clubs improve academic performance"), ('id2', "There should be more free community spaces so parents can meet each other"), ('id3', "Managing anti-social behviour is less effective than preventing it"), ('id4', "It is better to support families to care for their own children."), ('id5', "Teachers should not have to make up shortfall using their own wages"), ('id6', "The budget for extra services is extremely limited.")]
+
+
+
+Example output 1:
+{{"fact":['id1', 'id6'],"policy":['id5', 'id2],"value":['id4', 'id3]}}
+
+
+
+Input list:
+{input_list}
+
+Output list:
+'''
+    
+    messages = [{'role': 'user', 'content': prompt}]
+    result = await call_llm(messages, propositionTypes)
     
     return result

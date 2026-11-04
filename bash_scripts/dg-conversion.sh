@@ -1,0 +1,1 @@
+curl -X POST -F "file=@../dev_temp/temp_26-10-23_16-57_nvidia/nodetypes_26102310170125.json" -F "topic=Long Covid" http://localhost:8060/convert-to-dg
